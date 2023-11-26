@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "discoverytreecore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/keith27staines/DiscoveryTreeCore.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "c30a161c85482df792197d2f2178370258f513f0"
+      }
+    }
+  ],
+  "version" : 2
+}
