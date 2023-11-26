@@ -6,9 +6,24 @@
 //
 
 import SwiftUI
+import DiscoveryTreeCore
 
 struct TreeView: View {
+    
+    let tree: Tree<Ticket>
+    
     var body: some View {
-        Text("TreeView")
+        VStack(alignment: .leading, spacing: 16) {
+            TicketView(ticket: tree.content)
+            HStack(alignment: .top, spacing: 16) {
+                ForEach(tree.children) { child in
+                    TreeView(tree: child)
+                }
+            }
+        }
     }
+}
+
+#Preview {
+    TreeView(tree: DocumentViewModel.makeTestTree())
 }

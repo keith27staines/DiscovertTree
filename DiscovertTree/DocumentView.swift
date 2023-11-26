@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct DocumentView: View {
+    
+    @StateObject var vm = DocumentViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView([.horizontal, .vertical]) {
+            TreeView(tree: vm.tree)
+        }
     }
 }
 
 #Preview {
     DocumentView()
 }
+
+import DiscoveryTreeCore
+extension Tree: Identifiable {}

@@ -15,11 +15,11 @@ struct ContentView: View {
                 NavigationLink("Row \(i)", value: i)
             }
             .navigationDestination(for: Int.self) {_ in 
-                TreeView()
+                ContentView()
             }
             .navigationTitle("Split View")
         } detail: {
-            Text("Please select a row")
+            DocumentView()
         }
         .padding()
     }

@@ -5,18 +5,18 @@
 //  Created by Keith Staines on 26/11/2023.
 //
 
-import Observation
+import SwiftUI
 import DiscoveryTreeCore
 
-@Observable
-class DocumentViewModel {
-    var tree = Tree<Ticket>()
+class DocumentViewModel: ObservableObject {
+    
+    @Published var tree = Tree<Ticket>()
     
     init() {
-        tree = makeTestTree()
+        tree = Self.makeTestTree()
     }
     
-    func makeTestTree() -> Tree<Ticket> {
+    static func makeTestTree() -> Tree<Ticket> {
         func ticket(x: Int, y: Int) -> Ticket {
             Ticket(title: "x: \(x), y:\(y)")
         }
