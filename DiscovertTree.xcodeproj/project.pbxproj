@@ -14,6 +14,11 @@
 		53052F6B2B127C570030D9DE /* DiscovertTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F6A2B127C570030D9DE /* DiscovertTreeTests.swift */; };
 		53052F752B127C570030D9DE /* DiscovertTreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F742B127C570030D9DE /* DiscovertTreeUITests.swift */; };
 		53052F772B127C570030D9DE /* DiscovertTreeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F762B127C570030D9DE /* DiscovertTreeUITestsLaunchTests.swift */; };
+		53052F852B127D9D0030D9DE /* DiscoveryTreeCore in Frameworks */ = {isa = PBXBuildFile; productRef = 53052F842B127D9D0030D9DE /* DiscoveryTreeCore */; };
+		5373156B2B127E9200CD6932 /* TreeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373156A2B127E9200CD6932 /* TreeViewModel.swift */; };
+		5373156D2B12D2C600CD6932 /* TreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373156C2B12D2C500CD6932 /* TreeView.swift */; };
+		5373156F2B131D2F00CD6932 /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373156E2B131D2F00CD6932 /* DocumentView.swift */; };
+		537315732B13220100CD6932 /* DocumentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315722B13220100CD6932 /* DocumentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +50,10 @@
 		53052F702B127C570030D9DE /* DiscovertTreeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscovertTreeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		53052F742B127C570030D9DE /* DiscovertTreeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscovertTreeUITests.swift; sourceTree = "<group>"; };
 		53052F762B127C570030D9DE /* DiscovertTreeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscovertTreeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5373156A2B127E9200CD6932 /* TreeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeViewModel.swift; sourceTree = "<group>"; };
+		5373156C2B12D2C500CD6932 /* TreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeView.swift; sourceTree = "<group>"; };
+		5373156E2B131D2F00CD6932 /* DocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
+		537315722B13220100CD6932 /* DocumentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53052F852B127D9D0030D9DE /* DiscoveryTreeCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +107,10 @@
 			children = (
 				53052F582B127C560030D9DE /* DiscovertTreeApp.swift */,
 				53052F5A2B127C560030D9DE /* ContentView.swift */,
+				5373156E2B131D2F00CD6932 /* DocumentView.swift */,
+				537315722B13220100CD6932 /* DocumentViewModel.swift */,
+				5373156C2B12D2C500CD6932 /* TreeView.swift */,
+				5373156A2B127E9200CD6932 /* TreeViewModel.swift */,
 				53052F5C2B127C570030D9DE /* Assets.xcassets */,
 				53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */,
 				53052F5F2B127C570030D9DE /* Preview Content */,
@@ -145,6 +159,9 @@
 			dependencies = (
 			);
 			name = DiscovertTree;
+			packageProductDependencies = (
+				53052F842B127D9D0030D9DE /* DiscoveryTreeCore */,
+			);
 			productName = DiscovertTree;
 			productReference = 53052F552B127C560030D9DE /* DiscovertTree.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +234,9 @@
 				Base,
 			);
 			mainGroup = 53052F4C2B127C560030D9DE;
+			packageReferences = (
+				53052F832B127D9D0030D9DE /* XCRemoteSwiftPackageReference "DiscoveryTreeCore" */,
+			);
 			productRefGroup = 53052F562B127C560030D9DE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -259,8 +279,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5373156D2B12D2C600CD6932 /* TreeView.swift in Sources */,
 				53052F5B2B127C560030D9DE /* ContentView.swift in Sources */,
+				5373156B2B127E9200CD6932 /* TreeViewModel.swift in Sources */,
 				53052F592B127C560030D9DE /* DiscovertTreeApp.swift in Sources */,
+				5373156F2B131D2F00CD6932 /* DocumentView.swift in Sources */,
+				537315732B13220100CD6932 /* DocumentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +448,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = DiscoveryTree;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -462,6 +488,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = DiscoveryTree;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -617,6 +645,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		53052F832B127D9D0030D9DE /* XCRemoteSwiftPackageReference "DiscoveryTreeCore" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/keith27staines/DiscoveryTreeCore.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		53052F842B127D9D0030D9DE /* DiscoveryTreeCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53052F832B127D9D0030D9DE /* XCRemoteSwiftPackageReference "DiscoveryTreeCore" */;
+			productName = DiscoveryTreeCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 53052F4D2B127C560030D9DE /* Project object */;
 }

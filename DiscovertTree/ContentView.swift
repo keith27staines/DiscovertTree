@@ -6,14 +6,20 @@
 //
 
 import SwiftUI
+import DiscoveryTreeCore
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationSplitView {
+            List(1..<50) { i in
+                NavigationLink("Row \(i)", value: i)
+            }
+            .navigationDestination(for: Int.self) {_ in 
+                TreeView()
+            }
+            .navigationTitle("Split View")
+        } detail: {
+            Text("Please select a row")
         }
         .padding()
     }
