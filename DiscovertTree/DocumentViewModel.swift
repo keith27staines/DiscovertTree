@@ -25,16 +25,16 @@ final class DocumentViewModel: ObservableObject {
 extension DocumentViewModel: TreeViewModelDelegate {
     func insertAbove(_ id: TreeId) {
         do {
-            objectWillChange.send()
             let node = try node(with: id)
             let newNode = try node.insertNewTreeAbove()
-            nodes[newNode.id] = newNode
+            
             newNode.content = Ticket(title: "New Ticket")
             if newNode.parent == nil {
                 tree = newNode
-                root = TreeViewModel(treeId: tree.id, delegate: self)
             }
             objectWillChange.send()
+            nodes[newNode.id] = newNode
+            root = TreeViewModel(treeId: tree.id, delegate: self)
         } catch {
             
         }
