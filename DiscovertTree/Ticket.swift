@@ -21,6 +21,9 @@ class Ticket: Codable {
     /// The date the ticket was created
     var createdDate: Date
     
+    /// The state of the ticket
+    var state: State = .todo
+    
     /// Initializes a new instance
     /// - Parameters:
     ///   - id: Uniquely identifies the ticket in a type safe way
@@ -30,5 +33,28 @@ class Ticket: Codable {
         self.id = Id<Ticket>(uuid: id)
         self.title = title
         self.createdDate = createdDate
+    }
+}
+
+extension Ticket {
+    enum State: Codable, CaseIterable {
+        case todo
+        case inProgress
+        case done
+        case blocked
+        
+        var theme: Theme {
+            switch self {
+                
+            case .todo:
+                return .sky
+            case .inProgress:
+                return .buttercup
+            case .done:
+                return .seafoam
+            case .blocked:
+                return .bubblegum
+            }
+        }
     }
 }

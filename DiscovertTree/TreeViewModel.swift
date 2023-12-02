@@ -38,6 +38,18 @@ class TreeViewModel: Identifiable {
 }
 
 extension TreeViewModel: TicketDelegate {
+    func insertLeading() {
+        delegate?.insertLeading(treeId)
+    }
+    
+    func insertTrailing() {
+        delegate?.insertTrailing(treeId)
+    }
+    
+    func insertChild() {
+        delegate?.insertChild(treeId)
+    }
+    
     func insertAbove() {
         delegate?.insertAbove(treeId)
     }
@@ -47,9 +59,15 @@ protocol TreeViewModelDelegate: AnyObject {
     func childrenOf(_ id: TreeId) throws -> [TreeId]
     func ticketFor(_ id: TreeId) throws -> Ticket?
     func insertAbove(_ id: TreeId)
+    func insertLeading(_ id: TreeId)
+    func insertTrailing(_ id: TreeId)
+    func insertChild(_ id: TreeId)
 }
 
 protocol TicketDelegate: AnyObject {
     func insertAbove() -> ()
+    func insertLeading() -> ()
+    func insertTrailing() -> ()
+    func insertChild() -> ()
 }
 

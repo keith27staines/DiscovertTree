@@ -25,8 +25,7 @@ struct TicketView: View {
 
 extension TicketView {
     var background: some View {
-        theme
-            .mainColor
+        (optionalTicket?.state.theme.mainColor ?? .white)
             .clipShape(
                 .rect(
                     cornerRadius: 10
@@ -56,14 +55,16 @@ extension TicketView {
         var body: some View {
             VStack {
                 Button {
-                    ticketDelegate?.insertAbove()
+                    withAnimation {
+                        ticketDelegate?.insertAbove()
+                    }
                 } label: {
                     Image(systemName: "plus")
                 }
                 Spacer()
                 HStack(alignment: .center) {
                     Button {
-                        ticketDelegate?.insertAbove()
+                        ticketDelegate?.insertLeading()
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -72,7 +73,7 @@ extension TicketView {
                         .foregroundColor(theme.accentColor)
                     Spacer()
                     Button {
-                        ticketDelegate?.insertAbove()
+                        ticketDelegate?.insertTrailing()
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -80,7 +81,7 @@ extension TicketView {
                 }
                 Spacer()
                 Button {
-                    ticketDelegate?.insertAbove()
+                    ticketDelegate?.insertChild()
                 } label: {
                     Image(systemName: "plus")
                 }

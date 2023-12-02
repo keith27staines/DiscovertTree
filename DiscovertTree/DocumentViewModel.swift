@@ -25,16 +25,71 @@ final class DocumentViewModel: ObservableObject {
 extension DocumentViewModel: TreeViewModelDelegate {
     func insertAbove(_ id: TreeId) {
         do {
+            let ticket = Ticket(title: "New Ticket")
             let node = try node(with: id)
             let newNode = try node.insertNewTreeAbove()
             
-            newNode.content = Ticket(title: "New Ticket")
+            newNode.content = ticket
             if newNode.parent == nil {
                 tree = newNode
             }
-            objectWillChange.send()
             nodes[newNode.id] = newNode
             root = TreeViewModel(treeId: tree.id, delegate: self)
+            objectWillChange.send()
+        } catch {
+            print("Unexpected error")
+        }
+    }
+    
+    func insertLeading(_ id: TreeId) {
+        do {
+            let ticket = Ticket(title: "New Ticket")
+            let newNode = Tree<Ticket>()
+            newNode.content = ticket
+            let node = try node(with: id)
+            guard let parent = node.parent else { throw AppError.nodeDoesNotExist }
+            let index = node.childIndex() ?? 0
+            try parent.insertChild(newNode, at: index)
+            nodes[newNode.id] = newNode
+            root = TreeViewModel(treeId: tree.id, delegate: self)
+            objectWillChange.send()
+        } catch {
+            
+        }
+    }
+    
+    func insertTrailing(_ id: TreeId) {
+        do {
+            let ticket = Ticket(title: "New Ticket")
+            let node = try node(with: id)
+            let newNode = Tree<Ticket>()
+            newNode.content = ticket
+            guard let parent = node.parent else { throw AppError.nodeDoesNotExist }
+            let children = parent.children
+            let index = node.childIndex() ?? 0
+            if index >= children.endIndex {
+                try parent.appendChild(newNode)
+            } else {
+                try parent.insertChild(newNode, at: index + 1)
+            }
+            nodes[newNode.id] = newNode
+            root = TreeViewModel(treeId: tree.id, delegate: self)
+            objectWillChange.send()
+        } catch {
+            
+        }
+    }
+    
+    func insertChild(_ id: TreeId) {
+        do {
+            let ticket = Ticket(title: "New Ticket")
+            let node = try node(with: id)
+            let newNode = Tree<Ticket>()
+            newNode.content = ticket
+            try node.insertChild(newNode, at: 0)
+            nodes[newNode.id] = newNode
+            root = TreeViewModel(treeId: tree.id, delegate: self)
+            objectWillChange.send()
         } catch {
             
         }
