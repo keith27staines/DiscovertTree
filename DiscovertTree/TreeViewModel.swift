@@ -9,25 +9,47 @@ import Foundation
 import Observation
 import DiscoveryTreeCore
 
-@Observable
-class TreeViewModel {
-    var title: String
-    var tree: Tree<Ticket>
+class TreeViewModel: Identifiable {
+
+    weak var delegate: (any TreeViewModelDelegate)?
+    let treeId: TreeId
     
-    init() {
-        title = "Discovery Tree"
-        tree = Tree()
-        tree.content = Ticket(title: "Discovery Tree Project")
-        try? tree.add(
-            Tree(
-                content: Ticket(title: "Make App project in Xcode")
-            )
-        )
-        try? tree.add(
-            Tree(
-                content: Ticket(title: "Make Core library Swift package")
-            )
-        )
-        
+    init(treeId: TreeId, delegate: TreeViewModelDelegate?) {
+        self.treeId = treeId
+        self.delegate = delegate
+    }
+    
+    var ticket: Ticket? {
+       try? delegate?.ticketFor(treeId) ?? nil
+    }
+    
+    var children: [TreeViewModel] {
+        do {
+            guard let children = try delegate?.childrenOf(treeId) else {
+                return []
+            }
+            return children.map { child in
+                TreeViewModel.init(treeId: child, delegate: delegate)
+            }
+        } catch {
+            return []
+        }
     }
 }
+
+extension TreeViewModel: TicketDelegate {
+    func insertAbove() {
+        delegate?.insertAbove(treeId)
+    }
+}
+
+protocol TreeViewModelDelegate: AnyObject {
+    func childrenOf(_ id: TreeId) throws -> [TreeId]
+    func ticketFor(_ id: TreeId) throws -> Ticket?
+    func insertAbove(_ id: TreeId)
+}
+
+protocol TicketDelegate: AnyObject {
+    func insertAbove() -> ()
+}
+

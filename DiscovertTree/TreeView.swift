@@ -10,14 +10,17 @@ import DiscoveryTreeCore
 
 struct TreeView: View {
     
-    let tree: Tree<Ticket>
+    let vm: TreeViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            TicketView(ticket: tree.content)
+            TicketView(
+                optionalTicket: vm.ticket,
+                ticketDelegate: vm
+            )
             HStack(alignment: .top, spacing: 16) {
-                ForEach(tree.children) { child in
-                    TreeView(tree: child)
+                ForEach(vm.children) { child in
+                    TreeView(vm: child)
                 }
             }
         }
@@ -25,5 +28,10 @@ struct TreeView: View {
 }
 
 #Preview {
-    TreeView(tree: DocumentViewModel.makeTestTree())
+    TreeView(
+        vm: TreeViewModel(
+            treeId: TreeId(),
+            delegate: nil
+        )
+    )
 }

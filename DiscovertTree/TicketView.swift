@@ -10,17 +10,17 @@ import DiscoveryTreeCore
 
 struct TicketView: View {
     
-    let ticket: Ticket?
+    let optionalTicket: Ticket?
     let theme = Theme.buttercup
+    weak var ticketDelegate: TicketDelegate?
     
     var body: some View {
         ZStack {
             background
-            ticketContent
+            ticketPlaceholder
         }
+        .frame(width: 200, height: 100)
     }
-    
-
 }
 
 extension TicketView {
@@ -32,34 +32,79 @@ extension TicketView {
                     cornerRadius: 10
                 )
             )
-            .frame(
-                width: 200,
-                height: 100,
-                alignment: .center
-            )
     }
     
     @ViewBuilder
-    var ticketContent: some View {
-        if let ticket = ticket {
-            Text(ticket.title)
-                .font(.title)
-                .contextMenu {
-                    Button {
-                        print("Change country setting")
-                    } label: {
-                        Label("Choose Country", systemImage: "globe")
-                    }
-                    
-                    Button {
-                        print("Enable geolocation")
-                    } label: {
-                        Label("Detect Location", systemImage: "location.circle")
-                    }
-                }
-                .foregroundColor(theme.accentColor)
+    var ticketPlaceholder: some View {
+        if let ticket = optionalTicket {
+            TicketContent(
+                ticket: ticket,
+                theme: theme,
+                ticketDelegate: ticketDelegate
+            )
         } else {
             EmptyView()
         }
     }
+    
+    struct TicketContent: View {
+        
+        @Bindable var ticket: Ticket
+        let theme: Theme
+        weak var ticketDelegate: TicketDelegate?
+        
+        var body: some View {
+            VStack {
+                Button {
+                    ticketDelegate?.insertAbove()
+                } label: {
+                    Image(systemName: "plus")
+                }
+                Spacer()
+                HStack(alignment: .center) {
+                    Button {
+                        ticketDelegate?.insertAbove()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    Spacer()
+                    TextField("Ticket title", text: $ticket.title)
+                        .foregroundColor(theme.accentColor)
+                    Spacer()
+                    Button {
+                        ticketDelegate?.insertAbove()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+
+                }
+                Spacer()
+                Button {
+                    ticketDelegate?.insertAbove()
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
+    }
+}
+
+/*
+ .contextMenu {
+     Button {
+         print("Change country setting")
+     } label: {
+         Label("Choose Country", systemImage: "globe")
+     }
+     
+     Button {
+         print("Enable geolocation")
+     } label: {
+         Label("Detect Location", systemImage: "location.circle")
+     }
+ }
+ */
+
+#Preview {
+    TicketView(optionalTicket: Ticket(title: "Title"))
 }

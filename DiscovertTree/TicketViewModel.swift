@@ -15,10 +15,6 @@ final class TicketViewModel: ObservableObject {
     
     let tree: Tree<Ticket>?
     
-    func insertNewNodeAbove(_ node: Tree<Ticket>? = nil) throws {
-        
-    }
-    
     init(_ tree: Tree<Ticket>) {
         self.tree = tree
         self.ticketTitle = tree.content?.title ?? ""

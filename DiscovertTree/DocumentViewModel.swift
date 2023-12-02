@@ -8,34 +8,52 @@
 import SwiftUI
 import DiscoveryTreeCore
 
-class DocumentViewModel: ObservableObject {
+final class DocumentViewModel: ObservableObject {
     
-    @Published var tree = Tree<Ticket>()
+    var tree: TicketTree
+    var nodes: [TreeId: TicketTree]
+    lazy var root: TreeViewModel = {
+        TreeViewModel(treeId: tree.id, delegate: self)
+    }()
     
     init() {
-        tree = Self.makeTestTree()
-    }
-    
-    static func makeTestTree() -> Tree<Ticket> {
-        func ticket(x: Int, y: Int) -> Ticket {
-            Ticket(title: "x: \(x), y:\(y)")
-        }
-        
-        let t00 = Tree(content: ticket(x: 0, y: 0))
-        let t01 = Tree(content: ticket(x: 0, y: 1))
-        let t11 = Tree(content: ticket(x: 1, y: 1))
-        let t21 = Tree(content: ticket(x: 2, y: 1))
-        let t22 = Tree(content: ticket(x: 2, y: 2))
-        try? t00.add(t01)
-        try? t00.add(t11)
-        try? t00.add(t21)
-        try? t21.add(t22)
-        return t00
+        tree = makeTestTree()
+        nodes = tree.insertIntoDictionary([:])
     }
 }
 
-extension Tree {
-    var x: Int { offsetFromRoot() }
-    var y: Int { depthFromRoot() }
+extension DocumentViewModel: TreeViewModelDelegate {
+    func insertAbove(_ id: TreeId) {
+        do {
+            objectWillChange.send()
+            let node = try node(with: id)
+            let newNode = try node.insertNewTreeAbove()
+            nodes[newNode.id] = newNode
+            newNode.content = Ticket(title: "New Ticket")
+            if newNode.parent == nil {
+                tree = newNode
+                root = TreeViewModel(treeId: tree.id, delegate: self)
+            }
+            objectWillChange.send()
+        } catch {
+            
+        }
+    }
+    
+    func ticketFor(_ id: TreeId) throws -> Ticket? {
+        try node(with: id).content
+    }
+    
+    func node(with id: TreeId) throws -> TicketTree {
+        guard let node = nodes[id] else { throw AppError.nodeDoesNotExist }
+        return node
+    }
+    
+    func childrenOf(_ id: TreeId) throws -> [TreeId] {
+        try node(with: id).children.compactMap { $0.id }
+    }
 }
+
+
+
 

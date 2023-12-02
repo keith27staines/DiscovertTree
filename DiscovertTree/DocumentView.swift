@@ -13,9 +13,10 @@ struct DocumentView: View {
     
     var body: some View {
         ScrollView([.horizontal, .vertical]) {
-            TreeView(tree: vm.tree)
+            TreeView(vm: vm.root)
         }
     }
+    
 }
 
 #Preview {

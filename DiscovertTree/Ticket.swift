@@ -9,7 +9,8 @@ import Foundation
 import DiscoveryTreeCore
 
 /// A ticket represents an item in a todo list
-struct Ticket: Codable {
+@Observable
+class Ticket: Codable {
     
     /// Uniquely identifies the object in a type safe way
     let id: Id<Ticket>
