@@ -13,23 +13,27 @@ struct DocumentView: View {
     
     var body: some View {
         ScrollView([.horizontal, .vertical]) {
-            VStack {
+            ZStack {
                 ForEach(vm.ticketViewModels) { vm in
                     TicketView(vm: vm)
                 }
             }
             .frame(
-                width: CGFloat(vm.maxX + 1)*(200+16),
-                height: CGFloat(vm.maxY)*(100+16),
+                width: CGFloat(vm.maxX + 1)*(ticketWidth + gutter),
+                height: CGFloat(vm.maxY + 1)*(ticketHeight + gutter),
                 alignment: .center
             )
-            .offset(
-                CGSize(
-                    width: -vm.maxX*(200+16)/2,
-                    height: vm.maxY*(100+16)/2
-                )
-            )
+            .background(.pink)
         }
+    }
+    
+    func scrollViewOffset() -> CGSize {
+        let width = -CGFloat(vm.maxX)*(ticketWidth + gutter)/2
+        let height = CGFloat(vm.maxY)*(ticketHeight + gutter)/2 - gutter
+        return CGSize(
+            width: width,
+            height: height
+        )
     }
 }
 

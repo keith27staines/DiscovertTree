@@ -17,7 +17,7 @@ struct TicketView: View {
             background
             content
         }
-        .frame(width: 200, height: 100)
+        .frame(width: ticketWidth, height: ticketHeight)
         .offset(vm.offset)
     }
 }
@@ -27,7 +27,7 @@ extension TicketView {
         (vm.ticketState.theme.mainColor)
             .clipShape(
                 .rect(
-                    cornerRadius: 10
+                    cornerRadius: ticketCornerRadius
                 )
             )
     }

@@ -116,20 +116,33 @@ extension DocumentViewModel: TreeViewModelDelegate {
     }
     
     func setOffsets() {
-        maxX = 0
-        maxY = 0
-        for (index,vm) in ticketViewModels.enumerated() {
+        setMaxOffsets()
+        for vm in ticketViewModels {
             let x = vm.tree.offsetFromRoot()
             let y = vm.tree.depthFromRoot()
             maxX = max(x, maxX)
             maxY = max(y, maxY)
+
+            let widthCenteringOffset = -CGFloat(maxX)*(ticketWidth + gutter)/2
+            let heightCenteringOffset = -CGFloat(maxY)*(ticketHeight + gutter)/2
+            let width = (ticketWidth + gutter) * CGFloat(x) + widthCenteringOffset
+            let height = (ticketHeight + gutter) * CGFloat(y) + heightCenteringOffset
             vm.offset = CGSize(
-                width: (200 + 16) * x,
-                height: (-8 - 100) * index + (100 + 16) * y
+                width: width,
+                height: height
             )
         }
-        print(maxX)
-        print(maxY)
+    }
+    
+    func setMaxOffsets() {
+        maxX = 0
+        maxY = 0
+        for vm in ticketViewModels {
+            let x = vm.tree.offsetFromRoot()
+            let y = vm.tree.depthFromRoot()
+            maxX = max(x, maxX)
+            maxY = max(y, maxY)
+        }
     }
 }
 

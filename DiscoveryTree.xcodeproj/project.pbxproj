@@ -21,6 +21,7 @@
 		5381A6352B145E03007C56FD /* TicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5381A6342B145E03007C56FD /* TicketViewModel.swift */; };
 		53FF68612B1B161100C20D7F /* DiscoveryTreeCore in Frameworks */ = {isa = PBXBuildFile; productRef = 53FF68602B1B161100C20D7F /* DiscoveryTreeCore */; };
 		53FF68632B1B1D5C00C20D7F /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF68622B1B1D5C00C20D7F /* AppError.swift */; };
+		53FF68652B1C8ACA00C20D7F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF68642B1C8ACA00C20D7F /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		5381A6322B1456C9007C56FD /* Ticket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
 		5381A6342B145E03007C56FD /* TicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModel.swift; sourceTree = "<group>"; };
 		53FF68622B1B1D5C00C20D7F /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		53FF68642B1C8ACA00C20D7F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */,
+				53FF68642B1C8ACA00C20D7F /* Constants.swift */,
 				53FF68622B1B1D5C00C20D7F /* AppError.swift */,
 				53052F5A2B127C560030D9DE /* ContentView.swift */,
 				5373156E2B131D2F00CD6932 /* DocumentView.swift */,
@@ -185,6 +188,7 @@
 				53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */,
 				5373156F2B131D2F00CD6932 /* DocumentView.swift in Sources */,
 				537315732B13220100CD6932 /* DocumentViewModel.swift in Sources */,
+				53FF68652B1C8ACA00C20D7F /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
