@@ -21,10 +21,5 @@ func makeTestTree() -> Tree<Ticket> {
     try? t00.appendChild(t11)
     try? t00.appendChild(t21)
     try? t21.appendChild(t22)
-    t00.content?.state = Ticket.State.allCases.randomElement() ?? .blocked
-    t01.content?.state = Ticket.State.allCases.randomElement() ?? .blocked
-    t11.content?.state = Ticket.State.allCases.randomElement() ?? .blocked
-    t21.content?.state = Ticket.State.allCases.randomElement() ?? .blocked
-    t22.content?.state = Ticket.State.allCases.randomElement() ?? .blocked
     return t00
 }

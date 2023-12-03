@@ -9,50 +9,48 @@ import SwiftUI
 import DiscoveryTreeCore
 
 final class DocumentViewModel: ObservableObject {
+    @Published var project = "Document"
+    @Published var ticketViewModels = [TicketViewModel]()
+    @Published var maxX: Int = 0
+    @Published var maxY: Int = 0
     
     var tree: TicketTree
-    var nodes: [TreeId: TicketTree]
-    lazy var root: TreeViewModel = {
-        TreeViewModel(treeId: tree.id, delegate: self)
-    }()
+    var nodesDictionary: [TreeId: TicketTree]
     
     init() {
         tree = makeTestTree()
-        nodes = tree.insertIntoDictionary([:])
+        nodesDictionary = tree.insertIntoDictionary([:])
+        ticketViewModels = nodesDictionary.compactMap { (key: TreeId, value: TicketTree) in
+            TicketViewModel(tree: value, delegate: self)
+        }
+        setOffsets()
     }
 }
 
 extension DocumentViewModel: TreeViewModelDelegate {
     func insertAbove(_ id: TreeId) {
         do {
-            let ticket = Ticket(title: "New Ticket")
             let node = try node(with: id)
             let newNode = try node.insertNewTreeAbove()
-            
-            newNode.content = ticket
-            if newNode.parent == nil {
-                tree = newNode
-            }
-            nodes[newNode.id] = newNode
-            root = TreeViewModel(treeId: tree.id, delegate: self)
-            objectWillChange.send()
+            newNode.content = Ticket()
+            if newNode.parent == nil { tree = newNode }
+            register(newNode)
+            setOffsets()
         } catch {
-            print("Unexpected error")
+            
         }
     }
     
     func insertLeading(_ id: TreeId) {
         do {
-            let ticket = Ticket(title: "New Ticket")
-            let newNode = Tree<Ticket>()
-            newNode.content = ticket
+            let newNode = TicketTree()
+            newNode.content = Ticket()
             let node = try node(with: id)
             guard let parent = node.parent else { throw AppError.nodeDoesNotExist }
             let index = node.childIndex() ?? 0
             try parent.insertChild(newNode, at: index)
-            nodes[newNode.id] = newNode
-            root = TreeViewModel(treeId: tree.id, delegate: self)
-            objectWillChange.send()
+            register(newNode)
+            setOffsets()
         } catch {
             
         }
@@ -72,9 +70,8 @@ extension DocumentViewModel: TreeViewModelDelegate {
             } else {
                 try parent.insertChild(newNode, at: index + 1)
             }
-            nodes[newNode.id] = newNode
-            root = TreeViewModel(treeId: tree.id, delegate: self)
-            objectWillChange.send()
+            register(newNode)
+            setOffsets()
         } catch {
             
         }
@@ -87,9 +84,8 @@ extension DocumentViewModel: TreeViewModelDelegate {
             let newNode = Tree<Ticket>()
             newNode.content = ticket
             try node.insertChild(newNode, at: 0)
-            nodes[newNode.id] = newNode
-            root = TreeViewModel(treeId: tree.id, delegate: self)
-            objectWillChange.send()
+            register(newNode)
+            setOffsets()
         } catch {
             
         }
@@ -100,12 +96,40 @@ extension DocumentViewModel: TreeViewModelDelegate {
     }
     
     func node(with id: TreeId) throws -> TicketTree {
-        guard let node = nodes[id] else { throw AppError.nodeDoesNotExist }
+        guard let node = nodesDictionary[id] 
+        else { throw AppError.nodeDoesNotExist }
         return node
     }
     
     func childrenOf(_ id: TreeId) throws -> [TreeId] {
         try node(with: id).children.compactMap { $0.id }
+    }
+    
+    func register(_ node: TicketTree) {
+        nodesDictionary[node.id] = node
+        ticketViewModels.append(
+            TicketViewModel(
+                tree: node,
+                delegate: self
+            )
+        )
+    }
+    
+    func setOffsets() {
+        maxX = 0
+        maxY = 0
+        for (index,vm) in ticketViewModels.enumerated() {
+            let x = vm.tree.offsetFromRoot()
+            let y = vm.tree.depthFromRoot()
+            maxX = max(x, maxX)
+            maxY = max(y, maxY)
+            vm.offset = CGSize(
+                width: (200 + 16) * x,
+                height: (-8 - 100) * index + (100 + 16) * y
+            )
+        }
+        print(maxX)
+        print(maxY)
     }
 }
 

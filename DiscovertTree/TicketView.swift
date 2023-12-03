@@ -10,22 +10,21 @@ import DiscoveryTreeCore
 
 struct TicketView: View {
     
-    let optionalTicket: Ticket?
-    let theme = Theme.buttercup
-    weak var ticketDelegate: TicketDelegate?
-    
+    @ObservedObject var vm: TicketViewModel
+        
     var body: some View {
         ZStack {
             background
-            ticketPlaceholder
+            content
         }
         .frame(width: 200, height: 100)
+        .offset(vm.offset)
     }
 }
 
 extension TicketView {
     var background: some View {
-        (optionalTicket?.state.theme.mainColor ?? .white)
+        (vm.ticketState.theme.mainColor)
             .clipShape(
                 .rect(
                     cornerRadius: 10
@@ -33,58 +32,44 @@ extension TicketView {
             )
     }
     
-    @ViewBuilder
-    var ticketPlaceholder: some View {
-        if let ticket = optionalTicket {
-            TicketContent(
-                ticket: ticket,
-                theme: theme,
-                ticketDelegate: ticketDelegate
-            )
-        } else {
-            EmptyView()
-        }
-    }
-    
-    struct TicketContent: View {
-        
-        @Bindable var ticket: Ticket
-        let theme: Theme
-        weak var ticketDelegate: TicketDelegate?
-        
-        var body: some View {
-            VStack {
+    var content: some View {
+        VStack {
+            Button {
+                withAnimation {
+                    vm.insertAbove()
+                }
+            } label: {
+                Image(systemName: "plus")
+            }
+            Spacer()
+            HStack(alignment: .center) {
                 Button {
                     withAnimation {
-                        ticketDelegate?.insertAbove()
+                        vm.insertLeading()
                     }
                 } label: {
                     Image(systemName: "plus")
                 }
                 Spacer()
-                HStack(alignment: .center) {
-                    Button {
-                        ticketDelegate?.insertLeading()
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                    Spacer()
-                    TextField("Ticket title", text: $ticket.title)
-                        .foregroundColor(theme.accentColor)
-                    Spacer()
-                    Button {
-                        ticketDelegate?.insertTrailing()
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-
-                }
+                TextField("Ticket title", text: $vm.title)
+                    .foregroundColor(vm.ticketState.theme.accentColor)
                 Spacer()
                 Button {
-                    ticketDelegate?.insertChild()
+                    withAnimation {
+                        vm.insertTrailing()
+                    }
                 } label: {
                     Image(systemName: "plus")
                 }
+
+            }
+            Spacer()
+            Button {
+                withAnimation {
+                    vm.insertChild()
+                }
+            } label: {
+                Image(systemName: "plus")
             }
         }
     }
@@ -107,5 +92,17 @@ extension TicketView {
  */
 
 #Preview {
-    TicketView(optionalTicket: Ticket(title: "Title"))
+    class Delegate: TreeViewModelDelegate {
+        func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
+        func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
+        func insertAbove(_ id: TreeId) {}
+        func insertLeading(_ id: TreeId) {}
+        func insertTrailing(_ id: TreeId) {}
+        func insertChild(_ id: TreeId) {}
+    }
+    let vm = TicketViewModel(
+        tree: makeTestTree(),
+        delegate: Delegate()
+    )
+    return TicketView(vm: vm)
 }

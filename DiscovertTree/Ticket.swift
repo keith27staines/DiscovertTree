@@ -9,11 +9,7 @@ import Foundation
 import DiscoveryTreeCore
 
 /// A ticket represents an item in a todo list
-@Observable
-class Ticket: Codable {
-    
-    /// Uniquely identifies the object in a type safe way
-    let id: Id<Ticket>
+struct Ticket: Codable {
     
     /// The title describes at the highest level the purpose of the ticket
     var title: String
@@ -22,39 +18,38 @@ class Ticket: Codable {
     var createdDate: Date
     
     /// The state of the ticket
-    var state: State = .todo
+    var state: TicketState = .todo
     
-    /// Initializes a new instance
-    /// - Parameters:
-    ///   - id: Uniquely identifies the ticket in a type safe way
-    ///   - title: Title of the ticket
-    ///   - createdDate: Date on which the ticket was created
-    init(id: UUID = UUID(), title: String, createdDate: Date = Date.now) {
-        self.id = Id<Ticket>(uuid: id)
+    init(
+        title: String = "New Ticket",
+        createdDate: Date = .now,
+        state: TicketState = .todo
+    ) {
         self.title = title
         self.createdDate = createdDate
+        self.state = state
     }
 }
 
-extension Ticket {
-    enum State: Codable, CaseIterable {
-        case todo
-        case inProgress
-        case done
-        case blocked
-        
-        var theme: Theme {
-            switch self {
-                
-            case .todo:
-                return .sky
-            case .inProgress:
-                return .buttercup
-            case .done:
-                return .seafoam
-            case .blocked:
-                return .bubblegum
-            }
+
+enum TicketState: Codable, CaseIterable {
+    case todo
+    case inProgress
+    case done
+    case blocked
+    
+    var theme: Theme {
+        switch self {
+            
+        case .todo:
+            return .sky
+        case .inProgress:
+            return .buttercup
+        case .done:
+            return .seafoam
+        case .blocked:
+            return .bubblegum
         }
     }
 }
+
