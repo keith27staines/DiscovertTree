@@ -15,6 +15,7 @@ extension TicketView {
                     cornerRadius: ticketCornerRadius
                 )
             )
+            .focusable()
             .contextMenu {
                 Picker(
                     "State",
@@ -24,12 +25,16 @@ extension TicketView {
                         Text(state.description)
                     }
                 }
+                .disabled(vm.tree.isRoot)
+                
                 Divider()
+                
                 Button {
                     vm.delete()
                 } label: {
                     Label("Delete", systemImage: "globe")
                 }
+                .disabled(vm.tree.isRoot)
             }
             .focusable()
     }
