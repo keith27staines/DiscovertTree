@@ -32,7 +32,7 @@ extension TicketView {
                 Button {
                     vm.delete()
                 } label: {
-                    Label("Delete", systemImage: "globe")
+                    Text("Delete")
                 }
                 .disabled(vm.tree.isRoot)
             }
