@@ -32,15 +32,27 @@ struct Ticket: Codable {
 }
 
 
-enum TicketState: Codable, CaseIterable {
+enum TicketState: Codable, CaseIterable, Hashable {
     case todo
     case inProgress
     case done
     case blocked
     
+    var description: String {
+        switch self {
+        case .todo:
+            return "To do"
+        case .inProgress:
+            return "In progress"
+        case .done:
+            return "Done"
+        case .blocked:
+            return "Blocked"
+        }
+    }
+    
     var theme: Theme {
         switch self {
-            
         case .todo:
             return .sky
         case .inProgress:
