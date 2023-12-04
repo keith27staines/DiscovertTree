@@ -24,12 +24,19 @@ struct TicketView: View {
 
 extension TicketView {
     var background: some View {
-        (vm.ticketState.theme.mainColor)
+        vm.ticketState.theme.mainColor
             .clipShape(
                 .rect(
                     cornerRadius: ticketCornerRadius
                 )
             )
+            .contextMenu {
+                Button {
+                    vm.delete()
+                } label: {
+                    Label("Delete", systemImage: "globe")
+                }
+            }
     }
     
     var content: some View {
@@ -75,22 +82,6 @@ extension TicketView {
     }
 }
 
-/*
- .contextMenu {
-     Button {
-         print("Change country setting")
-     } label: {
-         Label("Choose Country", systemImage: "globe")
-     }
-     
-     Button {
-         print("Enable geolocation")
-     } label: {
-         Label("Detect Location", systemImage: "location.circle")
-     }
- }
- */
-
 #Preview {
     class Delegate: TreeViewModelDelegate {
         func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
@@ -99,6 +90,7 @@ extension TicketView {
         func insertLeading(_ id: TreeId) {}
         func insertTrailing(_ id: TreeId) {}
         func insertChild(_ id: TreeId) {}
+        func delete(_ id: TreeId) {}
     }
     let vm = TicketViewModel(
         tree: makeTestTree(),

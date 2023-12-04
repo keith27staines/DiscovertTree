@@ -48,6 +48,10 @@ extension TicketViewModel {
         delegate?.insertAbove(tree.id)
     }
     
+    func delete() {
+        delegate?.delete(tree.id)
+    }
+    
 }
 
 protocol TreeViewModelDelegate: AnyObject {
@@ -57,11 +61,13 @@ protocol TreeViewModelDelegate: AnyObject {
     func insertLeading(_ id: TreeId)
     func insertTrailing(_ id: TreeId)
     func insertChild(_ id: TreeId)
+    func delete(_ id: TreeId)
 }
 
 protocol TicketDelegate: AnyObject {
-    func insertAbove() -> ()
-    func insertLeading() -> ()
-    func insertTrailing() -> ()
-    func insertChild() -> ()
+    func insertAbove() -> Void
+    func insertLeading() -> Void
+    func insertTrailing() -> Void
+    func insertChild() -> Void
+    func delete() -> Void
 }

@@ -7,4 +7,5 @@
 
 enum AppError: Error {
     case nodeDoesNotExist
+    case operationNotAllowedOnRoot
 }
