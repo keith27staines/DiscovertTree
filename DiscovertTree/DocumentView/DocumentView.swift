@@ -12,18 +12,40 @@ struct DocumentView: View {
     @StateObject var vm = DocumentViewModel()
     
     var body: some View {
-        ScrollView([.horizontal, .vertical]) {
-            ZStack {
-                ForEach(vm.ticketViewModels) { vm in
-                    TicketView(vm: vm)
+        VStack {
+            HStack {
+                Button {
+                    withAnimation {
+                        vm.undoManager.redo()
+                    }
+                } label: {
+                    Text("Redo")
                 }
+                .disabled(!vm.undoManager.canRedo)
+                
+                Button {
+                    withAnimation {
+                        vm.undoManager.undo()
+                    }
+                } label: {
+                    Text("Undo")
+                }
+                .disabled(!vm.undoManager.canUndo)
             }
-            .frame(
-                width: CGFloat(vm.maxX + 1)*(ticketWidth + gutter),
-                height: CGFloat(vm.maxY + 1)*(ticketHeight + gutter),
-                alignment: .center
-            )
-            .background(.pink)
+
+            ScrollView([.horizontal, .vertical]) {
+                ZStack {
+                    ForEach(vm.ticketViewModels) { vm in
+                        TicketView(vm: vm)
+                    }
+                }
+                .frame(
+                    width: CGFloat(vm.maxX + 1)*(ticketWidth + gutter),
+                    height: CGFloat(vm.maxY + 1)*(ticketHeight + gutter),
+                    alignment: .center
+                )
+                .background(.pink)
+            }
         }
     }
     

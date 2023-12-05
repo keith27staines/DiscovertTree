@@ -15,12 +15,15 @@ final class DocumentViewModel: ObservableObject {
     @Published var maxY: Int = 0
     
     var tree: TicketTree
-    var nodesDictionary: [TreeId: TicketTree]
+    var activeNodesDictionary: [TreeId: TicketTree]
+    var allNodesDictionary: [TreeId: TicketTree]
+    let undoManager = UndoManager()
     
     init() {
         tree = makeTestTree()
-        nodesDictionary = tree.insertIntoDictionary([:])
-        ticketViewModels = nodesDictionary.compactMap { (key: TreeId, value: TicketTree) in
+        activeNodesDictionary = tree.insertIntoDictionary([:])
+        allNodesDictionary = tree.insertIntoDictionary([:])
+        ticketViewModels = activeNodesDictionary.compactMap { (key: TreeId, value: TicketTree) in
             TicketViewModel(tree: value, delegate: self)
         }
         setOffsets()
@@ -30,13 +33,14 @@ final class DocumentViewModel: ObservableObject {
 extension DocumentViewModel {
     
     func node(with id: TreeId) throws -> TicketTree {
-        guard let node = nodesDictionary[id] 
+        guard let node = allNodesDictionary[id] 
         else { throw AppError.nodeDoesNotExist }
         return node
     }
     
     func register(_ node: TicketTree) {
-        nodesDictionary[node.id] = node
+        activeNodesDictionary[node.id] = node
+        allNodesDictionary[node.id] = node
         ticketViewModels.append(
             TicketViewModel(
                 tree: node,
@@ -46,7 +50,7 @@ extension DocumentViewModel {
     }
     
     func unregister(_ node: TicketTree) {
-        nodesDictionary[node.id] = nil
+        activeNodesDictionary[node.id] = nil
         ticketViewModels.removeAll { vm in
             vm.tree.id == node.id
         }
