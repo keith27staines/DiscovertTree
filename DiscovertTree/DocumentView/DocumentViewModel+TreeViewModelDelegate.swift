@@ -18,39 +18,6 @@ extension DocumentViewModel: TreeViewModelDelegate {
         try node(with: id).children.compactMap { $0.id }
     }
     
-    func insert(_ newParent: TicketTree, above node: TicketTree) {
-        do {
-            try node.insertAbove(newParent)
-            newParent.content = Ticket()
-            if newParent.parent == nil { tree = newParent }
-            register(newParent)
-            setOffsets()
-            undoManager.registerUndo(withTarget: self) { [weak self] vm in
-                guard let self = self else { return }
-                do {
-                    if let index = newParent.childIndex() {
-                        node.removeFromParent()
-                        _ = try newParent.parent?.replaceChild(at: index, with: node)
-                    } else {
-                        node.removeFromParent()
-                        tree = node
-                    }
-                    unregister(newParent)
-                    setOffsets()
-                    undoManager.registerUndo(withTarget: self) { vm in
-                        vm.insert(newParent, above: node)
-                    }
-                } catch {
-                    print(error)
-                }
-                
-            }
-        } catch {
-            
-        }
-
-    }
-    
     func insertAbove(_ id: TreeId) {
         do {
             let node = try node(with: id)
