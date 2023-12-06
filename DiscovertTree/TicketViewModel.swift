@@ -33,11 +33,11 @@ final class TicketViewModel: ObservableObject, Identifiable {
 
 extension TicketViewModel {
     func insertLeading() {
-        delegate?.insertLeading(tree.id)
+        delegate?.insertNewNodeBefore(tree.id)
     }
     
     func insertTrailing() {
-        delegate?.insertTrailing(tree.id)
+        delegate?.insertNewNodeAfter(tree.id)
     }
     
     func insertChild() {
@@ -45,7 +45,7 @@ extension TicketViewModel {
     }
     
     func insertAbove() {
-        delegate?.insertAbove(tree.id)
+        delegate?.insertNewNodeAbove(tree.id)
     }
     
     func delete() {
@@ -57,9 +57,9 @@ extension TicketViewModel {
 protocol TreeViewModelDelegate: AnyObject {
     func childrenOf(_ id: TreeId) throws -> [TreeId]
     func ticketFor(_ id: TreeId) throws -> Ticket?
-    func insertAbove(_ id: TreeId)
-    func insertLeading(_ id: TreeId)
-    func insertTrailing(_ id: TreeId)
+    func insertNewNodeAbove(_ id: TreeId)
+    func insertNewNodeBefore(_ id: TreeId)
+    func insertNewNodeAfter(_ id: TreeId)
     func insertChild(_ id: TreeId)
     func delete(_ id: TreeId)
 }

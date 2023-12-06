@@ -29,7 +29,9 @@ extension TicketView {
                 Divider()
                 
                 Button {
-                    vm.delete()
+                    withAnimation {
+                        vm.delete()
+                    }
                 } label: {
                     Text("Delete")
                 }

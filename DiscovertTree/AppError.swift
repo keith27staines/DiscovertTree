@@ -6,6 +6,7 @@
 //
 
 enum AppError: Error {
+    case parentNodeIsRequired
     case nodeDoesNotExist
     case operationNotAllowedOnRoot
 }

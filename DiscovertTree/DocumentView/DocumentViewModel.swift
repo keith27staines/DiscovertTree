@@ -23,7 +23,8 @@ final class DocumentViewModel: ObservableObject {
         tree = makeTestTree()
         activeNodesDictionary = tree.insertIntoDictionary([:])
         allNodesDictionary = tree.insertIntoDictionary([:])
-        ticketViewModels = activeNodesDictionary.compactMap { (key: TreeId, value: TicketTree) in
+        ticketViewModels = activeNodesDictionary.compactMap { 
+            (key: TreeId, value: TicketTree) in
             TicketViewModel(tree: value, delegate: self)
         }
         setOffsets()
@@ -47,12 +48,18 @@ extension DocumentViewModel {
                 delegate: self
             )
         )
+        node.children.forEach { node in
+            register(node)
+        }
     }
     
     func unregister(_ node: TicketTree) {
         activeNodesDictionary[node.id] = nil
         ticketViewModels.removeAll { vm in
             vm.tree.id == node.id
+        }
+        node.children.forEach { node in
+            unregister(node)
         }
     }
     

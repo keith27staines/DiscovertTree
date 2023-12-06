@@ -9,7 +9,7 @@ import Foundation
 
 extension DocumentViewModel {
     
-    func insert(_ newParent: TicketTree, above node: TicketTree) {
+    func insertNewParent(_ newParent: TicketTree, above node: TicketTree) {
         do {
             try node.insertAbove(newParent)
             if newParent.parent == nil { tree = newParent }
@@ -17,14 +17,14 @@ extension DocumentViewModel {
             setOffsets()
             undoManager.registerUndo(withTarget: self) { [weak self] vm in
                 guard let self = self else { return }
-                undoInsert(newParent, above: node)
+                undoInsertNewParent(newParent, above: node)
             }
         } catch {
             
         }
     }
     
-    func undoInsert(_ newParent: TicketTree, above node: TicketTree) {
+    func undoInsertNewParent(_ newParent: TicketTree, above node: TicketTree) {
         do {
             if let index = newParent.childIndex() {
                 node.removeFromParent()
@@ -36,7 +36,7 @@ extension DocumentViewModel {
             unregister(newParent)
             setOffsets()
             undoManager.registerUndo(withTarget: self) { vm in
-                vm.insert(newParent, above: node)
+                vm.insertNewParent(newParent, above: node)
             }
         } catch {
             print(error)

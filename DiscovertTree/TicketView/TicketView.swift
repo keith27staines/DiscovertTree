@@ -26,9 +26,9 @@ struct TicketView: View {
     class Delegate: TreeViewModelDelegate {
         func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
         func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
-        func insertAbove(_ id: TreeId) {}
-        func insertLeading(_ id: TreeId) {}
-        func insertTrailing(_ id: TreeId) {}
+        func insertNewNodeAbove(_ id: TreeId) {}
+        func insertNewNodeBefore(_ id: TreeId) {}
+        func insertNewNodeAfter(_ id: TreeId) {}
         func insertChild(_ id: TreeId) {}
         func delete(_ id: TreeId) {}
     }

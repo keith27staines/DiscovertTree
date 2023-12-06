@@ -18,84 +18,61 @@ extension DocumentViewModel: TreeViewModelDelegate {
         try node(with: id).children.compactMap { $0.id }
     }
     
-    func insertAbove(_ id: TreeId) {
+    func insertNewNodeAbove(_ id: TreeId) {
         do {
             let node = try node(with: id)
             let newNode = TicketTree(content: Ticket())
-            insert(newNode, above: node)
+            insertNewParent(newNode, above: node)
         } catch {
-            
+            print("uh oh")
         }
     }
     
-    func insertLeading(_ id: TreeId) {
+    func insertNewNodeBefore(_ id: TreeId) {
         do {
-            let newNode = TicketTree()
-            newNode.content = Ticket()
             let node = try node(with: id)
-            guard let parent = node.parent 
-            else { throw AppError.nodeDoesNotExist }
-            let index = node.childIndex() ?? 0
-            try parent.insertChild(newNode, at: index)
-            register(newNode)
-            setOffsets()
+            guard let parent = node.parent, let index = node.childIndex()
+            else { throw AppError.parentNodeIsRequired }
+            let newSibling = TicketTree()
+            newSibling.content = Ticket()
+            try addChild(newSibling, to: parent, at: index)
         } catch {
-            
+            print("uh oh")
         }
     }
     
-    func insertTrailing(_ id: TreeId) {
+    func insertNewNodeAfter(_ id: TreeId) {
         do {
-            let ticket = Ticket(title: "New Ticket")
             let node = try node(with: id)
-            let newNode = Tree<Ticket>()
-            newNode.content = ticket
-            guard let parent = node.parent else { throw AppError.nodeDoesNotExist }
-            let children = parent.children
-            let index = node.childIndex() ?? 0
-            if index >= children.endIndex {
-                try parent.appendChild(newNode)
-            } else {
-                try parent.insertChild(newNode, at: index + 1)
-            }
-            register(newNode)
-            setOffsets()
+            guard let parent = node.parent, let index = node.childIndex()
+            else { throw AppError.parentNodeIsRequired }
+            let newSibling = TicketTree()
+            newSibling.content = Ticket()
+            try addChild(newSibling, to: parent, at: index + 1)
         } catch {
-            
+            print("uh oh")
         }
     }
     
     func insertChild(_ id: TreeId) {
         do {
-            let ticket = Ticket(title: "New Ticket")
-            let node = try node(with: id)
-            let newNode = Tree<Ticket>()
-            newNode.content = ticket
-            try node.insertChild(newNode, at: 0)
-            register(newNode)
-            setOffsets()
+            let parent = try node(with: id)
+            let child = TicketTree()
+            child.content = Ticket()
+            try addChild(child, to: parent, at: 0)
         } catch {
-            
+            print("uh oh")
         }
     }
     
     func delete(_ id: TreeId) {
-        
         do {
             let node = try node(with: id)
-            guard !node.isRoot else { throw AppError.operationNotAllowedOnRoot }
-            try deleteNode(node: node)
-            setOffsets()
+            guard let parent = node.parent, let index = node.childIndex()
+            else { throw AppError.operationNotAllowedOnRoot }
+            try deleteChild(node, at: index, from: parent)
         } catch {
-            
-        }
-        
-        func deleteNode(node: TicketTree) throws {
-            node.children.forEach { node in
-                delete(node.id)
-            }
-            node.removeFromParent()
-            unregister(node)
+            print("uh oh")
         }
     }
 }
