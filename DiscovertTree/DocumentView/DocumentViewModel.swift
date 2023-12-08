@@ -14,10 +14,11 @@ final class DocumentViewModel: ObservableObject {
     @Published var maxX: Int = 0
     @Published var maxY: Int = 0
     
+    let undoManager = UndoManager()
     var tree: TicketTree
     var activeNodesDictionary: [TreeId: TicketTree]
-    var allNodesDictionary: [TreeId: TicketTree]
-    let undoManager = UndoManager()
+    private var allNodesDictionary: [TreeId: TicketTree]
+    private var allTicketViewModels = [TreeId: TicketViewModel]()
     
     init() {
         tree = makeTestTree()
@@ -46,16 +47,20 @@ extension DocumentViewModel {
     func register(_ node: TicketTree) {
         activeNodesDictionary[node.id] = node
         allNodesDictionary[node.id] = node
-        ticketViewModels.append(
-            TicketViewModel(
-                tree: node,
-                undoManager: undoManager,
-                delegate: self
-            )
+        let vm = viewModelForNode(node)
+        ticketViewModels.append(vm)
+        node.children.forEach { register($0) }
+    }
+    
+    func viewModelForNode(_ tree: TicketTree) -> TicketViewModel {
+        if let vm = allTicketViewModels[tree.id] { return vm }
+        let vm = TicketViewModel(
+            tree: tree,
+            undoManager: undoManager,
+            delegate: self
         )
-        node.children.forEach { node in
-            register(node)
-        }
+        allTicketViewModels[tree.id] = vm
+        return vm
     }
     
     func unregister(_ node: TicketTree) {
