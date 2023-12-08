@@ -8,6 +8,7 @@
 import SwiftUI
 
 extension TicketView {
+    
     var content: some View {
         VStack {
             Button {
@@ -29,8 +30,17 @@ extension TicketView {
                     Image(systemName: "plus")
                 }
                 Spacer()
-                TextField("Ticket title", text: $vm.title)
+                VStack {
+                    TextField("Title", text: $vm.title, onCommit: {
+                        NSApplication.shared.keyWindow?.makeFirstResponder(nil)
+                        vm.titleDidLoseFocus()
+                    })
+                    .onChange(of: isTitleFieldFocused) { wasFocused, isFocusedNow in
+                        if !isFocusedNow { vm.titleDidLoseFocus() }
+                    }
+                    .focused($isTitleFieldFocused)
                     .foregroundColor(vm.ticketState.theme.accentColor)
+                }
                 Spacer()
                 Button {
                     withAnimation {

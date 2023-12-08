@@ -43,18 +43,22 @@ final class TicketViewModel: ObservableObject, Identifiable {
             }
         .store(in: &cancellables)
         
-        $title
-            .dropFirst()
-            .removeDuplicates()
-            .sink { [weak self] title in
-                self?.setTitle(title)
-            }
-        .store(in: &cancellables)
+//        $title
+//            .dropFirst()
+//            .removeDuplicates()
+//            .sink { [weak self] title in
+//                self?.setTitle(title)
+//            }
+//        .store(in: &cancellables)
     }
     
     func setTitle(_ new: String) {
         guard let old = ticket?.title else { return }
         setTitle(new: new, old: old)
+    }
+    
+    func titleDidLoseFocus() {
+        setTitle(new: title, old: ticket?.title ?? "")
     }
     
     func setTitle(new: String, old: String) {
@@ -66,7 +70,6 @@ final class TicketViewModel: ObservableObject, Identifiable {
             vm.undoSetTitle(new: new, old: old)
         }
         delegate?.ticketViewModelDidChange(self)
-        print(undoManager.canUndo)
     }
     
     func undoSetTitle(new: String, old: String) {

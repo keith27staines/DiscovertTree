@@ -10,6 +10,7 @@ import DiscoveryTreeCore
 
 struct TicketView: View {
     
+    @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
         
     var body: some View {
