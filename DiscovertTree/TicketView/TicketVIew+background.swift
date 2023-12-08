@@ -9,7 +9,7 @@ import SwiftUI
 
 extension TicketView {
     var background: some View {
-        (vm.ticketState?.theme.mainColor ?? .white)
+        (vm.ticketState.theme.mainColor)
             .clipShape(
                 .rect(
                     cornerRadius: ticketCornerRadius

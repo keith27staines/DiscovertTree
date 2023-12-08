@@ -25,7 +25,11 @@ final class DocumentViewModel: ObservableObject {
         allNodesDictionary = tree.insertIntoDictionary([:])
         ticketViewModels = activeNodesDictionary.compactMap { 
             (key: TreeId, value: TicketTree) in
-            TicketViewModel(tree: value, delegate: self)
+            TicketViewModel(
+                tree: value,
+                undoManager: undoManager,
+                delegate: self
+            )
         }
         setOffsets()
     }
@@ -45,6 +49,7 @@ extension DocumentViewModel {
         ticketViewModels.append(
             TicketViewModel(
                 tree: node,
+                undoManager: undoManager,
                 delegate: self
             )
         )

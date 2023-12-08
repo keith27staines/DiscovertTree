@@ -34,6 +34,7 @@ struct TicketView: View {
     }
     let vm = TicketViewModel(
         tree: makeTestTree(),
+        undoManager: UndoManager(),
         delegate: Delegate()
     )
     return TicketView(vm: vm)

@@ -16,14 +16,16 @@ final class TicketViewModel: ObservableObject, Identifiable {
     @Published var offset = CGSize.zero
     
     let tree: TicketTree
+    let undoManager: UndoManager
     weak var delegate: TreeViewModelDelegate?
     
     var ticket: Ticket? {
         tree.content
     }
     
-    init(tree: TicketTree, delegate: TreeViewModelDelegate) {
+    init(tree: TicketTree, undoManager: UndoManager, delegate: TreeViewModelDelegate) {
         self.tree = tree
+        self.undoManager = undoManager
         self.title = tree.content?.title ?? ""
         self.delegate = delegate
         self.createdDate = tree.content?.createdDate ?? Date.distantPast

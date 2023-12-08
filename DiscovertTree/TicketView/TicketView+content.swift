@@ -29,7 +29,7 @@ extension TicketView {
                     Image(systemName: "plus")
                 }
                 Spacer()
-                TextField("Ticket title", text: $vm.title ??)
+                TextField("Ticket title", text: $vm.title)
                     .foregroundColor(vm.ticketState.theme.accentColor)
                 Spacer()
                 Button {
