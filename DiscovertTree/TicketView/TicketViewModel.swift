@@ -42,8 +42,44 @@ final class TicketViewModel: ObservableObject, Identifiable {
                 self?.setState(state)
             }
         .store(in: &cancellables)
+        
+        $title
+            .dropFirst()
+            .removeDuplicates()
+            .sink { [weak self] title in
+                self?.setTitle(title)
+            }
+        .store(in: &cancellables)
     }
     
+    func setTitle(_ new: String) {
+        guard let old = ticket?.title else { return }
+        setTitle(new: new, old: old)
+    }
+    
+    func setTitle(new: String, old: String) {
+        guard new != old, var ticket = ticket else { return }
+        ticket.title = new
+        tree.content = ticket
+        title = new
+        undoManager.registerUndo(withTarget: self) { vm in
+            vm.undoSetTitle(new: new, old: old)
+        }
+        delegate?.ticketViewModelDidChange(self)
+        print(undoManager.canUndo)
+    }
+    
+    func undoSetTitle(new: String, old: String) {
+        guard var ticket = ticket else { return }
+        ticket.title = old
+        tree.content = ticket
+        title = old
+        undoManager.registerUndo(withTarget: self) { vm in
+            vm.setTitle(new: new, old: old)
+        }
+        delegate?.ticketViewModelDidChange(self)
+    }
+
     func setState(_ new: TicketState) {
         guard let old = ticket?.state else { return }
         setState(new: new, old: old)
