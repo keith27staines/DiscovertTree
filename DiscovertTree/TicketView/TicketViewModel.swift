@@ -13,20 +13,20 @@ final class TicketViewModel: ObservableObject, Identifiable {
     @Published var title: String
     @Published var createdDate: Date
     @Published var ticketState: TicketState
-    @Published var offset = CGSize()
+    @Published var offset = CGSize.zero
     
     let tree: TicketTree
     weak var delegate: TreeViewModelDelegate?
     
-    var ticket: Ticket {
-        Ticket(title: title, createdDate: createdDate, state: ticketState)
+    var ticket: Ticket? {
+        tree.content
     }
     
     init(tree: TicketTree, delegate: TreeViewModelDelegate) {
         self.tree = tree
-        self.title = tree.content?.title ?? "New Ticket"
+        self.title = tree.content?.title ?? ""
         self.delegate = delegate
-        self.createdDate = tree.content?.createdDate ?? Date()
+        self.createdDate = tree.content?.createdDate ?? Date.distantPast
         self.ticketState = tree.content?.state ?? .todo
     }
 }
