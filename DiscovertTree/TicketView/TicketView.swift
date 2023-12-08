@@ -31,6 +31,7 @@ struct TicketView: View {
         func insertNewNodeAfter(_ id: TreeId) {}
         func insertChild(_ id: TreeId) {}
         func delete(_ id: TreeId) {}
+        func ticketViewModelDidChange(_ vm: TicketViewModel) {}
     }
     let vm = TicketViewModel(
         tree: makeTestTree(),

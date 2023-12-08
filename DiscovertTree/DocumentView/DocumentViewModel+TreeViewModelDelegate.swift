@@ -75,4 +75,8 @@ extension DocumentViewModel: TreeViewModelDelegate {
             print("uh oh")
         }
     }
+    
+    func ticketViewModelDidChange(_ vm: TicketViewModel) {
+        objectWillChange.send()
+    }
 }
