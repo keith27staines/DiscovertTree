@@ -65,11 +65,3 @@ protocol TreeViewModelDelegate: AnyObject {
     func insertChild(_ id: TreeId)
     func delete(_ id: TreeId)
 }
-
-protocol TicketDelegate: AnyObject {
-    func insertAbove() -> Void
-    func insertLeading() -> Void
-    func insertTrailing() -> Void
-    func insertChild() -> Void
-    func delete() -> Void
-}
