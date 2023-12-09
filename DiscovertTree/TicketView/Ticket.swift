@@ -5,8 +5,8 @@
 //  Created by Keith Staines on 25/11/2023.
 //
 
-import Foundation
 import DiscoveryTreeCore
+import Foundation
 
 /// A ticket represents an item in a todo list
 struct Ticket: Codable {

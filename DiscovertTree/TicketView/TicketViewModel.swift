@@ -24,6 +24,31 @@ final class TicketViewModel: ObservableObject, Identifiable {
         tree.content
     }
     
+    enum AddButtonPosition {
+        case top
+        case leading
+        case trailing
+        case bottom
+    }
+    
+    func showAddButton(_ position: AddButtonPosition) -> Bool {
+        switch position {
+        case .top: return !tree.isRoot
+        case .leading: return !tree.isRoot
+        case .trailing: return !tree.isRoot
+        case .bottom: return tree.isLeaf
+        }
+    }
+    
+    func addButtonTapped(position: AddButtonPosition) {
+        switch position {
+        case .top: insertAbove()
+        case .leading: insertLeading()
+        case .trailing: insertTrailing()
+        case .bottom: insertChild()
+        }
+    }
+
     init(tree: TicketTree, undoManager: UndoManager, delegate: TreeViewModelDelegate) {
         self.tree = tree
         self.undoManager = undoManager
@@ -42,14 +67,6 @@ final class TicketViewModel: ObservableObject, Identifiable {
                 self?.setState(state)
             }
         .store(in: &cancellables)
-        
-//        $title
-//            .dropFirst()
-//            .removeDuplicates()
-//            .sink { [weak self] title in
-//                self?.setTitle(title)
-//            }
-//        .store(in: &cancellables)
     }
     
     func setTitle(_ new: String) {
@@ -133,15 +150,4 @@ extension TicketViewModel {
         delegate?.delete(tree.id)
     }
     
-}
-
-protocol TreeViewModelDelegate: AnyObject {
-    func childrenOf(_ id: TreeId) throws -> [TreeId]
-    func ticketFor(_ id: TreeId) throws -> Ticket?
-    func insertNewNodeAbove(_ id: TreeId)
-    func insertNewNodeBefore(_ id: TreeId)
-    func insertNewNodeAfter(_ id: TreeId)
-    func insertChild(_ id: TreeId)
-    func delete(_ id: TreeId)
-    func ticketViewModelDidChange(_ vm: TicketViewModel)
 }
