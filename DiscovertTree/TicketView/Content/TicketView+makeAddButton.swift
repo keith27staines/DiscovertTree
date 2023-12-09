@@ -11,13 +11,13 @@ extension TicketView {
     func makeAddButton(position: TicketViewModel.AddButtonPosition) -> some View {
         Button {
             withAnimation {
-                vm.addButtonTapped(position: position)
+                vm.onAddButtonTapped(position: position)
             }
         } label: {
             Image(systemName: "plus")
         }
         .buttonStyle(.borderless)
-        .disabled(!vm.showAddButton(position))
-        .opacity(vm.showAddButton(position) ? 1 : 0)
+        .disabled(!vm.hasAddButtonAtPosition(position))
+        .opacity(vm.hasAddButtonAtPosition(position) ? 1 : 0)
     }
 }

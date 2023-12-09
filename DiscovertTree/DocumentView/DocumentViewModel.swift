@@ -66,7 +66,7 @@ extension DocumentViewModel {
     func unregister(_ node: TicketTree) {
         activeNodesDictionary[node.id] = nil
         ticketViewModels.removeAll { vm in
-            vm.tree.id == node.id
+            vm.treeId == node.id
         }
         node.children.forEach { node in
             unregister(node)
@@ -76,8 +76,8 @@ extension DocumentViewModel {
     func setOffsets() {
         setMaxOffsets()
         for vm in ticketViewModels {
-            let x = vm.tree.offsetFromRoot()
-            let y = vm.tree.depthFromRoot()
+            let x = vm.offsetFromRoot
+            let y = vm.depthFromRoot
             maxX = max(x, maxX)
             maxY = max(y, maxY)
 
@@ -96,8 +96,8 @@ extension DocumentViewModel {
         maxX = 0
         maxY = 0
         for vm in ticketViewModels {
-            let x = vm.tree.offsetFromRoot()
-            let y = vm.tree.depthFromRoot()
+            let x = vm.offsetFromRoot
+            let y = vm.depthFromRoot
             maxX = max(x, maxX)
             maxY = max(y, maxY)
         }
