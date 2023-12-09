@@ -18,6 +18,7 @@ extension TicketView {
             .onChange(of: isTitleFieldFocused) { wasFocused, isFocusedNow in
                 if !isFocusedNow { vm.titleDidLoseFocus() }
             }
+            .bold()
             .focused($isTitleFieldFocused)
             .foregroundColor(vm.ticketState.theme.accentColor)
     }
