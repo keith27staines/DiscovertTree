@@ -131,9 +131,9 @@
 		539A26F02B1E7C3600BEDA4A /* TicketView */ = {
 			isa = PBXGroup;
 			children = (
-				53BD58122B2451670076E6C0 /* TicketViewModelDelegate.swift */,
-				5381A6342B145E03007C56FD /* TicketViewModel.swift */,
 				5381A6322B1456C9007C56FD /* Ticket.swift */,
+				5381A6342B145E03007C56FD /* TicketViewModel.swift */,
+				53BD58122B2451670076E6C0 /* TicketViewModelDelegate.swift */,
 				5381A62C2B13812F007C56FD /* TicketView.swift */,
 				53BD58192B245F660076E6C0 /* Background */,
 				53BD58182B245F0B0076E6C0 /* Content */,

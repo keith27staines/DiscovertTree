@@ -54,7 +54,7 @@ enum TicketState: Codable, CaseIterable, Hashable {
     var theme: Theme {
         switch self {
         case .todo:
-            return .sky
+            return .lavender
         case .inProgress:
             return .buttercup
         case .done:

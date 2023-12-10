@@ -12,11 +12,13 @@ extension TicketView {
         TextField("Title", text: $vm.title)
             .multilineTextAlignment(.center)
             .textFieldStyle(.plain)
+            .disabled(!(isTicketFocused || isTitleFieldFocused))
             .onSubmit {
                 isTitleFieldFocused = false
             }
             .onChange(of: isTitleFieldFocused) { wasFocused, isFocusedNow in
                 if !isFocusedNow { vm.titleDidLoseFocus() }
+                print("Textfield \(vm.title) changed isFocused to \(isFocusedNow)")
             }
             .bold()
             .focused($isTitleFieldFocused)

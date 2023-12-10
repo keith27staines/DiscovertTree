@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DocumentView: View {
     
+    @FocusState var isDocumentFocused
     @StateObject var vm = DocumentViewModel()
     
     var body: some View {
@@ -44,7 +45,24 @@ struct DocumentView: View {
                     height: CGFloat(vm.maxY + 1)*(ticketHeight + gutter),
                     alignment: .center
                 )
-                .background(.pink)
+                .border(.pink)
+            }
+            .background()
+            .focusable()
+            .focused($isDocumentFocused)
+            //.focusEffectDisabled()
+            .onChange(of: isDocumentFocused) { oldValue, newValue in
+                if newValue {
+                    print("Document IS focused")
+                } else {
+                    print("Document is NOT focused")
+                }
+            }
+            .onAppear() {
+                isDocumentFocused = true
+            }
+            .onTapGesture {
+                isDocumentFocused = true
             }
         }
     }

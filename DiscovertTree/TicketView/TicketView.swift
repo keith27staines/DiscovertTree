@@ -9,9 +9,15 @@ import SwiftUI
 import DiscoveryTreeCore
 
 struct TicketView: View {
-    
+    @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
+    @State var focusScale = FocusScale.unfocused
+    
+    enum FocusScale: CGFloat {
+        case unfocused = 1
+        case focused = 1.1
+    }
         
     var body: some View {
         ZStack {
