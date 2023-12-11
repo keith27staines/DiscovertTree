@@ -26,7 +26,7 @@ extension TicketView {
                 selection: $vm.ticketState
             ) {
                 ForEach(TicketState.allCases, id: \.self) { state in
-                    Text(state.description)
+                    Text(state.title)
                 }
             }
             .disabled(vm.isStatePickingDisabled)

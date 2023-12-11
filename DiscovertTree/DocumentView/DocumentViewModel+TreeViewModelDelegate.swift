@@ -5,7 +5,7 @@
 //  Created by Keith Staines on 04/12/2023.
 //
 
-import Foundation
+import SwiftUI
 import DiscoveryTreeCore
 
 extension DocumentViewModel: TreeViewModelDelegate {
@@ -78,5 +78,11 @@ extension DocumentViewModel: TreeViewModelDelegate {
     
     func ticketViewModelDidChange(_ vm: TicketViewModel) {
         objectWillChange.send()
+    }
+    
+    func backgroundColorFor(_ vm: TicketViewModel) -> Color {
+        legend.states.first { adapter in
+            adapter.ticketState == vm.ticketState
+        }?.backgroundColor ?? .clear
     }
 }

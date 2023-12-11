@@ -30,7 +30,7 @@ struct TicketView: View {
 }
 
 #Preview {
-    class Delegate: TreeViewModelDelegate {
+    class Delegate: TreeViewModelDelegate {        
         func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
         func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
         func insertNewNodeAbove(_ id: TreeId) {}
@@ -39,6 +39,7 @@ struct TicketView: View {
         func insertChild(_ id: TreeId) {}
         func delete(_ id: TreeId) {}
         func ticketViewModelDidChange(_ vm: TicketViewModel) {}
+        func backgroundColorFor(_ vm: TicketViewModel) -> Color { .yellow }
     }
     let vm = TicketViewModel(
         tree: makeTestTree(),

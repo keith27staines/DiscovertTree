@@ -22,6 +22,6 @@ extension TicketView {
             }
             .bold()
             .focused($isTitleFieldFocused)
-            .foregroundColor(vm.ticketState.theme.accentColor)
+            .foregroundColor(.black)
     }
 }

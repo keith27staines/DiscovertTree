@@ -21,11 +21,12 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var isDeleteButtonDisabled: Bool { tree.isRoot }
     public var offsetFromRoot: Int { tree.offsetFromRoot() }
     public var depthFromRoot:  Int { tree.depthFromRoot() }
+    public var backgroundColor: Color { delegate?.backgroundColorFor(self) ?? .white }
     
     private let tree: TicketTree
     private let undoManager: UndoManager
     private weak var delegate: TreeViewModelDelegate?
-    private var cancellables = Set<AnyCancellable>()
+    private var cancelables = Set<AnyCancellable>()
     private var ticket: Ticket? { tree.content }
     
     public enum AddButtonPosition {
@@ -87,7 +88,7 @@ extension TicketViewModel {
             .sink { [weak self] state in
                 self?.setState(state)
             }
-        .store(in: &cancellables)
+        .store(in: &cancelables)
     }
     
     private func setTitle(_ new: String) {

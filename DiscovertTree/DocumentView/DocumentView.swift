@@ -33,6 +33,13 @@ struct DocumentView: View {
                 }
                 .disabled(!vm.undoManager.canUndo)
             }
+            
+            HStack {
+                LegendView(legend: vm.legend)
+                    .padding()
+                    .frame(width: 800, height: 100)
+                Spacer()
+            }.background(.white)
 
             ScrollView([.horizontal, .vertical]) {
                 ZStack {

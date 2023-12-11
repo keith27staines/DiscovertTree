@@ -6,7 +6,7 @@
 //
 
 import DiscoveryTreeCore
-import Foundation
+import SwiftUI
 
 /// A ticket represents an item in a todo list
 struct Ticket: Codable {
@@ -32,35 +32,22 @@ struct Ticket: Codable {
 }
 
 
-enum TicketState: Codable, CaseIterable, Hashable {
+enum TicketState: String, Codable, CaseIterable, Hashable, Identifiable {
     case todo
     case inProgress
     case done
     case blocked
+    case deferred
     
-    var description: String {
-        switch self {
-        case .todo:
-            return "To do"
-        case .inProgress:
-            return "In progress"
-        case .done:
-            return "Done"
-        case .blocked:
-            return "Blocked"
-        }
-    }
+    var id: String { self.rawValue }
     
-    var theme: Theme {
+    var title: LocalizedStringResource {
         switch self {
-        case .todo:
-            return .lavender
-        case .inProgress:
-            return .buttercup
-        case .done:
-            return .seafoam
-        case .blocked:
-            return .bubblegum
+        case .todo: return LocalizedStringResource("To do")
+        case .inProgress: return LocalizedStringResource("In progress")
+        case .done: return LocalizedStringResource("Done")
+        case .blocked: return LocalizedStringResource("Blocked")
+        case .deferred: return LocalizedStringResource("Deferred")
         }
     }
 }

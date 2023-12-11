@@ -5,6 +5,8 @@
 //  Created by Keith Staines on 09/12/2023.
 //
 
+import SwiftUI
+
 protocol TreeViewModelDelegate: AnyObject {
     func childrenOf(_ id: TreeId) throws -> [TreeId]
     func ticketFor(_ id: TreeId) throws -> Ticket?
@@ -14,4 +16,5 @@ protocol TreeViewModelDelegate: AnyObject {
     func insertChild(_ id: TreeId)
     func delete(_ id: TreeId)
     func ticketViewModelDidChange(_ vm: TicketViewModel)
+    func backgroundColorFor(_ vm: TicketViewModel) -> Color
 }

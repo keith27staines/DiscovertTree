@@ -13,6 +13,7 @@ final class DocumentViewModel: ObservableObject {
     @Published var ticketViewModels = [TicketViewModel]()
     @Published var maxX: Int = 0
     @Published var maxY: Int = 0
+    @Published var legend: Legend = Legend.pastel
     
     let undoManager = UndoManager()
     var tree: TicketTree
