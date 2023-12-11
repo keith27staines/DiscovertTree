@@ -103,8 +103,6 @@ extension TicketViewModel {
                 x: CGFloat(child.offsetFromRoot() - parent.offsetFromRoot()) * horizontalStride + ticketWidth/2,
                 y: ticketHeight + gutter
             )
-            print(start)
-            print(end)
         }
     }
     
@@ -143,7 +141,6 @@ extension TicketViewModel {
             vm.undoSetState(new: new, old: old)
         }
         delegate?.ticketViewModelDidChange(self)
-        print(undoManager.canUndo)
     }
     
     private func undoSetState(new: TicketState, old: TicketState) {

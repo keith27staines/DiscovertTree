@@ -44,8 +44,6 @@ struct DocumentView: View {
             ScrollView([.horizontal, .vertical]) {
                 ZStack {
                     ForEach(vm.ticketViewModels) { vm in
-                        let i = 1
-                        let j = i + 1
                         TicketView(vm: vm)
                     }
                 }
@@ -59,14 +57,7 @@ struct DocumentView: View {
             .background()
             .focusable()
             .focused($isDocumentFocused)
-            //.focusEffectDisabled()
-            .onChange(of: isDocumentFocused) { oldValue, newValue in
-                if newValue {
-                    print("Document IS focused")
-                } else {
-                    print("Document is NOT focused")
-                }
-            }
+            .focusEffectDisabled()
             .onAppear() {
                 isDocumentFocused = true
             }

@@ -18,7 +18,6 @@ extension TicketView {
             }
             .onChange(of: isTitleFieldFocused) { wasFocused, isFocusedNow in
                 if !isFocusedNow { vm.titleDidLoseFocus() }
-                print("Textfield \(vm.title) changed isFocused to \(isFocusedNow)")
             }
             .bold()
             .focused($isTitleFieldFocused)
