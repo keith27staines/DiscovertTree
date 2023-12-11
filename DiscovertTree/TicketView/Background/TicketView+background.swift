@@ -28,7 +28,6 @@ extension TicketView {
                 isTicketFocused = true
             }
             .onChange(of: isTicketFocused) { oldValue, newValue in
-                print("Ticket \(vm.title) changed isFocused to \(isTicketFocused)")
                 withAnimation {
                     setFocusScale()
                 }

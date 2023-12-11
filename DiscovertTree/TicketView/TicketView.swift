@@ -23,9 +23,34 @@ struct TicketView: View {
         ZStack {
             background
             content
+            ForEach(vm.childOffsets) { offset in
+                ConnectorView(offset: offset)
+            }
         }
         .frame(width: ticketWidth, height: ticketHeight)
         .offset(vm.offset)
+    }
+}
+
+struct ConnectorView: View {
+    
+    let offset: TicketViewModel.ChildOffset
+    
+    var body: some View {
+        var path = Path()
+        let radius = gutter/2
+        path.move(to: offset.start)
+        if offset.end.x == offset.start.x {
+            path.addLine(to: offset.end)
+        }
+        if offset.end.x > offset.start.x {
+            let center1 = CGPoint(x: offset.start.x + radius, y: offset.start.y)
+            path.addArc(center: center1, radius: radius, startAngle: Angle(degrees: 180.0), endAngle: Angle(degrees: 90), clockwise: true)
+            path.addLine(to: CGPoint(x: offset.end.x - radius, y: offset.start.y +  radius))
+            let center2 = CGPoint(x: offset.end.x - radius, y: offset.end.y)
+            path.addArc(center: center2, radius: radius, startAngle: Angle(degrees: 270), endAngle: Angle(degrees: 00), clockwise: false)
+        }
+        return path.stroke(.blue)
     }
 }
 

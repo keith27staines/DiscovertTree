@@ -44,6 +44,8 @@ struct DocumentView: View {
             ScrollView([.horizontal, .vertical]) {
                 ZStack {
                     ForEach(vm.ticketViewModels) { vm in
+                        let i = 1
+                        let j = i + 1
                         TicketView(vm: vm)
                     }
                 }

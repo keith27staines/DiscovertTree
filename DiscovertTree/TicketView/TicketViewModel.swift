@@ -22,6 +22,11 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var offsetFromRoot: Int { tree.offsetFromRoot() }
     public var depthFromRoot:  Int { tree.depthFromRoot() }
     public var backgroundColor: Color { delegate?.backgroundColorFor(self) ?? .white }
+    public var childOffsets: [ChildOffset] {
+        tree.children.map { node in
+            ChildOffset(parent: tree, child: node)
+        }
+    }
     
     private let tree: TicketTree
     private let undoManager: UndoManager
@@ -80,6 +85,28 @@ final class TicketViewModel: ObservableObject, Identifiable  {
 
 // MARK: Implementation
 extension TicketViewModel {
+    
+    struct ChildOffset: Identifiable {
+        var id: String
+        var start: CGPoint
+        var end: CGPoint
+        
+        init(parent: TicketTree, child: TicketTree) {
+            id = parent.id.uuid.uuidString + child.id.uuid.uuidString
+            let horizontalStride = ticketWidth + gutter
+            let verticalStride = ticketHeight + gutter
+            start = CGPoint(
+                x: ticketWidth/2,
+                y: ticketHeight
+            )
+            end = CGPoint(
+                x: CGFloat(child.offsetFromRoot() - parent.offsetFromRoot()) * horizontalStride + ticketWidth/2,
+                y: ticketHeight + gutter
+            )
+            print(start)
+            print(end)
+        }
+    }
     
     private func setupSinks() {
         $ticketState
