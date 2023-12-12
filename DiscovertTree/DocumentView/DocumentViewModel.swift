@@ -5,6 +5,7 @@
 //  Created by Keith Staines on 26/11/2023.
 //
 
+import Combine
 import SwiftUI
 import DiscoveryTreeCore
 
@@ -14,12 +15,15 @@ final class DocumentViewModel: ObservableObject {
     @Published var maxX: Int = 0
     @Published var maxY: Int = 0
     @Published var legend: Legend = Legend.pastel
+    @Published var scale: CGFloat = 1.0
+    @Published var dimensions = Dimensions(scale: 1)
     
     let undoManager = UndoManager()
     var tree: TicketTree
     var activeNodesDictionary: [TreeId: TicketTree]
     private var allNodesDictionary: [TreeId: TicketTree]
     private var allTicketViewModels = [TreeId: TicketViewModel]()
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
         tree = makeTestTree()
@@ -28,12 +32,18 @@ final class DocumentViewModel: ObservableObject {
         ticketViewModels = activeNodesDictionary.compactMap { 
             (key: TreeId, value: TicketTree) in
             TicketViewModel(
+                dimensions: dimensions,
                 tree: value,
                 undoManager: undoManager,
                 delegate: self
             )
         }
-        setOffsets()
+    
+        $scale.sink { [weak self] scale in
+            guard let self = self else { return }
+            dimensions.scale = scale
+            setOffsets()
+        }.store(in: &cancellables)
     }
 }
 
@@ -56,6 +66,7 @@ extension DocumentViewModel {
     func viewModelForNode(_ tree: TicketTree) -> TicketViewModel {
         if let vm = allTicketViewModels[tree.id] { return vm }
         let vm = TicketViewModel(
+            dimensions: dimensions,
             tree: tree,
             undoManager: undoManager,
             delegate: self
@@ -79,13 +90,15 @@ extension DocumentViewModel {
         for vm in ticketViewModels {
             let x = vm.offsetFromRoot
             let y = vm.depthFromRoot
+            let horizontalStride = dimensions.horizontalStride
+            let verticalStride = dimensions.verticalStride
             maxX = max(x, maxX)
             maxY = max(y, maxY)
 
-            let widthCenteringOffset = -CGFloat(maxX)*(ticketWidth + gutter)/2
-            let heightCenteringOffset = -CGFloat(maxY)*(ticketHeight + gutter)/2
-            let width = (ticketWidth + gutter) * CGFloat(x) + widthCenteringOffset
-            let height = (ticketHeight + gutter) * CGFloat(y) + heightCenteringOffset
+            let widthCenteringOffset = -CGFloat(maxX) * horizontalStride / 2
+            let heightCenteringOffset = -CGFloat(maxY) * verticalStride / 2
+            let width = horizontalStride * CGFloat(x) + widthCenteringOffset
+            let height = verticalStride * CGFloat(y) + heightCenteringOffset
             vm.offset = CGSize(
                 width: width,
                 height: height

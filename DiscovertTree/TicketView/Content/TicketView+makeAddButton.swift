@@ -15,6 +15,8 @@ extension TicketView {
             }
         } label: {
             Image(systemName: "plus")
+                .bold()
+                .background(.red)
         }
         .buttonStyle(.borderless)
         .disabled(!vm.hasAddButtonAtPosition(position))

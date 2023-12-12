@@ -15,7 +15,12 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     @Published public var createdDate: Date
     @Published public var ticketState: TicketState
     @Published public var offset = CGSize.zero
-    
+    @Published public var dimensions: Dimensions
+
+    public var ticketWidth: CGFloat { dimensions.ticketWidth }
+    public var ticketHeight: CGFloat { dimensions.ticketHeight }
+    public var ticketCornerRadius: CGFloat { dimensions.ticketCornerRadius }
+    public var gutter: CGFloat { dimensions.gutter }
     public var treeId: TreeId { tree.id }
     public var isStatePickingDisabled: Bool { tree.isRoot }
     public var isDeleteButtonDisabled: Bool { tree.isRoot }
@@ -24,14 +29,14 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var backgroundColor: Color { delegate?.backgroundColorFor(self) ?? .white }
     public var childOffsets: [ChildOffset] {
         tree.children.map { node in
-            ChildOffset(parent: tree, child: node)
+            ChildOffset(dimensions: dimensions, parent: tree, child: node)
         }
     }
     
     private let tree: TicketTree
     private let undoManager: UndoManager
     private weak var delegate: TreeViewModelDelegate?
-    private var cancelables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
     private var ticket: Ticket? { tree.content }
     
     public enum AddButtonPosition {
@@ -68,7 +73,13 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         delete()
     }
 
-    public init(tree: TicketTree, undoManager: UndoManager, delegate: TreeViewModelDelegate) {
+    public init(
+        dimensions: Dimensions,
+        tree: TicketTree,
+        undoManager: UndoManager,
+        delegate: TreeViewModelDelegate
+    ) {
+        self.dimensions = dimensions
         self.tree = tree
         self.undoManager = undoManager
         self.title = tree.content?.title ?? ""
@@ -91,17 +102,21 @@ extension TicketViewModel {
         var start: CGPoint
         var end: CGPoint
         
-        init(parent: TicketTree, child: TicketTree) {
+        init(dimensions: Dimensions, parent: TicketTree, child: TicketTree) {
             id = parent.id.uuid.uuidString + child.id.uuid.uuidString
-            let horizontalStride = ticketWidth + gutter
-            let verticalStride = ticketHeight + gutter
+            let ticketWidth = dimensions.ticketWidth
+            let ticketHeight = dimensions.ticketHeight
+            let horizontalStride = dimensions.horizontalStride
+            let verticalStride = dimensions.verticalStride
             start = CGPoint(
                 x: ticketWidth/2,
                 y: ticketHeight
             )
             end = CGPoint(
-                x: CGFloat(child.offsetFromRoot() - parent.offsetFromRoot()) * horizontalStride + ticketWidth/2,
-                y: ticketHeight + gutter
+                x: CGFloat(
+                    child.offsetFromRoot() - parent.offsetFromRoot()
+                ) * horizontalStride + ticketWidth/2,
+                y: verticalStride
             )
         }
     }
@@ -113,7 +128,7 @@ extension TicketViewModel {
             .sink { [weak self] state in
                 self?.setState(state)
             }
-        .store(in: &cancelables)
+        .store(in: &cancellables)
     }
     
     private func setTitle(_ new: String) {

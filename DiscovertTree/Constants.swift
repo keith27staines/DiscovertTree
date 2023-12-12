@@ -7,7 +7,4 @@
 
 import Foundation
 
-let gutter = CGFloat(16)
-let ticketHeight = CGFloat(100)
-let ticketWidth = CGFloat(200)
-let ticketCornerRadius = CGFloat(10)
+

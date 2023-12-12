@@ -12,22 +12,16 @@ struct TicketView: View {
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
-    @State var focusScale = FocusScale.unfocused
-    
-    enum FocusScale: CGFloat {
-        case unfocused = 1
-        case focused = 1.1
-    }
         
     var body: some View {
         ZStack {
             background
             content
             ForEach(vm.childOffsets) { offset in
-                ConnectorView(offset: offset)
+                ConnectorView(offset: offset, radius: vm.gutter/2)
             }
         }
-        .frame(width: ticketWidth, height: ticketHeight)
+        .frame(width: vm.ticketWidth, height: vm.ticketHeight)
         .offset(vm.offset)
     }
 }
@@ -35,10 +29,10 @@ struct TicketView: View {
 struct ConnectorView: View {
     
     let offset: TicketViewModel.ChildOffset
+    let radius: CGFloat
     
     var body: some View {
         var path = Path()
-        let radius = gutter/2
         path.move(to: offset.start)
         if offset.end.x == offset.start.x {
             path.addLine(to: offset.end)
@@ -67,6 +61,7 @@ struct ConnectorView: View {
         func backgroundColorFor(_ vm: TicketViewModel) -> Color { .yellow }
     }
     let vm = TicketViewModel(
+        dimensions: Dimensions(scale: 1), 
         tree: makeTestTree(),
         undoManager: UndoManager(),
         delegate: Delegate()

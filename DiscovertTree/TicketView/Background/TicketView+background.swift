@@ -12,36 +12,19 @@ extension TicketView {
     var background: some View {
         vm.backgroundColor
             .clipShape(
-                .rect(cornerRadius: ticketCornerRadius)
+                .rect(cornerRadius: vm.ticketCornerRadius)
             )
             .contextMenu {
                 ContextMenu(vm: vm)
             }
-            .contentShape(.rect(cornerRadius: ticketCornerRadius))
-            .scaleEffect(
-                CGSize(width: focusScale.rawValue, height: focusScale.rawValue)
-            )
+            .contentShape(.rect(cornerRadius: vm.ticketCornerRadius))
             .focusable()
             .focusEffectDisabled()
             .focused($isTicketFocused)
             .onTapGesture {
                 isTicketFocused = true
             }
-            .onChange(of: isTicketFocused) { oldValue, newValue in
-                withAnimation {
-                    setFocusScale()
-                }
-            }
-            .onChange(of: isTitleFieldFocused) { oldValue, newValue in
-                withAnimation {
-                    setFocusScale()
-                }
-            }
-    }
-    
-    func setFocusScale() {
-        focusScale = (isTicketFocused || isTitleFieldFocused) ?
-            .focused : .unfocused
+            .shadow(radius: isTicketFocused || isTitleFieldFocused ? 5: 0)
     }
 }
 
