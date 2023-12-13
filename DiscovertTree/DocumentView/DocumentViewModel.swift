@@ -24,6 +24,8 @@ final class DocumentViewModel: ObservableObject {
     private var allNodesDictionary: [TreeId: TicketTree]
     private var allTicketViewModels = [TreeId: TicketViewModel]()
     private var cancellables = Set<AnyCancellable>()
+    let minMagnification = 0.2
+    let maxMagnification = 2.0
     
     init() {
         tree = makeTestTree()
@@ -41,6 +43,9 @@ final class DocumentViewModel: ObservableObject {
     
         $scale.sink { [weak self] scale in
             guard let self = self else { return }
+            var scale = scale
+            scale = max(scale, minMagnification)
+            scale = min(scale, maxMagnification)
             dimensions.scale = scale
             setOffsets()
         }.store(in: &cancellables)

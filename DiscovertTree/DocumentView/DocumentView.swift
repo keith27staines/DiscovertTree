@@ -50,7 +50,7 @@ struct DocumentView: View {
     }
     
     var scale: some View {
-        Slider(value: $vm.scale, in: 0.2...10) {
+        Slider(value: $vm.scale, in: vm.minMagnification...vm.maxMagnification) {
             Text("Zoom")
         }
             .frame(width: 200)
