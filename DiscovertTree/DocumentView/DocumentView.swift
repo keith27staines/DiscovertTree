@@ -15,34 +15,38 @@ struct DocumentView: View {
     var body: some View {
         VStack {
             toolBar
-            scrollView
+            ScrollView([.horizontal, .vertical]) {
+                ticketTree
+            }
+            .background()
+            .focusable()
+            .focused($isDocumentFocused)
+            .focusEffectDisabled()
+            .onAppear() { isDocumentFocused = true }
+            .onTapGesture { isDocumentFocused = true }
+            .gesture( magnifyGesture )
         }
     }
     
-    var scrollView: some View {
-        ScrollView([.horizontal, .vertical]) {
-            ZStack {
-                ForEach(vm.ticketViewModels) { vm in
-                    TicketView(vm: vm)
-                }
+    var ticketTree: some View {
+        ZStack {
+            ForEach(vm.ticketViewModels) { vm in
+                TicketView(vm: vm)
             }
-            .frame(
-                width: CGFloat(vm.maxX + 1)*vm.dimensions.horizontalStride,
-                height: CGFloat(vm.maxY + 1)*vm.dimensions.verticalStride,
-                alignment: .center
-            )
-            .border(.pink)
         }
-        .background()
-        .focusable()
-        .focused($isDocumentFocused)
-        .focusEffectDisabled()
-        .onAppear() {
-            isDocumentFocused = true
-        }
-        .onTapGesture {
-            isDocumentFocused = true
-        }
+        .frame(
+            width: CGFloat(vm.maxX + 1) * vm.dimensions.horizontalStride,
+            height: CGFloat(vm.maxY + 1) * vm.dimensions.verticalStride,
+            alignment: .center
+        )
+        .border(.pink)
+    }
+    
+    var magnifyGesture : some Gesture {
+        MagnifyGesture()
+            .onChanged { value in
+                vm.scale *= 1 + (value.magnification - 1) / 10.0
+            }
     }
     
     var scale: some View {
