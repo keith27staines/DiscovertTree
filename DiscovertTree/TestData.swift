@@ -7,7 +7,7 @@
 
 import DiscoveryTreeCore
 
-func makeTestTree() -> Tree<Ticket> {
+func makeTestTree() -> TicketTree {
     func ticket(x: Int, y: Int) -> Ticket {
         Ticket(title: "x: \(x), y:\(y)")
     }

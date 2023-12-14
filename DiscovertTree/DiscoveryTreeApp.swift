@@ -10,8 +10,8 @@ import SwiftUI
 @main
 struct DiscovertTreeApp: App {
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        DocumentGroup(newDocument: DocumentViewModel()) { file in
+            DocumentView(vm: file.document)
         }
     }
 }

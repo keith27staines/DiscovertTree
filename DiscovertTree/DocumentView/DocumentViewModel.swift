@@ -27,8 +27,12 @@ final class DocumentViewModel: ObservableObject {
     let minMagnification = 0.2
     let maxMagnification = 2.0
     
-    init() {
-        tree = makeTestTree()
+    convenience init() {
+        self.init(tree: makeTestTree())
+    }
+    
+    init(tree: TicketTree) {
+        self.tree = tree
         activeNodesDictionary = tree.insertIntoDictionary([:])
         allNodesDictionary = tree.insertIntoDictionary([:])
         ticketViewModels = activeNodesDictionary.compactMap { 

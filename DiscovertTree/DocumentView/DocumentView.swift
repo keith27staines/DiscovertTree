@@ -10,7 +10,7 @@ import SwiftUI
 struct DocumentView: View {
     
     @FocusState var isDocumentFocused
-    @StateObject var vm = DocumentViewModel()
+    @ObservedObject var vm: DocumentViewModel
     
     var body: some View {
         VStack {
@@ -109,7 +109,7 @@ struct DocumentView: View {
 }
 
 #Preview {
-    DocumentView()
+    DocumentView(vm: DocumentViewModel())
 }
 
 import DiscoveryTreeCore

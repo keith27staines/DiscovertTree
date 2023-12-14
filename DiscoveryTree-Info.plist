@@ -32,7 +32,7 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>dpt</string>
+					<string>pdt</string>
 				</array>
 			</dict>
 		</dict>
@@ -54,7 +54,7 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>dpt</string>
+					<string>pdt</string>
 				</array>
 			</dict>
 		</dict>
