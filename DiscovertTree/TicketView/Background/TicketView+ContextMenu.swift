@@ -10,6 +10,7 @@ import SwiftUI
 extension TicketView {
     struct ContextMenu: View {
         
+        @Environment(\.undoManager) var undoManager
         @ObservedObject var vm: TicketViewModel
         
         var body: some View {
@@ -35,7 +36,7 @@ extension TicketView {
         var deleteButton: some View {
             Button {
                 withAnimation {
-                    vm.onDeleteButtonTapped()
+                    vm.onDeleteButtonTapped(undoManager: undoManager)
                 }
             } label: {
                 Text("Delete")

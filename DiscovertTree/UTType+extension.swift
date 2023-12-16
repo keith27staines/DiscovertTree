@@ -10,7 +10,9 @@ import Foundation
 import UniformTypeIdentifiers
 
 extension UTType {
-    static var pdt: UTType {
-        UTType(importedAs: "com.keith27staines.discovery-tree")
-    }
+    static let pdt: UTType = UTType(
+        importedAs: "com.keith27staines.discovery-tree"
+    )
+    
+    static let checklistDocument = UTType(exportedAs: "com.example.checklist")
 }

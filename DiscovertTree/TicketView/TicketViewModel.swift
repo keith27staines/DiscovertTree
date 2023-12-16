@@ -13,10 +13,10 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     
     @Published public var title: String
     @Published public var createdDate: Date
-    @Published public var ticketState: TicketState
     @Published public var offset = CGSize.zero
     @Published public var dimensions: Dimensions
-
+    @Published public var ticketState: TicketState
+    
     public var ticketWidth: CGFloat { dimensions.ticketWidth }
     public var ticketHeight: CGFloat { dimensions.ticketHeight }
     public var ticketCornerRadius: CGFloat { dimensions.ticketCornerRadius }
@@ -26,7 +26,11 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var isDeleteButtonDisabled: Bool { tree.isRoot }
     public var offsetFromRoot: Int { tree.offsetFromRoot() }
     public var depthFromRoot:  Int { tree.depthFromRoot() }
-    public var backgroundColor: Color { delegate?.backgroundColorFor(self) ?? .white }
+    
+    public var backgroundColor: Color {
+        delegate?.backgroundColorFor(self) ?? .white
+    }
+    
     public var childOffsets: [ChildOffset] {
         tree.children.map { node in
             ChildOffset(dimensions: dimensions, parent: tree, child: node)
@@ -34,7 +38,6 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     }
     
     private let tree: TicketTree
-    private let undoManager: UndoManager
     private weak var delegate: TreeViewModelDelegate?
     private var cancellables = Set<AnyCancellable>()
     private var ticket: Ticket? { tree.content }
@@ -46,11 +49,6 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         case bottom
     }
     
-    public func setState(_ new: TicketState) {
-        guard let old = ticket?.state else { return }
-        setState(new: new, old: old)
-    }
-    
     public func hasAddButtonAtPosition(_ position: AddButtonPosition) -> Bool {
         switch position {
         case .top: return !tree.isRoot
@@ -60,37 +58,41 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         }
     }
     
-    public func onAddButtonTapped(position: AddButtonPosition) {
+    public func onAddButtonTapped(
+        position: AddButtonPosition,
+        undoManager: UndoManager?
+    ) {
         switch position {
-        case .top: insertAbove()
-        case .leading: insertLeading()
-        case .trailing: insertTrailing()
-        case .bottom: insertChild()
+        case .top: insertAbove(undoManager: undoManager)
+        case .leading: insertLeading(undoManager: undoManager)
+        case .trailing: insertTrailing(undoManager: undoManager)
+        case .bottom: insertChild(undoManager: undoManager)
         }
     }
     
-    public func onDeleteButtonTapped() {
-        delete()
+    public func onDeleteButtonTapped(undoManager: UndoManager?) {
+        delete(undoManager: undoManager)
     }
 
     public init(
         dimensions: Dimensions,
         tree: TicketTree,
-        undoManager: UndoManager,
         delegate: TreeViewModelDelegate
     ) {
         self.dimensions = dimensions
         self.tree = tree
-        self.undoManager = undoManager
         self.title = tree.content?.title ?? ""
         self.delegate = delegate
         self.createdDate = tree.content?.createdDate ?? Date.distantPast
         self.ticketState = tree.content?.state ?? .todo
-        setupSinks()
     }
     
-    public func titleDidLoseFocus() {
-        setTitle(new: title, old: ticket?.title ?? "")
+    public func commitTitle(undoManager: UndoManager?) {
+        setTitle(
+            new: title,
+            old: ticket?.title ?? "",
+            undoManager: undoManager
+        )
     }
 }
 
@@ -102,7 +104,11 @@ extension TicketViewModel {
         var start: CGPoint
         var end: CGPoint
         
-        init(dimensions: Dimensions, parent: TicketTree, child: TicketTree) {
+        init(
+            dimensions: Dimensions,
+            parent: TicketTree,
+            child: TicketTree
+        ) {
             id = parent.id.uuid.uuidString + child.id.uuid.uuidString
             let ticketWidth = dimensions.ticketWidth
             let ticketHeight = dimensions.ticketHeight
@@ -113,91 +119,113 @@ extension TicketViewModel {
                 y: ticketHeight
             )
             end = CGPoint(
-                x: CGFloat(
-                    child.offsetFromRoot() - parent.offsetFromRoot()
-                ) * horizontalStride + ticketWidth/2,
+                x: CGFloat(child.offsetFromRoot() - parent.offsetFromRoot())
+                * horizontalStride + ticketWidth/2,
                 y: verticalStride
             )
         }
     }
     
-    private func setupSinks() {
-        $ticketState
-            .dropFirst()
-            .removeDuplicates()
-            .sink { [weak self] state in
-                self?.setState(state)
-            }
-        .store(in: &cancellables)
-    }
-    
-    private func setTitle(_ new: String) {
-        guard let old = ticket?.title else { return }
-        setTitle(new: new, old: old)
-    }
-    
-    private func undoSetTitle(new: String, old: String) {
-        guard var ticket = ticket else { return }
-        ticket.title = old
-        tree.content = ticket
-        title = old
-        undoManager.registerUndo(withTarget: self) { vm in
-            vm.setTitle(new: new, old: old)
-        }
-        delegate?.ticketViewModelDidChange(self)
-    }
-    
-    private func setState(new: TicketState, old: TicketState) {
-        guard new != old, var ticket = ticket else { return }
-        ticket.state = new
-        tree.content = ticket
-        ticketState = new
-        undoManager.registerUndo(withTarget: self) { vm in
-            vm.undoSetState(new: new, old: old)
-        }
-        delegate?.ticketViewModelDidChange(self)
-    }
-    
-    private func undoSetState(new: TicketState, old: TicketState) {
-        guard var ticket = ticket else { return }
-        ticket.state = old
-        tree.content = ticket
-        ticketState = old
-        undoManager.registerUndo(withTarget: self) { vm in
-            vm.setState(new: new, old: old)
-        }
-        delegate?.ticketViewModelDidChange(self)
-    }
-    
-    private func insertLeading() {
-        delegate?.insertNewNodeBefore(tree.id)
-    }
-    
-    private func insertTrailing() {
-        delegate?.insertNewNodeAfter(tree.id)
-    }
-    
-    private func insertChild() {
-        delegate?.insertChild(tree.id)
-    }
-    
-    private func insertAbove() {
-        delegate?.insertNewNodeAbove(tree.id)
-    }
-    
-    private func delete() {
-        delegate?.delete(tree.id)
-    }
-    
-    private func setTitle(new: String, old: String) {
+    private func setTitle(
+        new: String,
+        old: String,
+        undoManager: UndoManager?
+    ) {
         guard new != old, var ticket = ticket else { return }
         ticket.title = new
         tree.content = ticket
         title = new
-        undoManager.registerUndo(withTarget: self) { vm in
-            vm.undoSetTitle(new: new, old: old)
+        undoManager?.registerUndo(withTarget: self) { vm in
+            vm.undoSetTitle(
+                new: new,
+                old: old,
+                undoManager: undoManager
+            )
         }
-        delegate?.ticketViewModelDidChange(self)
     }
     
+    private func undoSetTitle(
+        new: String,
+        old: String,
+        undoManager: UndoManager?
+    ) {
+        guard var ticket = ticket else { return }
+        ticket.title = old
+        tree.content = ticket
+        title = old
+        undoManager?.registerUndo(withTarget: self) { vm in
+            vm.setTitle(
+                new: new,
+                old: old,
+                undoManager: undoManager
+            )
+        }
+    }
+    
+    func setState(
+        new: TicketState,
+        old: TicketState,
+        undoManager: UndoManager?
+    ) {
+        guard new != old, var ticket = ticket else { return }
+        ticket.state = new
+        tree.content = ticket
+        ticketState = new
+        undoManager?.registerUndo(withTarget: self) { vm in
+            vm.undoSetState(new: new, old: old, undoManager: undoManager)
+        }
+    }
+    
+    private func undoSetState(
+        new: TicketState,
+        old: TicketState,
+        undoManager: UndoManager?
+    ) {
+        guard var ticket = ticket else { return }
+        ticket.state = old
+        tree.content = ticket
+        ticketState = old
+        undoManager?.registerUndo(withTarget: self) { vm in
+            vm.setState(
+                new: new,
+                old: old,
+                undoManager: undoManager
+            )
+        }
+    }
+    
+    private func insertLeading(undoManager: UndoManager?) {
+        delegate?.insertNewNodeBefore(
+            tree.id,
+            undoManager: undoManager
+        )
+    }
+    
+    private func insertTrailing(undoManager: UndoManager?) {
+        delegate?.insertNewNodeAfter(
+            tree.id,
+            undoManager: undoManager
+        )
+    }
+    
+    private func insertChild(undoManager: UndoManager?) {
+        delegate?.insertChild(
+            tree.id,
+            undoManager: undoManager
+        )
+    }
+    
+    private func insertAbove(undoManager: UndoManager?) {
+        delegate?.insertNewNodeAbove(
+            tree.id,
+            undoManager: undoManager
+        )
+    }
+    
+    private func delete(undoManager: UndoManager?) {
+        delegate?.delete(
+            tree.id,
+            undoManager: undoManager
+        )
+    }
 }

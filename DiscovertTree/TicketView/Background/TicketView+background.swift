@@ -17,6 +17,15 @@ extension TicketView {
             .contextMenu {
                 ContextMenu(vm: vm)
             }
+            .onChange(of: vm.ticketState) {
+                oldState,
+                newState in
+                vm.setState(
+                    new: newState,
+                    old: oldState,
+                    undoManager: undoManager
+                )
+            }
             .contentShape(.rect(cornerRadius: vm.ticketCornerRadius))
             .focusable()
             .focusEffectDisabled()

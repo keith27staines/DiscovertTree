@@ -11,7 +11,7 @@ extension TicketView {
     func makeAddButton(position: TicketViewModel.AddButtonPosition) -> some View {
         Button {
             withAnimation {
-                vm.onAddButtonTapped(position: position)
+                vm.onAddButtonTapped(position: position, undoManager: undoManager)
             }
         } label: {
             Image(systemName: "plus")

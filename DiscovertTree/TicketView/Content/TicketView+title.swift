@@ -21,8 +21,13 @@ extension TicketView {
                 isTitleFieldFocused = false
             }
             .onChange(of: isTitleFieldFocused) { wasFocused, isFocusedNow in
-                if !isFocusedNow { vm.titleDidLoseFocus() }
+                if !isFocusedNow { vm.commitTitle(undoManager: undoManager) }
             }
             .focused($isTitleFieldFocused)
+            .onTapGesture {
+                if !(isTitleFieldFocused) {
+                    isTicketFocused = true
+                }
+            }
     }
 }

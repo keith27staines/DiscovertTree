@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DocumentView: View {
     
+    @Environment(\.undoManager) var undoManager
     @FocusState var isDocumentFocused
     @ObservedObject var vm: DocumentViewModel
     
@@ -50,7 +51,10 @@ struct DocumentView: View {
     }
     
     var scale: some View {
-        Slider(value: $vm.scale, in: vm.minMagnification...vm.maxMagnification) {
+        Slider(
+            value: $vm.scale,
+            in: vm.minMagnification...vm.maxMagnification
+        ) {
             Text("Zoom")
         }
             .frame(width: 200)
@@ -58,7 +62,7 @@ struct DocumentView: View {
     
     var toolBar: some View {
         HStack {
-            redoButtons
+
             Spacer()
             scale
         }
@@ -71,28 +75,6 @@ struct DocumentView: View {
                 .frame(width: 800, height: 100)
             Spacer()
         }.background(.secondary)
-    }
-    
-    var redoButtons: some View {
-        HStack {
-            Button {
-                withAnimation {
-                    vm.undoManager.redo()
-                }
-            } label: {
-                Text("Redo")
-            }
-            .disabled(!vm.undoManager.canRedo)
-            
-            Button {
-                withAnimation {
-                    vm.undoManager.undo()
-                }
-            } label: {
-                Text("Undo")
-            }
-            .disabled(!vm.undoManager.canUndo)
-        }
     }
     
     func scrollViewOffset() -> CGSize {

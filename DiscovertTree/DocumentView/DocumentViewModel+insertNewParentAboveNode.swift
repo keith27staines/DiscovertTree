@@ -9,34 +9,53 @@ import Foundation
 
 extension DocumentViewModel {
     
-    func insertNewParent(_ newParent: TicketTree, above node: TicketTree) {
+    func insertNewParent(
+        _ newParent: TicketTree,
+        above node: TicketTree,
+        undoManager: UndoManager?
+    ) {
         do {
             try node.insertAbove(newParent)
             if newParent.parent == nil { tree = newParent }
             register(newParent)
             setOffsets()
-            undoManager.registerUndo(withTarget: self) { [weak self] vm in
+            
+            undoManager?.registerUndo(withTarget: self) { [weak self] vm in
                 guard let self = self else { return }
-                undoInsertNewParent(newParent, above: node)
+                undoInsertNewParent(
+                    newParent,
+                    above: node,
+                    undoManager: undoManager
+                )
             }
         } catch {
             
         }
     }
     
-    func undoInsertNewParent(_ newParent: TicketTree, above node: TicketTree) {
+    func undoInsertNewParent(
+        _ newParent: TicketTree,
+        above node: TicketTree,
+        undoManager: UndoManager?
+    ) {
         do {
             if let index = newParent.childIndex() {
                 node.removeFromParent()
-                _ = try newParent.parent?.replaceChild(at: index, with: node)
+                _ = try newParent
+                    .parent?
+                    .replaceChild(at: index, with: node)
             } else {
                 node.removeFromParent()
                 tree = node
             }
             unregister(newParent)
             setOffsets()
-            undoManager.registerUndo(withTarget: self) { vm in
-                vm.insertNewParent(newParent, above: node)
+            undoManager?.registerUndo(withTarget: self) { vm in
+                vm.insertNewParent(
+                    newParent,
+                    above: node,
+                    undoManager: undoManager
+                )
             }
         } catch {
             print(error)

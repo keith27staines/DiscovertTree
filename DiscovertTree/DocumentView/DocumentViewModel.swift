@@ -18,7 +18,6 @@ final class DocumentViewModel: ObservableObject {
     @Published var scale: CGFloat = 1.0
     @Published var dimensions = Dimensions(scale: 1)
     
-    let undoManager = UndoManager()
     var tree: TicketTree
     var activeNodesDictionary: [TreeId: TicketTree]
     private var allNodesDictionary: [TreeId: TicketTree]
@@ -35,12 +34,11 @@ final class DocumentViewModel: ObservableObject {
         self.tree = tree
         activeNodesDictionary = tree.insertIntoDictionary([:])
         allNodesDictionary = tree.insertIntoDictionary([:])
-        ticketViewModels = activeNodesDictionary.compactMap { 
+        ticketViewModels = activeNodesDictionary.compactMap {
             (key: TreeId, value: TicketTree) in
             TicketViewModel(
                 dimensions: dimensions,
                 tree: value,
-                undoManager: undoManager,
                 delegate: self
             )
         }
@@ -77,7 +75,6 @@ extension DocumentViewModel {
         let vm = TicketViewModel(
             dimensions: dimensions,
             tree: tree,
-            undoManager: undoManager,
             delegate: self
         )
         allTicketViewModels[tree.id] = vm
