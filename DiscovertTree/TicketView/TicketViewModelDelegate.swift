@@ -16,5 +16,5 @@ protocol TreeViewModelDelegate: AnyObject {
     func insertChild(_ id: TreeId, undoManager: UndoManager?)
     func delete(_ id: TreeId, undoManager: UndoManager?)
     func ticketViewModelDidChange(_ vm: TicketViewModel)
-    func backgroundColorFor(_ vm: TicketViewModel) -> Color
+    func backgroundColorFor(_ state: TicketState) -> Color
 }

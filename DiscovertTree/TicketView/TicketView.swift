@@ -9,7 +9,7 @@ import SwiftUI
 import DiscoveryTreeCore
 
 struct TicketView: View {
-    
+    var d: TreeViewModelDelegate = Delegate()
     @Environment(\.undoManager) var undoManager
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
@@ -31,63 +31,20 @@ struct TicketView: View {
     }
 }
 
-struct ConnectorView: View {
-    
-    let offset: TicketViewModel.ChildOffset
-    let radius: CGFloat
-    
-    var body: some View {
-        var path = Path()
-        path.move(to: offset.start)
-        if offset.end.x == offset.start.x {
-            path.addLine(to: offset.end)
-        }
-        if offset.end.x > offset.start.x {
-            let center1 = CGPoint(
-                x: offset.start.x + radius,
-                y: offset.start.y
-            )
-            path.addArc(
-                center: center1,
-                radius: radius,
-                startAngle: Angle(degrees: 180.0),
-                endAngle: Angle(degrees: 90),
-                clockwise: true
-            )
-            path.addLine(
-                to: CGPoint(
-                    x: offset.end.x - radius,
-                    y: offset.start.y +  radius
-                )
-            )
-            let center2 = CGPoint(
-                x: offset.end.x - radius,
-                y: offset.end.y
-            )
-            path.addArc(
-                center: center2,
-                radius: radius,
-                startAngle: Angle(degrees: 270),
-                endAngle: Angle(degrees: 00),
-                clockwise: false
-            )
-        }
-        return path.stroke(.blue)
-    }
+class Delegate: TreeViewModelDelegate {
+    func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
+    func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
+    func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {}
+    func insertNewNodeBefore(_ id: TreeId, undoManager: UndoManager?) {}
+    func insertNewNodeAfter(_ id: TreeId, undoManager: UndoManager?) {}
+    func insertChild(_ id: TreeId, undoManager: UndoManager?) {}
+    func delete(_ id: TreeId, undoManager: UndoManager?) {}
+    func ticketViewModelDidChange(_ vm: TicketViewModel) {}
+    func backgroundColorFor(_ state: TicketState) -> Color { .yellow }
 }
 
 #Preview {
-    class Delegate: TreeViewModelDelegate {
-        func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
-        func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
-        func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {}
-        func insertNewNodeBefore(_ id: TreeId, undoManager: UndoManager?) {}
-        func insertNewNodeAfter(_ id: TreeId, undoManager: UndoManager?) {}
-        func insertChild(_ id: TreeId, undoManager: UndoManager?) {}
-        func delete(_ id: TreeId, undoManager: UndoManager?) {}
-        func ticketViewModelDidChange(_ vm: TicketViewModel) {}
-        func backgroundColorFor(_ vm: TicketViewModel) -> Color { .yellow }
-    }
+    
     let vm = TicketViewModel(
         dimensions: Dimensions(scale: 1), 
         tree: makeTestTree(),
@@ -95,3 +52,5 @@ struct ConnectorView: View {
     )
     return TicketView(vm: vm)
 }
+
+

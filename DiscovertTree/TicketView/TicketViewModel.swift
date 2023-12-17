@@ -27,9 +27,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var offsetFromRoot: Int { tree.offsetFromRoot() }
     public var depthFromRoot:  Int { tree.depthFromRoot() }
     
-    public var backgroundColor: Color {
-        delegate?.backgroundColorFor(self) ?? .white
-    }
+    @Published public var backgroundColor: Color
     
     public var childOffsets: [ChildOffset] {
         tree.children.map { node in
@@ -85,6 +83,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         self.delegate = delegate
         self.createdDate = tree.content?.createdDate ?? Date.distantPast
         self.ticketState = tree.content?.state ?? .todo
+        self.backgroundColor = delegate.backgroundColorFor(tree.content?.state ?? .todo)
     }
     
     public func commitTitle(undoManager: UndoManager?) {
@@ -168,9 +167,13 @@ extension TicketViewModel {
         undoManager: UndoManager?
     ) {
         guard new != old, var ticket = ticket else { return }
+        guard ticket.state != new else { return }
         ticket.state = new
         tree.content = ticket
+        backgroundColor = delegate?.backgroundColorFor(new) ?? .white
         ticketState = new
+        print("set state \(new) with undoManager \(undoManager?.debugDescription ?? "")")
+        print(undoManager != nil)
         undoManager?.registerUndo(withTarget: self) { vm in
             vm.undoSetState(new: new, old: old, undoManager: undoManager)
         }
@@ -185,6 +188,9 @@ extension TicketViewModel {
         ticket.state = old
         tree.content = ticket
         ticketState = old
+        backgroundColor = delegate?.backgroundColorFor(old) ?? .white
+        print("set state \(old) with undoManager \(undoManager?.debugDescription ?? "")")
+
         undoManager?.registerUndo(withTarget: self) { vm in
             vm.setState(
                 new: new,

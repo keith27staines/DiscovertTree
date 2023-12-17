@@ -17,6 +17,14 @@ extension TicketView {
             .contextMenu {
                 ContextMenu(vm: vm)
             }
+            .contentShape(.rect(cornerRadius: vm.ticketCornerRadius))
+            .focusable()
+            .focusEffectDisabled()
+            .focused($isTicketFocused)
+            .onTapGesture {
+                isTicketFocused = true
+            }
+            .shadow(radius: isTicketFocused || isTitleFieldFocused ? 5: 0)
             .onChange(of: vm.ticketState) {
                 oldState,
                 newState in
@@ -26,14 +34,6 @@ extension TicketView {
                     undoManager: undoManager
                 )
             }
-            .contentShape(.rect(cornerRadius: vm.ticketCornerRadius))
-            .focusable()
-            .focusEffectDisabled()
-            .focused($isTicketFocused)
-            .onTapGesture {
-                isTicketFocused = true
-            }
-            .shadow(radius: isTicketFocused || isTitleFieldFocused ? 5: 0)
     }
 }
 

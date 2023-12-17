@@ -80,9 +80,9 @@ extension DocumentViewModel: TreeViewModelDelegate {
         objectWillChange.send()
     }
     
-    func backgroundColorFor(_ vm: TicketViewModel) -> Color {
+    func backgroundColorFor(_ state: TicketState) -> Color {
         legend.states.first { adapter in
-            adapter.ticketState == vm.ticketState
+            adapter.ticketState == state
         }?.backgroundColor ?? .clear
     }
 }
