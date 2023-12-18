@@ -12,6 +12,7 @@
 		53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */; };
 		536DE68F2B2EC5DC0029FC02 /* ConnectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE68E2B2EC5DC0029FC02 /* ConnectorView.swift */; };
 		536DE6912B2EE22C0029FC02 /* DiscoveryTreeCore in Frameworks */ = {isa = PBXBuildFile; productRef = 536DE6902B2EE22C0029FC02 /* DiscoveryTreeCore */; };
+		536DE6A12B2F08700029FC02 /* KeyMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DE6A02B2F08700029FC02 /* KeyMonitorTests.swift */; };
 		536EF4022B1AF45F00DDBB8D /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536EF4012B1AF45F00DDBB8D /* TestData.swift */; };
 		536EF4042B1AF4B400DDBB8D /* Tree+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536EF4032B1AF4B400DDBB8D /* Tree+Extensions.swift */; };
 		5373156F2B131D2F00CD6932 /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373156E2B131D2F00CD6932 /* DocumentView.swift */; };
@@ -37,6 +38,16 @@
 		53FF68652B1C8ACA00C20D7F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF68642B1C8ACA00C20D7F /* Constants.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		536DE69A2B2F07740029FC02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53052F4D2B127C560030D9DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 53052F542B127C560030D9DE;
+			remoteInfo = DiscoveryTree;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		53052F552B127C560030D9DE /* DiscoveryTree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoveryTree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryTreeApp.swift; sourceTree = "<group>"; };
@@ -44,6 +55,9 @@
 		53052F602B127C570030D9DE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+TreeViewModelDelegate.swift"; sourceTree = "<group>"; };
 		536DE68E2B2EC5DC0029FC02 /* ConnectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectorView.swift; sourceTree = "<group>"; };
+		536DE6962B2F07740029FC02 /* DiscoveryTreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscoveryTreeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		536DE69F2B2F08200029FC02 /* DiscoveryTree.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = DiscoveryTree.xctestplan; sourceTree = "<group>"; };
+		536DE6A02B2F08700029FC02 /* KeyMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyMonitorTests.swift; sourceTree = "<group>"; };
 		536EF4012B1AF45F00DDBB8D /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		536EF4032B1AF4B400DDBB8D /* Tree+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tree+Extensions.swift"; sourceTree = "<group>"; };
 		5373156E2B131D2F00CD6932 /* DocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
@@ -79,14 +93,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		536DE6932B2F07740029FC02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		53052F4C2B127C560030D9DE = {
 			isa = PBXGroup;
 			children = (
+				536DE69F2B2F08200029FC02 /* DiscoveryTree.xctestplan */,
 				53FD44AA2B2AC89D007C0A62 /* DiscoveryTree-Info.plist */,
 				53052F572B127C560030D9DE /* DiscovertTree */,
+				536DE6972B2F07740029FC02 /* DiscoveryTreeTests */,
 				53052F562B127C560030D9DE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				53052F552B127C560030D9DE /* DiscoveryTree.app */,
+				536DE6962B2F07740029FC02 /* DiscoveryTreeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -138,6 +162,14 @@
 				539A26F72B1F2FD400BEDA4A /* DocumentViewModel+insertSibling.swift */,
 			);
 			path = DocumentView;
+			sourceTree = "<group>";
+		};
+		536DE6972B2F07740029FC02 /* DiscoveryTreeTests */ = {
+			isa = PBXGroup;
+			children = (
+				536DE6A02B2F08700029FC02 /* KeyMonitorTests.swift */,
+			);
+			path = DiscoveryTreeTests;
 			sourceTree = "<group>";
 		};
 		539A26F02B1E7C3600BEDA4A /* TicketView */ = {
@@ -197,6 +229,24 @@
 			productReference = 53052F552B127C560030D9DE /* DiscoveryTree.app */;
 			productType = "com.apple.product-type.application";
 		};
+		536DE6952B2F07740029FC02 /* DiscoveryTreeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 536DE69C2B2F07740029FC02 /* Build configuration list for PBXNativeTarget "DiscoveryTreeTests" */;
+			buildPhases = (
+				536DE6922B2F07740029FC02 /* Sources */,
+				536DE6932B2F07740029FC02 /* Frameworks */,
+				536DE6942B2F07740029FC02 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				536DE69B2B2F07740029FC02 /* PBXTargetDependency */,
+			);
+			name = DiscoveryTreeTests;
+			productName = DiscoveryTreeTests;
+			productReference = 536DE6962B2F07740029FC02 /* DiscoveryTreeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -209,6 +259,10 @@
 				TargetAttributes = {
 					53052F542B127C560030D9DE = {
 						CreatedOnToolsVersion = 15.1;
+					};
+					536DE6952B2F07740029FC02 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 53052F542B127C560030D9DE;
 					};
 				};
 			};
@@ -229,6 +283,7 @@
 			projectRoot = "";
 			targets = (
 				53052F542B127C560030D9DE /* DiscoveryTree */,
+				536DE6952B2F07740029FC02 /* DiscoveryTreeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -240,6 +295,13 @@
 			files = (
 				5381A62F2B13B448007C56FD /* Assets.xcassets in Resources */,
 				53052F612B127C570030D9DE /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		536DE6942B2F07740029FC02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +339,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		536DE6922B2F07740029FC02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				536DE6A12B2F08700029FC02 /* KeyMonitorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		536DE69B2B2F07740029FC02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 53052F542B127C560030D9DE /* DiscoveryTree */;
+			targetProxy = 536DE69A2B2F07740029FC02 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		53052F782B127C570030D9DE /* Debug */ = {
@@ -476,6 +554,44 @@
 			};
 			name = Release;
 		};
+		536DE69D2B2F07740029FC02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4783BNZ95;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keith27staines.DiscoveryTreeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiscoveryTree.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DiscoveryTree";
+			};
+			name = Debug;
+		};
+		536DE69E2B2F07740029FC02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4783BNZ95;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keith27staines.DiscoveryTreeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiscoveryTree.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DiscoveryTree";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -493,6 +609,15 @@
 			buildConfigurations = (
 				53052F7B2B127C570030D9DE /* Debug */,
 				53052F7C2B127C570030D9DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		536DE69C2B2F07740029FC02 /* Build configuration list for PBXNativeTarget "DiscoveryTreeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				536DE69D2B2F07740029FC02 /* Debug */,
+				536DE69E2B2F07740029FC02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
