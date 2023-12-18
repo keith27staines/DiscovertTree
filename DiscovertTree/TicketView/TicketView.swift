@@ -14,6 +14,7 @@ struct TicketView: View {
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
+    @State var keydownDate: Date?
         
     var body: some View {
         ZStack {
@@ -28,6 +29,12 @@ struct TicketView: View {
         }
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
         .offset(vm.offset)
+        .onAppear {
+            NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .keyUp]) { event in
+                print(event)
+                return event
+            }
+        }
     }
 }
 

@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "AA0C2F18-9472-4266-99B3-21BF1BDBD851",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:DiscoveryTree.xcodeproj",
+      "identifier" : "53052F542B127C560030D9DE",
+      "name" : "DiscoveryTree"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DiscoveryTree.xcodeproj",
+        "identifier" : "536DE6952B2F07740029FC02",
+        "name" : "DiscoveryTreeTests"
+      }
+    }
+  ],
+  "version" : 1
+}

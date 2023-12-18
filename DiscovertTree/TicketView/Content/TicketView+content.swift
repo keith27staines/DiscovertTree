@@ -25,3 +25,22 @@ extension TicketView {
         }
     }
 }
+
+
+enum KeyCode {
+    
+    case cmd
+    case alt
+    case ctrl
+    case space
+    
+    var value: UInt16 {
+        switch self {
+        case .cmd:       return 0x37
+        case .alt:       return 0x3A
+        case .ctrl:      return 0x3B
+        case .space:     return 0x31
+        }
+    }
+}
+
