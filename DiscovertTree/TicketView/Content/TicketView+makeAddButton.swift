@@ -14,12 +14,14 @@ extension TicketView {
                 vm.onAddButtonTapped(position: position, undoManager: undoManager)
             }
         } label: {
-            Image(systemName: "plus")
+            Image(systemName: vm.insertMode == .ticket ? "plus.app.fill" : "plus.app")
                 .bold()
-                .background(.red)
+                .background(.regularMaterial)
         }
         .buttonStyle(.borderless)
         .disabled(!vm.hasAddButtonAtPosition(position))
         .opacity(vm.hasAddButtonAtPosition(position) ? 1 : 0)
+        
+
     }
 }

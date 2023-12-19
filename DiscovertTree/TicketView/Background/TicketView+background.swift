@@ -24,6 +24,13 @@ extension TicketView {
             .onTapGesture {
                 isTicketFocused = true
             }
+            .onChange(of: isTicketFocused) { oldValue, newValue in
+                if isTicketFocused {
+                    vm.startKeyboardMonitor()
+                } else {
+                    vm.stopKeyboardMonitor()
+                }
+            }
             .shadow(radius: isTicketFocused || isTitleFieldFocused ? 5: 0)
             .onChange(of: vm.ticketState) {
                 oldState,

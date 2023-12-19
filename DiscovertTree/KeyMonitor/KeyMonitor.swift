@@ -70,20 +70,10 @@ extension KeyEvent {
 
 typealias KeyCode = UInt16
 
-//enum KeyCode: UInt16 {
-//
-//    case cmd
-//    case alt
-//    case ctrl
-//    case space
-//
-//    var value: UInt16 {
-//        switch self {
-//        case .cmd:       return 0x37
-//        case .alt:       return 0x3A
-//        case .ctrl:      return 0x3B
-//        case .space:     return 0x31
-//        }
-//    }
-//}
+extension KeyCode {
+    static var cmd:             KeyCode { return 0x37 }
+    static var alt:             KeyCode { return 0x3A }
+    static var ctrl:            KeyCode { return 0x3B }
+    static var space:           KeyCode { return 0x31 }
+}
 

@@ -62,9 +62,9 @@ struct DocumentView: View {
     
     var toolBar: some View {
         HStack {
-
             Spacer()
             scale
+                .padding()
         }
     }
     
