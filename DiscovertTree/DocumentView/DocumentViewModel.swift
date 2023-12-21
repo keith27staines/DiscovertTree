@@ -20,9 +20,12 @@ final class DocumentViewModel: ObservableObject {
     
     var tree: TicketTree
     var activeNodesDictionary: [TreeId: TicketTree]
-    private var allNodesDictionary: [TreeId: TicketTree]
-    private var allTicketViewModels = [TreeId: TicketViewModel]()
-    private var cancellables = Set<AnyCancellable>()
+    var allNodesDictionary: [TreeId: TicketTree]
+    var allTicketViewModels = [TreeId: TicketViewModel]()
+    var cancellables = Set<AnyCancellable>()
+    var eventMonitor: Any?
+    let keyMonitor = KeyMonitor(keyCode: .space)
+    var ticketInsertMode = NodeType.ticket
     let minMagnification = 0.2
     let maxMagnification = 2.0
     

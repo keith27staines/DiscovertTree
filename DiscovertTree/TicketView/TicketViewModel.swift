@@ -16,7 +16,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     @Published public var offset = CGSize.zero
     @Published public var dimensions: Dimensions
     @Published public var ticketState: TicketState
-    @Published public var insertMode: InsertMode
+    @Published public var insertMode: NodeType
     
     public var ticketWidth: CGFloat { dimensions.ticketWidth }
     public var ticketHeight: CGFloat { dimensions.ticketHeight }
@@ -27,6 +27,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var isDeleteButtonDisabled: Bool { tree.isRoot }
     public var offsetFromRoot: Int { tree.offsetFromRoot() }
     public var depthFromRoot:  Int { tree.depthFromRoot() }
+    public var nodeType: NodeType
     
     @Published public var backgroundColor: Color
     
@@ -37,11 +38,10 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     }
     
     private let tree: TicketTree
-    private weak var delegate: TreeViewModelDelegate?
+    private weak var delegate: TicketViewModelDelegate?
     private var cancellables = Set<AnyCancellable>()
     private var ticket: Ticket? { tree.content }
     private var eventMonitor: Any?
-    private var keyMonitor: KeyMonitor
     
     public enum AddButtonPosition {
         case top
@@ -78,7 +78,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public init(
         dimensions: Dimensions,
         tree: TicketTree,
-        delegate: TreeViewModelDelegate
+        delegate: TicketViewModelDelegate
     ) {
         self.dimensions = dimensions
         self.tree = tree
@@ -86,13 +86,13 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         self.delegate = delegate
         self.createdDate = tree.content?.createdDate ?? Date.distantPast
         self.ticketState = tree.content?.state ?? .todo
-        self.backgroundColor = delegate.backgroundColorFor(tree.content?.state ?? .todo)
         self.insertMode = .ticket
-        self.keyMonitor = KeyMonitor(keyCode: .space) {_ in }
-        
-        keyMonitor.onIsKeyDownDidChange = { [weak self] isPressed in
-            guard let self = self else { return }
-            insertMode = isPressed ? .spacer : .ticket
+        self.nodeType = tree.content == nil ? .spacer : .ticket
+        self.backgroundColor = .clear
+        if nodeType == .ticket {
+            self.backgroundColor = delegate.backgroundColorFor(
+                tree.content?.state ?? .todo
+            )
         }
     }
     
@@ -103,32 +103,10 @@ final class TicketViewModel: ObservableObject, Identifiable  {
             undoManager: undoManager
         )
     }
-    
-    public func startKeyboardMonitor() {
-        eventMonitor = NSEvent.addLocalMonitorForEvents(
-            matching: [.keyDown, .keyUp]
-        ) { [weak self] event in
-            guard let self = self, let keyEvent = KeyEvent(event: event)
-            else { return event }
-            self.keyMonitor.receiveEvent(keyEvent)
-            return nil
-        }
-    }
-    
-    public func stopKeyboardMonitor() {
-        if let eventMonitor = eventMonitor {
-            NSEvent.removeMonitor(eventMonitor)
-        }
-    }
 }
 
 // MARK: Implementation
 extension TicketViewModel {
-    
-    enum InsertMode {
-        case ticket
-        case spacer
-    }
     
     struct ChildOffset: Identifiable {
         var id: String

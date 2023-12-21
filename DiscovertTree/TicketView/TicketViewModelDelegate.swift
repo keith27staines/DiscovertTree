@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol TreeViewModelDelegate: AnyObject {
+protocol TicketViewModelDelegate: AnyObject {
     func childrenOf(_ id: TreeId) throws -> [TreeId]
     func ticketFor(_ id: TreeId) throws -> Ticket?
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?)

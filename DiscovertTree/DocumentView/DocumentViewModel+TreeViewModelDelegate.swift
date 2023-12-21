@@ -8,7 +8,7 @@
 import SwiftUI
 import DiscoveryTreeCore
 
-extension DocumentViewModel: TreeViewModelDelegate {
+extension DocumentViewModel: TicketViewModelDelegate {
     
     func ticketFor(_ id: TreeId) throws -> Ticket? {
         try node(with: id).content
@@ -21,7 +21,8 @@ extension DocumentViewModel: TreeViewModelDelegate {
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {
         do {
             let node = try node(with: id)
-            let newNode = TicketTree(content: Ticket())
+            let ticket = ticketInsertMode == .ticket ? Ticket() : nil
+            let newNode = TicketTree(content: ticket)
             insertNewParent(newNode, above: node, undoManager: undoManager)
         } catch {
             print("uh oh")
@@ -33,9 +34,9 @@ extension DocumentViewModel: TreeViewModelDelegate {
             let node = try node(with: id)
             guard let parent = node.parent, let index = node.childIndex()
             else { throw AppError.parentNodeIsRequired }
-            let newSibling = TicketTree()
-            newSibling.content = Ticket()
-            try addChild(newSibling, to: parent, at: index, undoManager: undoManager)
+            let ticket = ticketInsertMode == .ticket ? Ticket() : nil
+            let newNode = TicketTree(content: ticket)
+            try addChild(newNode, to: parent, at: index, undoManager: undoManager)
         } catch {
             print("uh oh")
         }
@@ -46,9 +47,9 @@ extension DocumentViewModel: TreeViewModelDelegate {
             let node = try node(with: id)
             guard let parent = node.parent, let index = node.childIndex()
             else { throw AppError.parentNodeIsRequired }
-            let newSibling = TicketTree()
-            newSibling.content = Ticket()
-            try addChild(newSibling, to: parent, at: index + 1, undoManager: undoManager)
+            let ticket = ticketInsertMode == .ticket ? Ticket() : nil
+            let newNode = TicketTree(content: ticket)
+            try addChild(newNode, to: parent, at: index + 1, undoManager: undoManager)
         } catch {
             print("uh oh")
         }
@@ -57,9 +58,9 @@ extension DocumentViewModel: TreeViewModelDelegate {
     func insertChild(_ id: TreeId, undoManager: UndoManager?) {
         do {
             let parent = try node(with: id)
-            let child = TicketTree()
-            child.content = Ticket()
-            try addChild(child, to: parent, at: 0, undoManager: undoManager)
+            let ticket = ticketInsertMode == .ticket ? Ticket() : nil
+            let newNode = TicketTree(content: ticket)
+            try addChild(newNode, to: parent, at: 0, undoManager: undoManager)
         } catch {
             print("uh oh")
         }

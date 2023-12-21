@@ -9,7 +9,7 @@ import SwiftUI
 import DiscoveryTreeCore
 
 struct TicketView: View {
-    var d: TreeViewModelDelegate = Delegate()
+    var d: TicketViewModelDelegate = Delegate()
     @Environment(\.undoManager) var undoManager
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
@@ -28,13 +28,10 @@ struct TicketView: View {
         }
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
         .offset(vm.offset)
-        .onDisappear() {
-            vm.stopKeyboardMonitor()
-        }
     }
 }
 
-class Delegate: TreeViewModelDelegate {
+class Delegate: TicketViewModelDelegate {
     func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
     func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {}

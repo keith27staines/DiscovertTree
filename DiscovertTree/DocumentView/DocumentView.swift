@@ -27,6 +27,12 @@ struct DocumentView: View {
             .onTapGesture { isDocumentFocused = true }
             .gesture( magnifyGesture )
         }
+        .onAppear {
+            vm.startKeyboardMonitor()
+        }
+        .onDisappear {
+            vm.stopKeyboardMonitor()
+        }
     }
     
     var ticketTree: some View {
