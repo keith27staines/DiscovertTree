@@ -19,11 +19,8 @@ struct TicketView: View {
         ZStack {
             background
             content
-            ForEach(vm.childOffsets) { offset in
-                ConnectorView(
-                    offset: offset,
-                    radius: vm.gutter/2
-                )
+            ForEach(vm.childConnectionInfo) { info in
+                ConnectorView(info: info)
             }
         }
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)

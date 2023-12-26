@@ -31,9 +31,37 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     
     @Published public var backgroundColor: Color
     
-    public var childOffsets: [ChildOffset] {
+    public struct ChildConnectionInfo: Identifiable {
+        let nodeType: NodeType
+        let offset: ChildOffset
+        let id: String
+        let ticketSize: CGSize
+        let radius: CGFloat
+        
+        init(dimensions: Dimensions, parent: TicketTree, child: TicketTree) {
+            let offset = ChildOffset(
+                dimensions: dimensions,
+                parent: parent,
+                child: child
+            )
+            self.id = offset.id
+            self.offset = offset
+            self.radius = dimensions.gutter / 2
+            self.nodeType = child.content == nil ? .spacer : .ticket
+            self.ticketSize = CGSize(
+                width: dimensions.ticketWidth,
+                height: dimensions.ticketHeight
+            )
+        }
+    }
+    
+    public var childConnectionInfo: [ChildConnectionInfo] {
         tree.children.map { node in
-            ChildOffset(dimensions: dimensions, parent: tree, child: node)
+            ChildConnectionInfo(
+                dimensions: dimensions,
+                parent: tree,
+                child: node
+            )
         }
     }
     

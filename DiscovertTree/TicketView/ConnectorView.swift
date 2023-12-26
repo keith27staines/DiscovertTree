@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct ConnectorView: View {
-    
-    let offset: TicketViewModel.ChildOffset
-    let radius: CGFloat
+    let info: TicketViewModel.ChildConnectionInfo
     
     var body: some View {
+        let offset = info.offset
+        let radius = info.radius
         var path = Path()
         path.move(to: offset.start)
         if offset.end.x == offset.start.x {
@@ -46,6 +46,20 @@ struct ConnectorView: View {
                 startAngle: Angle(degrees: 270),
                 endAngle: Angle(degrees: 00),
                 clockwise: false
+            )
+        }
+        if info.nodeType == .spacer {
+            path.move(
+                to: CGPoint(
+                    x: offset.end.x,
+                    y: offset.end.y
+                )
+            )
+            path.addLine(
+                to: CGPoint(
+                    x: offset.end.x,
+                    y: offset.end.y + info.ticketSize.height
+                )
             )
         }
         return path.stroke(.blue)
