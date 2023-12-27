@@ -16,8 +16,8 @@ extension DocumentViewModel {
         ) { [weak self] event in
             guard let self = self, let keyEvent = KeyEvent(event: event)
             else { return event }
-            self.keyMonitor.receiveEvent(keyEvent)
-            return nil
+            let handled = self.keyMonitor.receiveEvent(keyEvent)
+            return handled ? nil : event
         }
         
         keyMonitor.onIsKeyDownDidChange = { [weak self] isPressed in

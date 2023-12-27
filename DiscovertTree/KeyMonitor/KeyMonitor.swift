@@ -17,14 +17,15 @@ final class KeyMonitor {
         }
     }
         
-    func receiveEvent(_ event: KeyEvent) {
+    func receiveEvent(_ event: KeyEvent) -> Bool {
         guard event.keyCode == keyCode else {
             lastEvent = nil
-            return
+            return false
         }
         if lastEvent?.eventType != event.eventType {
             lastEvent = event
         }
+        return true
     }
     
     func stopMonitoring() {
