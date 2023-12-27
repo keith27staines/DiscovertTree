@@ -23,7 +23,10 @@ extension DocumentViewModel: TicketViewModelDelegate {
             let node = try node(with: id)
             let ticket = ticketInsertMode == .ticket ? Ticket() : nil
             let newNode = TicketTree(content: ticket)
+            undoManager?.beginUndoGrouping()
             insertNewParent(newNode, above: node, undoManager: undoManager)
+            resolveCollisions(undoManager: undoManager)
+            undoManager?.endUndoGrouping()
         } catch {
             print("uh oh")
         }
@@ -40,22 +43,13 @@ extension DocumentViewModel: TicketViewModelDelegate {
             else { throw AppError.parentNodeIsRequired }
             let ticket = type == .ticket ? Ticket() : nil
             let newNode = TicketTree(content: ticket)
+            undoManager?.beginUndoGrouping()
             try addChild(newNode, to: parent, at: index, undoManager: undoManager)
+            resolveCollisions(undoManager: undoManager)
+            undoManager?.endUndoGrouping()
         } catch {
             print("uh oh")
         }
-    }
-    
-    func resolveCollisions(undoManager: UndoManager?) {
-        var map = makeOccupancyMap()
-        guard let node = map.priorityCollidingNode() else { return }
-        guard let parent = node.parent else { return }
-        insertNewNodeBefore(parent.id, undoManager: undoManager, type: .spacer)
-        map = makeOccupancyMap()
-        if map.hasCollisions() {
-            resolveCollisions(undoManager: undoManager)
-        }
-        return
     }
     
     func insertNewNodeAfter(_ id: TreeId, undoManager: UndoManager?) {
@@ -80,7 +74,10 @@ extension DocumentViewModel: TicketViewModelDelegate {
             let parent = try node(with: id)
             let ticket = ticketInsertMode == .ticket ? Ticket() : nil
             let newNode = TicketTree(content: ticket)
+            undoManager?.beginUndoGrouping()
             try addChild(newNode, to: parent, at: 0, undoManager: undoManager)
+            resolveCollisions(undoManager: undoManager)
+            undoManager?.endUndoGrouping()
         } catch {
             print("uh oh")
         }
@@ -91,7 +88,10 @@ extension DocumentViewModel: TicketViewModelDelegate {
             let node = try node(with: id)
             guard let parent = node.parent, let index = node.childIndex()
             else { throw AppError.operationNotAllowedOnRoot }
+            undoManager?.beginUndoGrouping()
             try deleteChild(node, at: index, from: parent, undoManager: undoManager)
+            resolveCollisions(undoManager: undoManager)
+            undoManager?.endUndoGrouping()
         } catch {
             print("uh oh")
         }
