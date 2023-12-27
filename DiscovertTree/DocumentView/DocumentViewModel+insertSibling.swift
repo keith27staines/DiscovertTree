@@ -15,6 +15,7 @@ extension DocumentViewModel {
         at index: Int,
         undoManager: UndoManager?
     ) throws {
+        undoManager?.beginUndoGrouping()
         try parent.insertChild(child, at: index)
         register(child)
         setOffsets()
@@ -26,6 +27,7 @@ extension DocumentViewModel {
                 undoManager: undoManager
             )
         }
+        undoManager?.endUndoGrouping()
     }
     
     func undoAddChild(
@@ -48,60 +50,6 @@ extension DocumentViewModel {
             } catch {
                 undoManager?.removeAllActions(withTarget: self)
             }
-        }
-    }
-}
-
-extension DocumentViewModel {
-    
-    func deleteChild(
-        _ child: TicketTree,
-        at index: Int,
-        from parent: TicketTree,
-        undoManager: UndoManager?
-    ) throws {
-        child.children.forEach { node in
-            unregister(node)
-        }
-        child.removeFromParent()
-        unregister(child)
-        setOffsets()
-        undoManager?.registerUndo(withTarget: self) { vm in
-            do {
-                try vm.addChild(
-                    child,
-                    to: parent,
-                    at: index,
-                    undoManager: undoManager
-                )
-            } catch {
-                undoManager?.removeAllActions(withTarget: self)
-            }
-        }
-    }
-    
-    func undoChild(
-        _ child: TicketTree,
-        at index: Int,
-        from parent: TicketTree,
-        undoManager: UndoManager?
-    ) throws {
-        do {
-            try parent.insertChild(child, at: index)
-            undoManager?.registerUndo(withTarget: self) { vm in
-                do {
-                    try vm.deleteChild(
-                        child,
-                        at: index,
-                        from: parent,
-                        undoManager: undoManager
-                    )
-                } catch {
-                    undoManager?.removeAllActions(withTarget: self)
-                }
-            }
-        } catch {
-            undoManager?.removeAllActions(withTarget: self)
         }
     }
 }

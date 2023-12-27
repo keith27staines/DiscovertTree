@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ConnectorView: View {
-    let info: TicketViewModel.ChildConnectionInfo
+    let info: TicketViewModel.ConnectionInfo
     
     var body: some View {
         let offset = info.offset
@@ -48,7 +48,7 @@ struct ConnectorView: View {
                 clockwise: false
             )
         }
-        if info.nodeType == .spacer {
+        if info.nodeType == .spacer && info.endNodeHasChildren {
             path.move(
                 to: CGPoint(
                     x: offset.end.x,

@@ -51,6 +51,8 @@ final class OccupancyMapTests: XCTestCase {
         XCTAssertEqual(sut.occupancy(0, 2).count, 1)
         XCTAssertEqual(sut.occupancy(1, 2).count, 2) // should be collision here
         XCTAssertEqual(sut.occupancy(2, 2).count, 1)
+        
+        XCTAssertEqual(sut.priorityCollidingNode(), node12b)
     }
     
 }

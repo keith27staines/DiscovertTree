@@ -59,6 +59,10 @@ final class DocumentViewModel: ObservableObject {
 
 extension DocumentViewModel {
     
+    func makeOccupancyMap() -> OccupancyMap<Ticket> {
+        OccupancyMap(root: tree)
+    }
+    
     func node(with id: TreeId) throws -> TicketTree {
         guard let node = allNodesDictionary[id] 
         else { throw AppError.nodeDoesNotExist }

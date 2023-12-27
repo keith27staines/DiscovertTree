@@ -31,36 +31,38 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     
     @Published public var backgroundColor: Color
     
-    public struct ChildConnectionInfo: Identifiable {
+    public struct ConnectionInfo: Identifiable {
         let nodeType: NodeType
-        let offset: ChildOffset
+        let offset: OffsetInfo
         let id: String
         let ticketSize: CGSize
         let radius: CGFloat
+        let endNodeHasChildren: Bool
         
-        init(dimensions: Dimensions, parent: TicketTree, child: TicketTree) {
-            let offset = ChildOffset(
+        init(dimensions: Dimensions, startNode: TicketTree, endNode: TicketTree) {
+            let offset = OffsetInfo(
                 dimensions: dimensions,
-                parent: parent,
-                child: child
+                startNode: startNode,
+                endNode: endNode
             )
             self.id = offset.id
             self.offset = offset
             self.radius = dimensions.gutter / 2
-            self.nodeType = child.content == nil ? .spacer : .ticket
+            self.nodeType = endNode.content == nil ? .spacer : .ticket
             self.ticketSize = CGSize(
                 width: dimensions.ticketWidth,
                 height: dimensions.ticketHeight
             )
+            self.endNodeHasChildren = !endNode.children.isEmpty
         }
     }
     
-    public var childConnectionInfo: [ChildConnectionInfo] {
+    public var childConnectionInfo: [ConnectionInfo] {
         tree.children.map { node in
-            ChildConnectionInfo(
+            ConnectionInfo(
                 dimensions: dimensions,
-                parent: tree,
-                child: node
+                startNode: tree,
+                endNode: node
             )
         }
     }
@@ -136,17 +138,17 @@ final class TicketViewModel: ObservableObject, Identifiable  {
 // MARK: Implementation
 extension TicketViewModel {
     
-    struct ChildOffset: Identifiable {
+    struct OffsetInfo: Identifiable {
         var id: String
         var start: CGPoint
         var end: CGPoint
         
         init(
             dimensions: Dimensions,
-            parent: TicketTree,
-            child: TicketTree
+            startNode: TicketTree,
+            endNode: TicketTree
         ) {
-            id = parent.id.uuid.uuidString + child.id.uuid.uuidString
+            id = startNode.id.uuid.uuidString + endNode.id.uuid.uuidString
             let ticketWidth = dimensions.ticketWidth
             let ticketHeight = dimensions.ticketHeight
             let horizontalStride = dimensions.horizontalStride
@@ -156,7 +158,7 @@ extension TicketViewModel {
                 y: ticketHeight
             )
             end = CGPoint(
-                x: CGFloat(child.offsetFromRoot() - parent.offsetFromRoot())
+                x: CGFloat(endNode.offsetFromRoot() - startNode.offsetFromRoot())
                 * horizontalStride + ticketWidth/2,
                 y: verticalStride
             )

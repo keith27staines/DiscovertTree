@@ -9,7 +9,7 @@ import DiscoveryTreeCore
 import SwiftUI
 
 /// A ticket represents an item in a todo list
-public struct Ticket: Codable {
+public struct Ticket: Codable, Hashable {
     
     /// The title describes at the highest level the purpose of the ticket
     var title: String
