@@ -28,6 +28,10 @@ struct TicketView: View {
     }
 }
 
+//extension TicketView: Transferable {
+//
+//}
+
 class Delegate: TicketViewModelDelegate {
     func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
     func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }

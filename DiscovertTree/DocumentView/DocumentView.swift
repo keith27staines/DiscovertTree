@@ -12,20 +12,12 @@ struct DocumentView: View {
     @Environment(\.undoManager) var undoManager
     @FocusState var isDocumentFocused
     @ObservedObject var vm: DocumentViewModel
+    @State var inspectorIsShown = false
     
     var body: some View {
         VStack {
             toolBar
-            ScrollView([.horizontal, .vertical]) {
-                ticketTree
-            }
-            .background()
-            .focusable()
-            .focused($isDocumentFocused)
-            .focusEffectDisabled()
-            .onAppear() { isDocumentFocused = true }
-            .onTapGesture { isDocumentFocused = true }
-            .gesture( magnifyGesture )
+            scrollingTicketTree
         }
         .onAppear {
             vm.startKeyboardMonitor()
@@ -35,10 +27,34 @@ struct DocumentView: View {
         }
     }
     
+    var scrollingTicketTree: some View {
+        ScrollView([.horizontal, .vertical]) {
+            ticketTree
+        }
+        .background()
+        .focusable()
+        .focused($isDocumentFocused)
+        .focusEffectDisabled()
+        .onAppear() { isDocumentFocused = true }
+        .onTapGesture { isDocumentFocused = true }
+        .gesture( magnifyGesture )
+        .inspector(isPresented: $inspectorIsShown) {
+            Text("Inspector")
+        }
+    }
+    
     var ticketTree: some View {
         ZStack {
             ForEach(vm.ticketViewModels) { vm in
-                TicketView(vm: vm)
+                TicketView(vm: vm)   
+                    .draggable(vm.treeId) {
+                        Color.yellow.frame(width: 100, height: 100, alignment: .center)
+                            .overlay {
+                                Text(vm.treeId.uuid.uuidString)
+                                    .foregroundStyle(.black)
+                            }
+                    }
+                    
             }
         }
         .frame(
@@ -71,6 +87,12 @@ struct DocumentView: View {
             Spacer()
             scale
                 .padding()
+            Button {
+                inspectorIsShown.toggle()
+            } label: {
+                Image(systemName: "rectangle.trailingthird.inset.filled")
+            }
+            .padding(.trailing)
         }
     }
     

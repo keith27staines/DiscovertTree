@@ -21,7 +21,5 @@ extension TicketView {
         .buttonStyle(.borderless)
         .disabled(!vm.hasAddButtonAtPosition(position))
         .opacity(vm.hasAddButtonAtPosition(position) ? 1 : 0)
-        
-
     }
 }

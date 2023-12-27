@@ -22,6 +22,18 @@ extension TicketView {
             }
             Spacer()
             makeAddButton(position: .bottom)
+        }        
+        .dropDestination(for: TreeId.self) { items, location in
+            guard let treeId = items.first, treeId != vm.treeId
+            else {
+                print("drop rejected")
+                return false
+            }
+            guard treeId != vm.treeId else { return false }
+            print("drop accepted \(treeId)")
+            return true
+        } isTargeted: { Bool in
+            
         }
     }
 }
