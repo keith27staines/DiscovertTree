@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		530223602B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */; };
 		53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */; };
 		53052F612B127C570030D9DE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53052F602B127C570030D9DE /* Preview Assets.xcassets */; };
 		53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+cutAndPaste.swift"; sourceTree = "<group>"; };
 		53052F552B127C560030D9DE /* DiscoveryTree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoveryTree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryTreeApp.swift; sourceTree = "<group>"; };
 		53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscovertTree.entitlements; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				539A26F52B1F214500BEDA4A /* DocumentViewModel+insertNewParentAboveNode.swift */,
 				539A26F72B1F2FD400BEDA4A /* DocumentViewModel+insertSibling.swift */,
 				53834F352B3C285900C2F80D /* DocumentViewModel+deleteChild.swift */,
+				5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */,
 				5345D2762B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift */,
 				53834F372B3C521700C2F80D /* DocumentViewModel+insertWithCollisionResolution.swift */,
 			);
@@ -349,6 +352,7 @@
 				53BD58172B245EF20076E6C0 /* TicketView+title.swift in Sources */,
 				5381A6332B1456C9007C56FD /* Ticket.swift in Sources */,
 				5381A62D2B13812F007C56FD /* TicketView.swift in Sources */,
+				530223602B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift in Sources */,
 				536EF4042B1AF4B400DDBB8D /* Tree+Extensions.swift in Sources */,
 				53BD58152B245EC00076E6C0 /* TicketView+makeAddButton.swift in Sources */,
 				53BD581B2B248D390076E6C0 /* TicketView+contextMenu.swift in Sources */,

@@ -18,6 +18,28 @@ extension DocumentViewModel: TicketViewModelDelegate {
         try node(with: id).children.compactMap { $0.id }
     }
     
+    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) -> Bool {
+        do {
+            let mover = try node(with: id)
+            guard mover.id != newParentId else { return false }
+            guard mover.parent?.id != newParentId else { return false }
+            let newParent = try node(with: newParentId)
+            guard !mover.contains(newParent) else { return false }
+            guard let oldParent = mover.parent, let oldChildIndex = mover.childIndex()
+            else { throw AppError.parentNodeIsRequired}
+            undoManager?.beginUndoGrouping()
+            try cutChild(mover, at: oldChildIndex, from: oldParent, undoManager: undoManager)
+            try pasteChild(mover, at: 0, under: newParent, undoManager: undoManager)
+            resolveCollisions(undoManager: undoManager)
+            setOffsets()
+            undoManager?.endUndoGrouping()
+            return true
+        } catch {
+            print("uh oh")
+            return false
+        }
+    }
+    
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {
         do {
             let node = try node(with: id)

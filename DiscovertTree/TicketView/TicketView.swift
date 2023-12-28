@@ -24,13 +24,22 @@ struct TicketView: View {
             }
         }
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
+        .draggable(vm.treeId)
+        .dropDestination(for: TreeId.self) { items, location in
+            guard let id = items.first
+            else {
+                print("drop rejected")
+                return false
+            }
+            withAnimation {
+                _ = vm.onDrop(id, undoManager: undoManager)
+            }
+            return true
+        }
         .offset(vm.offset)
+
     }
 }
-
-//extension TicketView: Transferable {
-//
-//}
 
 class Delegate: TicketViewModelDelegate {
     func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
@@ -42,6 +51,7 @@ class Delegate: TicketViewModelDelegate {
     func delete(_ id: TreeId, undoManager: UndoManager?) {}
     func ticketViewModelDidChange(_ vm: TicketViewModel) {}
     func backgroundColorFor(_ state: TicketState) -> Color { .yellow }
+    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) -> Bool { true }
 }
 
 #Preview {

@@ -18,6 +18,13 @@ final class DocumentViewModel: ObservableObject {
     @Published var scale: CGFloat = 1.0
     @Published var dimensions = Dimensions(scale: 1)
     
+    var contentSize: CGSize {
+        CGSize(
+            width: CGFloat(maxX + 1) * dimensions.horizontalStride,
+            height: CGFloat(maxY + 1) * dimensions.verticalStride
+        )
+    }
+    
     var tree: TicketTree
     var activeNodesDictionary: [TreeId: TicketTree]
     var allNodesDictionary: [TreeId: TicketTree]

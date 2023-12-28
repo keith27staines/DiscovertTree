@@ -14,7 +14,15 @@ extension DocumentViewModel {
         eventMonitor = NSEvent.addLocalMonitorForEvents(
             matching: [.keyDown, .keyUp]
         ) { [weak self] event in
-            guard let self = self, let keyEvent = KeyEvent(event: event)
+            
+            guard 
+                let self = self,
+                    event
+                    .modifierFlags
+                    .intersection(.deviceIndependentFlagsMask) == .option
+            else { return event }
+            
+            guard let keyEvent = KeyEvent(event: event)
             else { return event }
             let handled = self.keyMonitor.receiveEvent(keyEvent)
             return handled ? nil : event

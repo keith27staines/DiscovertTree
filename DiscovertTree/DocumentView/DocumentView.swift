@@ -28,10 +28,24 @@ struct DocumentView: View {
     }
     
     var scrollingTicketTree: some View {
-        ScrollView([.horizontal, .vertical]) {
-            ticketTree
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                ScrollView([.horizontal, .vertical]) {
+                    ticketTree
+                        .gesture( magnifyGesture )
+                }
+                .scrollIndicators(.visible)
+                .frame(
+                    maxWidth: vm.contentSize.width,
+                    maxHeight: vm.contentSize.height
+                )
+                .background(Color.red.opacity(0.2))
+                Spacer()
+            }
+            Spacer()
         }
-        .background()
         .focusable()
         .focused($isDocumentFocused)
         .focusEffectDisabled()
@@ -46,29 +60,21 @@ struct DocumentView: View {
     var ticketTree: some View {
         ZStack {
             ForEach(vm.ticketViewModels) { vm in
-                TicketView(vm: vm)   
-                    .draggable(vm.treeId) {
-                        Color.yellow.frame(width: 100, height: 100, alignment: .center)
-                            .overlay {
-                                Text(vm.treeId.uuid.uuidString)
-                                    .foregroundStyle(.black)
-                            }
-                    }
-                    
+                TicketView(vm: vm)
             }
         }
         .frame(
-            width: CGFloat(vm.maxX + 1) * vm.dimensions.horizontalStride,
-            height: CGFloat(vm.maxY + 1) * vm.dimensions.verticalStride,
+            width: vm.contentSize.width,
+            height: vm.contentSize.height,
             alignment: .center
         )
         .border(.pink)
     }
     
     var magnifyGesture : some Gesture {
-        MagnifyGesture()
+        MagnificationGesture()
             .onChanged { value in
-                vm.scale *= 1 + (value.magnification - 1) / 10.0
+                vm.scale += value/10.0
             }
     }
     
@@ -79,7 +85,7 @@ struct DocumentView: View {
         ) {
             Text("Zoom")
         }
-            .frame(width: 200)
+        .frame(width: 200)
     }
     
     var toolBar: some View {

@@ -31,7 +31,6 @@ public struct Ticket: Codable, Hashable {
     }
 }
 
-
 enum TicketState: String, Codable, CaseIterable, Hashable, Identifiable {
     case todo
     case inProgress

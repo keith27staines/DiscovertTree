@@ -89,6 +89,11 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         }
     }
     
+    public func onDrop(_ id: TreeId, undoManager: UndoManager?) -> Bool {
+        guard let delegate = delegate else { return false }
+        return delegate.move(id, to: self.treeId, undoManager: undoManager)
+    }
+    
     public func onAddButtonTapped(
         position: AddButtonPosition,
         undoManager: UndoManager?
