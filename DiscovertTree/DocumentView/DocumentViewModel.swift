@@ -17,18 +17,16 @@ final class DocumentViewModel: ObservableObject {
     @Published var scale: CGFloat = 1.0
     @Published var dimensions = Dimensions(scale: 1)
     
+    let treeManager: TreeManaging
+    var ticketViewModels = [TicketViewModel]()
+    var allTicketViewModels = [TreeId: TicketViewModel]()
     var contentSize: CGSize {
         CGSize(
             width: CGFloat(maxX + 1) * dimensions.horizontalStride,
             height: CGFloat(maxY + 1) * dimensions.verticalStride
         )
     }
-    
-    var ticketViewModels = [TicketViewModel]()
-    var tree: TicketTree
-    var activeNodesDictionary: [TreeId: TicketTree]
-    var allNodesDictionary: [TreeId: TicketTree]
-    var allTicketViewModels = [TreeId: TicketViewModel]()
+
     var cancellables = Set<AnyCancellable>()
     var eventMonitor: Any?
     let keyMonitor = KeyMonitor(keyCode: .space)
@@ -41,10 +39,11 @@ final class DocumentViewModel: ObservableObject {
     }
     
     init(tree: TicketTree) {
-        self.tree = tree
-        activeNodesDictionary = tree.insertIntoDictionary([:])
-        allNodesDictionary = tree.insertIntoDictionary([:])
-        ticketViewModels = activeNodesDictionary.compactMap {
+        let tm = TreeManager(tree: tree)
+        self.treeManager = tm
+        tm.delegate = self
+        
+        ticketViewModels = treeManager.activeNodesDictionary.compactMap {
             (key: TreeId, value: TicketTree) in
             TicketViewModel(
                 dimensions: dimensions,
@@ -64,26 +63,8 @@ final class DocumentViewModel: ObservableObject {
     }
 }
 
-extension DocumentViewModel {
-    
-    func makeOccupancyMap() -> OccupancyMap<Ticket> {
-        OccupancyMap(root: tree)
-    }
-    
-    func node(with id: TreeId) throws -> TicketTree {
-        guard let node = allNodesDictionary[id] 
-        else { throw AppError.nodeDoesNotExist }
-        return node
-    }
-    
-    func register(_ node: TicketTree) {
-        activeNodesDictionary[node.id] = node
-        allNodesDictionary[node.id] = node
-        let vm = viewModelForNode(node)
-        ticketViewModels.append(vm)
-        node.children.forEach { register($0) }
-    }
-    
+extension DocumentViewModel: TreeManagerDelegate {
+
     func viewModelForNode(_ tree: TicketTree) -> TicketViewModel {
         if let vm = allTicketViewModels[tree.id] { return vm }
         let vm = TicketViewModel(
@@ -95,15 +76,23 @@ extension DocumentViewModel {
         return vm
     }
     
-    func unregister(_ node: TicketTree) {
-        activeNodesDictionary[node.id] = nil
+    func onNodeDidRegister(_ node: TicketTree) {
+        let vm = viewModelForNode(node)
+        ticketViewModels.append(vm)
+    }
+    
+    func onNodeDidUnregister(_ node: TicketTree) {
         ticketViewModels.removeAll { vm in
             vm.treeId == node.id
         }
-        node.children.forEach { node in
-            unregister(node)
-        }
     }
+    
+    func onTreeDidChange() {
+        setOffsets()
+    }
+}
+
+extension DocumentViewModel {
     
     func setOffsets() {
         setMaxOffsets()

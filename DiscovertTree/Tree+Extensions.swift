@@ -19,11 +19,11 @@ extension Tree {
 
 extension TicketTree {
 
-    func insertIntoDictionary(_ dictionary: [TreeId:TicketTree] = [:]) -> [TreeId:TicketTree] {
+    func writeToDictionary(_ dictionary: [TreeId:TicketTree] = [:]) -> [TreeId:TicketTree] {
         var dictionary = dictionary
         dictionary[id] = self
         for child in children {
-            dictionary = child.insertIntoDictionary(dictionary)
+            dictionary = child.writeToDictionary(dictionary)
         }
         return dictionary
     }

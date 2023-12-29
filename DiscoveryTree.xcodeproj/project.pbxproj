@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		530223602B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */; };
-		530223622B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530223612B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift */; };
+		530223662B3F4CC60071D4BB /* TreeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530223652B3F4CC60071D4BB /* TreeManager.swift */; };
 		53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */; };
 		53052F612B127C570030D9DE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53052F602B127C570030D9DE /* Preview Assets.xcassets */; };
 		53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */; };
@@ -27,12 +26,8 @@
 		5381A6352B145E03007C56FD /* TicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5381A6342B145E03007C56FD /* TicketViewModel.swift */; };
 		53834F322B3AC9D000C2F80D /* OccupancyMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53834F312B3AC9D000C2F80D /* OccupancyMapTests.swift */; };
 		53834F342B3AE3BA00C2F80D /* OccupancyMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53834F332B3AE3BA00C2F80D /* OccupancyMap.swift */; };
-		53834F362B3C285900C2F80D /* DocumentViewModel+deleteChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53834F352B3C285900C2F80D /* DocumentViewModel+deleteChild.swift */; };
-		53834F382B3C521700C2F80D /* DocumentViewModel+insertWithCollisionResolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53834F372B3C521700C2F80D /* DocumentViewModel+insertWithCollisionResolution.swift */; };
 		539A26F22B1E7C7600BEDA4A /* TicketView+background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539A26F12B1E7C7600BEDA4A /* TicketView+background.swift */; };
 		539A26F42B1E7CB000BEDA4A /* TicketView+content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539A26F32B1E7CB000BEDA4A /* TicketView+content.swift */; };
-		539A26F62B1F214500BEDA4A /* DocumentViewModel+insertNewParentAboveNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539A26F52B1F214500BEDA4A /* DocumentViewModel+insertNewParentAboveNode.swift */; };
-		539A26F82B1F2FD400BEDA4A /* DocumentViewModel+insertSibling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539A26F72B1F2FD400BEDA4A /* DocumentViewModel+insertSibling.swift */; };
 		53ADAE422B30269B006380C0 /* KeyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53ADAE412B30269B006380C0 /* KeyMonitor.swift */; };
 		53BD58132B2451670076E6C0 /* TicketViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BD58122B2451670076E6C0 /* TicketViewModelDelegate.swift */; };
 		53BD58152B245EC00076E6C0 /* TicketView+makeAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BD58142B245EC00076E6C0 /* TicketView+makeAddButton.swift */; };
@@ -58,8 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+cutAndPaste.swift"; sourceTree = "<group>"; };
-		530223612B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+pruneSpacers.swift"; sourceTree = "<group>"; };
+		530223652B3F4CC60071D4BB /* TreeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeManager.swift; sourceTree = "<group>"; };
 		53052F552B127C560030D9DE /* DiscoveryTree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoveryTree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryTreeApp.swift; sourceTree = "<group>"; };
 		53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscovertTree.entitlements; sourceTree = "<group>"; };
@@ -81,12 +75,8 @@
 		5381A6342B145E03007C56FD /* TicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModel.swift; sourceTree = "<group>"; };
 		53834F312B3AC9D000C2F80D /* OccupancyMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccupancyMapTests.swift; sourceTree = "<group>"; };
 		53834F332B3AE3BA00C2F80D /* OccupancyMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccupancyMap.swift; sourceTree = "<group>"; };
-		53834F352B3C285900C2F80D /* DocumentViewModel+deleteChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+deleteChild.swift"; sourceTree = "<group>"; };
-		53834F372B3C521700C2F80D /* DocumentViewModel+insertWithCollisionResolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+insertWithCollisionResolution.swift"; sourceTree = "<group>"; };
 		539A26F12B1E7C7600BEDA4A /* TicketView+background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketView+background.swift"; sourceTree = "<group>"; };
 		539A26F32B1E7CB000BEDA4A /* TicketView+content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketView+content.swift"; sourceTree = "<group>"; };
-		539A26F52B1F214500BEDA4A /* DocumentViewModel+insertNewParentAboveNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+insertNewParentAboveNode.swift"; sourceTree = "<group>"; };
-		539A26F72B1F2FD400BEDA4A /* DocumentViewModel+insertSibling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+insertSibling.swift"; sourceTree = "<group>"; };
 		53ADAE412B30269B006380C0 /* KeyMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyMonitor.swift; sourceTree = "<group>"; };
 		53BD58122B2451670076E6C0 /* TicketViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewModelDelegate.swift; sourceTree = "<group>"; };
 		53BD58142B245EC00076E6C0 /* TicketView+makeAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketView+makeAddButton.swift"; sourceTree = "<group>"; };
@@ -177,15 +167,10 @@
 			children = (
 				5373156E2B131D2F00CD6932 /* DocumentView.swift */,
 				537315722B13220100CD6932 /* DocumentViewModel.swift */,
+				530223652B3F4CC60071D4BB /* TreeManager.swift */,
 				53FD44AF2B2AD7C1007C0A62 /* DocumentViewModel+FileDocument.swift */,
 				53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */,
-				539A26F52B1F214500BEDA4A /* DocumentViewModel+insertNewParentAboveNode.swift */,
-				539A26F72B1F2FD400BEDA4A /* DocumentViewModel+insertSibling.swift */,
-				53834F352B3C285900C2F80D /* DocumentViewModel+deleteChild.swift */,
-				5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */,
 				5345D2762B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift */,
-				53834F372B3C521700C2F80D /* DocumentViewModel+insertWithCollisionResolution.swift */,
-				530223612B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift */,
 			);
 			path = DocumentView;
 			sourceTree = "<group>";
@@ -349,13 +334,12 @@
 			files = (
 				536EF4022B1AF45F00DDBB8D /* TestData.swift in Sources */,
 				53ADAE422B30269B006380C0 /* KeyMonitor.swift in Sources */,
-				539A26F82B1F2FD400BEDA4A /* DocumentViewModel+insertSibling.swift in Sources */,
 				53FF68632B1B1D5C00C20D7F /* AppError.swift in Sources */,
 				53BD581D2B25D5110076E6C0 /* LegendView.swift in Sources */,
+				530223662B3F4CC60071D4BB /* TreeManager.swift in Sources */,
 				53BD58172B245EF20076E6C0 /* TicketView+title.swift in Sources */,
 				5381A6332B1456C9007C56FD /* Ticket.swift in Sources */,
 				5381A62D2B13812F007C56FD /* TicketView.swift in Sources */,
-				530223602B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift in Sources */,
 				536EF4042B1AF4B400DDBB8D /* Tree+Extensions.swift in Sources */,
 				53BD58152B245EC00076E6C0 /* TicketView+makeAddButton.swift in Sources */,
 				53BD581B2B248D390076E6C0 /* TicketView+contextMenu.swift in Sources */,
@@ -363,17 +347,13 @@
 				5381A6352B145E03007C56FD /* TicketViewModel.swift in Sources */,
 				536DE68F2B2EC5DC0029FC02 /* ConnectorView.swift in Sources */,
 				53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */,
-				530223622B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift in Sources */,
 				5345D2772B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift in Sources */,
 				53834F342B3AE3BA00C2F80D /* OccupancyMap.swift in Sources */,
 				5373156F2B131D2F00CD6932 /* DocumentView.swift in Sources */,
 				537315732B13220100CD6932 /* DocumentViewModel.swift in Sources */,
-				53834F362B3C285900C2F80D /* DocumentViewModel+deleteChild.swift in Sources */,
 				539A26F42B1E7CB000BEDA4A /* TicketView+content.swift in Sources */,
-				53834F382B3C521700C2F80D /* DocumentViewModel+insertWithCollisionResolution.swift in Sources */,
 				53BD58132B2451670076E6C0 /* TicketViewModelDelegate.swift in Sources */,
 				53FF68652B1C8ACA00C20D7F /* Constants.swift in Sources */,
-				539A26F62B1F214500BEDA4A /* DocumentViewModel+insertNewParentAboveNode.swift in Sources */,
 				53FD44B02B2AD7C1007C0A62 /* DocumentViewModel+FileDocument.swift in Sources */,
 				539A26F22B1E7C7600BEDA4A /* TicketView+background.swift in Sources */,
 				53BD581F2B284B650076E6C0 /* Dimensions.swift in Sources */,

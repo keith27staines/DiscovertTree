@@ -11,47 +11,29 @@ import DiscoveryTreeCore
 extension DocumentViewModel: TicketViewModelDelegate {
     
     func ticketFor(_ id: TreeId) throws -> Ticket? {
-        try node(with: id).content
+        try treeManager.node(with: id).content
     }
     
     func childrenOf(_ id: TreeId) throws -> [TreeId] {
-        try node(with: id).children.compactMap { $0.id }
+        try treeManager.node(with: id).children.compactMap { $0.id }
     }
     
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) -> Bool {
+    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) {
         do {
-            let mover = try node(with: id)
-            guard mover.id != newParentId else { return false }
-            guard mover.parent?.id != newParentId else { return false }
-            let newParent = try node(with: newParentId)
-            guard !mover.contains(newParent) else { return false }
-            guard let oldParent = mover.parent, let oldChildIndex = mover.childIndex()
-            else { throw AppError.parentNodeIsRequired}
-            undoManager?.beginUndoGrouping()
-            try cutChild(mover, at: oldChildIndex, from: oldParent, undoManager: undoManager)
-            try pasteChild(mover, at: 0, under: newParent, undoManager: undoManager)
-            resolveCollisions(undoManager: undoManager)
-            setOffsets()
-            undoManager?.endUndoGrouping()
-            return true
+            try treeManager.move(id, to: newParentId, undoManager: undoManager)
         } catch {
             print("uh oh")
-            return false
         }
+        setOffsets()
     }
     
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {
         do {
-            let node = try node(with: id)
-            let ticket = ticketInsertMode == .ticket ? Ticket() : nil
-            let newNode = TicketTree(content: ticket)
-            undoManager?.beginUndoGrouping()
-            insertNewParent(newNode, above: node, undoManager: undoManager)
-            resolveCollisions(undoManager: undoManager)
-            undoManager?.endUndoGrouping()
+            try treeManager.insertNewNodeAbove(id, undoManager: undoManager)
         } catch {
             print("uh oh")
         }
+        setOffsets()
     }
     
     func insertNewNodeBefore(_ id: TreeId, undoManager: UndoManager?) {
@@ -60,63 +42,38 @@ extension DocumentViewModel: TicketViewModelDelegate {
     
     func insertNewNodeBefore(_ id: TreeId, undoManager: UndoManager?, type: NodeType) {
         do {
-            let node = try node(with: id)
-            guard let parent = node.parent, let index = node.childIndex()
-            else { throw AppError.parentNodeIsRequired }
-            let ticket = type == .ticket ? Ticket() : nil
-            let newNode = TicketTree(content: ticket)
-            undoManager?.beginUndoGrouping()
-            try addChild(newNode, to: parent, at: index, undoManager: undoManager)
-            resolveCollisions(undoManager: undoManager)
-            undoManager?.endUndoGrouping()
+            try treeManager.insertNewNodeBefore(id, undoManager: undoManager, type: type)
         } catch {
             print("uh oh")
         }
+        setOffsets()
     }
     
     func insertNewNodeAfter(_ id: TreeId, undoManager: UndoManager?) {
         do {
-            let node = try node(with: id)
-            guard let parent = node.parent, let index = node.childIndex()
-            else { throw AppError.parentNodeIsRequired }
-            let ticket = ticketInsertMode == .ticket ? Ticket() : nil
-            let newNode = TicketTree(content: ticket)
-            undoManager?.beginUndoGrouping()
-            try addChild(newNode, to: parent, at: index + 1, undoManager: undoManager)
-            resolveCollisions(undoManager: undoManager)
-            undoManager?.endUndoGrouping()
+            try treeManager.insertNewNodeAfter(id, undoManager: undoManager)
         } catch {
             print("uh oh")
-            undoManager?.endUndoGrouping()
         }
+        setOffsets()
     }
     
     func insertChild(_ id: TreeId, undoManager: UndoManager?) {
         do {
-            let parent = try node(with: id)
-            let ticket = ticketInsertMode == .ticket ? Ticket() : nil
-            let newNode = TicketTree(content: ticket)
-            undoManager?.beginUndoGrouping()
-            try addChild(newNode, to: parent, at: 0, undoManager: undoManager)
-            resolveCollisions(undoManager: undoManager)
-            undoManager?.endUndoGrouping()
+            try treeManager.insertChild(id, undoManager: undoManager)
         } catch {
             print("uh oh")
         }
+        setOffsets()
     }
     
     func delete(_ id: TreeId, undoManager: UndoManager?) {
         do {
-            let node = try node(with: id)
-            guard let parent = node.parent, let index = node.childIndex()
-            else { throw AppError.operationNotAllowedOnRoot }
-            undoManager?.beginUndoGrouping()
-            try deleteChild(node, at: index, from: parent, undoManager: undoManager)
-            resolveCollisions(undoManager: undoManager)
-            undoManager?.endUndoGrouping()
+            try treeManager.delete(id, undoManager: undoManager)
         } catch {
             print("uh oh")
         }
+        setOffsets()
     }
     
     func ticketViewModelDidChange(_ vm: TicketViewModel) {

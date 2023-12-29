@@ -90,9 +90,8 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         }
     }
     
-    public func onDrop(_ id: TreeId, undoManager: UndoManager?) -> Bool {
-        guard let delegate = delegate else { return false }
-        return delegate.move(id, to: self.treeId, undoManager: undoManager)
+    public func onDrop(_ id: TreeId, undoManager: UndoManager?) {
+        delegate?.move(id, to: self.treeId, undoManager: undoManager)
     }
     
     public func onAddButtonTapped(
@@ -114,7 +113,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public init(
         dimensions: Dimensions,
         tree: TicketTree,
-        delegate: TicketViewModelDelegate
+        delegate: TicketViewModelDelegate?
     ) {
         self.dimensions = dimensions
         self.tree = tree
@@ -126,9 +125,9 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         self.nodeType = tree.content == nil ? .spacer : .ticket
         self.backgroundColor = .clear
         if nodeType == .ticket {
-            self.backgroundColor = delegate.backgroundColorFor(
+            self.backgroundColor = delegate?.backgroundColorFor(
                 tree.content?.state ?? .todo
-            )
+            ) ?? .white
         }
     }
     

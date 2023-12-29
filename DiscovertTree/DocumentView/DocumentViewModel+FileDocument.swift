@@ -25,7 +25,7 @@ extension DocumentViewModel: FileDocument {
     }
     
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let data = try JSONEncoder().encode(tree)
+        let data = try JSONEncoder().encode(treeManager.tree)
         return .init(regularFileWithContents: data)
     }
 }

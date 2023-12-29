@@ -43,7 +43,7 @@ struct TicketView: View {
                 return false
             }
             withAnimation {
-                _ = vm.onDrop(id, undoManager: undoManager)
+                vm.onDrop(id, undoManager: undoManager)
             }
             return true
         }
@@ -53,6 +53,7 @@ struct TicketView: View {
 }
 
 class Delegate: TicketViewModelDelegate {
+    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) {}
     func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
     func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {}
@@ -62,7 +63,6 @@ class Delegate: TicketViewModelDelegate {
     func delete(_ id: TreeId, undoManager: UndoManager?) {}
     func ticketViewModelDidChange(_ vm: TicketViewModel) {}
     func backgroundColorFor(_ state: TicketState) -> Color { .yellow }
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) -> Bool { true }
 }
 
 #Preview {

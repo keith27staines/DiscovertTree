@@ -17,5 +17,5 @@ protocol TicketViewModelDelegate: AnyObject {
     func delete(_ id: TreeId, undoManager: UndoManager?)
     func ticketViewModelDidChange(_ vm: TicketViewModel)
     func backgroundColorFor(_ state: TicketState) -> Color
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) -> Bool
+    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?)
 }
