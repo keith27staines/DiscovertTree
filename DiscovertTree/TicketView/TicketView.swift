@@ -16,6 +16,16 @@ struct TicketView: View {
     @ObservedObject var vm: TicketViewModel
         
     var body: some View {
+        switch vm.nodeType {
+            
+        case .ticket:
+            ticket
+        case .spacer:
+            EmptyView()
+        }
+    }
+    
+    var ticket: some View {
         ZStack {
             background
             content
@@ -23,6 +33,7 @@ struct TicketView: View {
                 ConnectorView(info: info)
             }
         }
+        .opacity(vm.nodeType == .ticket ? 1 : 0)
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
         .draggable(vm.treeId)
         .dropDestination(for: TreeId.self) { items, location in
@@ -37,8 +48,8 @@ struct TicketView: View {
             return true
         }
         .offset(vm.offset)
-
     }
+    
 }
 
 class Delegate: TicketViewModelDelegate {

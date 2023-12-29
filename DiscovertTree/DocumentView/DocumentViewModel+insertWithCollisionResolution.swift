@@ -11,12 +11,17 @@ extension DocumentViewModel {
     
     func resolveCollisions(undoManager: UndoManager?) {
         var map = makeOccupancyMap()
-        guard let node = map.priorityCollidingNode() else { return }
+        guard let node = map.priorityCollidingNode() else {
+            pruneSpacers(undoManager: undoManager)
+            return
+        }
         guard let parent = node.parent else { return }
         insertNewNodeBefore(parent.id, undoManager: undoManager, type: .spacer)
         map = makeOccupancyMap()
         if map.hasCollisions() {
             resolveCollisions(undoManager: undoManager)
+        } else {
+            pruneSpacers(undoManager: undoManager)
         }
         return
     }

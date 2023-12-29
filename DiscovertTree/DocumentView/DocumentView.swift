@@ -25,6 +25,9 @@ struct DocumentView: View {
         .onDisappear {
             vm.stopKeyboardMonitor()
         }
+        .inspector(isPresented: $inspectorIsShown) {
+            Text("Inspector")
+        }
     }
     
     var scrollingTicketTree: some View {
@@ -52,9 +55,6 @@ struct DocumentView: View {
         .onAppear() { isDocumentFocused = true }
         .onTapGesture { isDocumentFocused = true }
         .gesture( magnifyGesture )
-        .inspector(isPresented: $inspectorIsShown) {
-            Text("Inspector")
-        }
     }
     
     var ticketTree: some View {

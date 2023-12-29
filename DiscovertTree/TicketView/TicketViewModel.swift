@@ -58,8 +58,9 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     }
     
     public var childConnectionInfo: [ConnectionInfo] {
-        tree.children.map { node in
-            ConnectionInfo(
+        tree.children.compactMap { node in
+            if node.content == nil { return nil }
+            return ConnectionInfo(
                 dimensions: dimensions,
                 startNode: tree,
                 endNode: node

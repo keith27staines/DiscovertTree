@@ -16,7 +16,8 @@ extension DocumentViewModel {
         undoManager: UndoManager?
     ) throws {
         child.removeFromParent()
-        undoManager?.registerUndo(withTarget: self) { vm in
+        undoManager?.registerUndo(withTarget: self) { [weak self] vm in
+            guard let self = self else { return }
             do {
                 try vm.pasteChild(
                     child,
@@ -24,6 +25,7 @@ extension DocumentViewModel {
                     under: parent,
                     undoManager: undoManager
                 )
+                setOffsets()
             } catch {
                 undoManager?.removeAllActions(withTarget: self)
             }
@@ -37,7 +39,8 @@ extension DocumentViewModel {
         undoManager: UndoManager?
     ) throws {
         try parent.insertChild(child, at: index)
-        undoManager?.registerUndo(withTarget: self) { vm in
+        undoManager?.registerUndo(withTarget: self) { [weak self] vm in
+            guard let self = self else { return }
             do {
                 try vm.cutChild(
                     child,
@@ -45,6 +48,7 @@ extension DocumentViewModel {
                     from: parent,
                     undoManager: undoManager
                 )
+                setOffsets()
             } catch {
                 undoManager?.removeAllActions(withTarget: self)
             }

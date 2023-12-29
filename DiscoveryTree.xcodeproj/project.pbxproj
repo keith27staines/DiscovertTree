@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		530223602B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */; };
+		530223622B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530223612B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift */; };
 		53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */; };
 		53052F612B127C570030D9DE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53052F602B127C570030D9DE /* Preview Assets.xcassets */; };
 		53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+cutAndPaste.swift"; sourceTree = "<group>"; };
+		530223612B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+pruneSpacers.swift"; sourceTree = "<group>"; };
 		53052F552B127C560030D9DE /* DiscoveryTree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoveryTree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryTreeApp.swift; sourceTree = "<group>"; };
 		53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscovertTree.entitlements; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				5302235F2B3D1D200071D4BB /* DocumentViewModel+cutAndPaste.swift */,
 				5345D2762B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift */,
 				53834F372B3C521700C2F80D /* DocumentViewModel+insertWithCollisionResolution.swift */,
+				530223612B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift */,
 			);
 			path = DocumentView;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				5381A6352B145E03007C56FD /* TicketViewModel.swift in Sources */,
 				536DE68F2B2EC5DC0029FC02 /* ConnectorView.swift in Sources */,
 				53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */,
+				530223622B3E9F760071D4BB /* DocumentViewModel+pruneSpacers.swift in Sources */,
 				5345D2772B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift in Sources */,
 				53834F342B3AE3BA00C2F80D /* OccupancyMap.swift in Sources */,
 				5373156F2B131D2F00CD6932 /* DocumentView.swift in Sources */,
