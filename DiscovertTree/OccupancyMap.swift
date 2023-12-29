@@ -64,7 +64,7 @@ extension OccupancyMap {
     
     private func depth(map: Map) -> Int {
         var maxDepth = 0
-        for (key, set) in map {
+        for key in map.keys {
             maxDepth = key.y > maxDepth ? key.y : maxDepth
         }
         return maxDepth
@@ -78,7 +78,7 @@ extension OccupancyMap {
     
     private func leastOffset(map: Map) -> Int {
         var leastOffset = Int.max
-        for (key, set) in map {
+        for key in map.keys {
             leastOffset = key.x < leastOffset ? key.x : leastOffset
         }
         return leastOffset

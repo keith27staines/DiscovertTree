@@ -11,7 +11,6 @@ import DiscoveryTreeCore
 
 final class DocumentViewModel: ObservableObject {
     @Published var project = "Document"
-    @Published var ticketViewModels = [TicketViewModel]()
     @Published var maxX: Int = 0
     @Published var maxY: Int = 0
     @Published var legend: Legend = Legend.pastel
@@ -25,6 +24,7 @@ final class DocumentViewModel: ObservableObject {
         )
     }
     
+    var ticketViewModels = [TicketViewModel]()
     var tree: TicketTree
     var activeNodesDictionary: [TreeId: TicketTree]
     var allNodesDictionary: [TreeId: TicketTree]
