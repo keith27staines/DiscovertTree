@@ -15,10 +15,10 @@ struct DocumentView: View {
     @State var inspectorIsShown = false
     
     var body: some View {
-        VStack {
-            toolBar
-            scrollingTicketTree
-        }
+        scrollingTicketTree
+            .toolbar {
+                toolBar
+            }
         .onAppear {
             vm.startKeyboardMonitor()
         }
@@ -85,12 +85,31 @@ struct DocumentView: View {
         ) {
             Text("Zoom")
         }
-        .frame(width: 200)
+        .frame(width: 100)
     }
     
     var toolBar: some View {
         HStack {
             Spacer()
+            Button {
+                withAnimation {
+                    undoManager?.redo()
+                }
+            } label: {
+                Image(systemName: "arrow.uturn.forward")
+                    
+            }
+            .disabled(!(undoManager?.canRedo ?? false))
+            
+            Button {
+                withAnimation {
+                    undoManager?.undo()
+                }
+            } label: {
+                Image(systemName: "arrow.uturn.backward")
+            }
+            .disabled(!(undoManager?.canUndo ?? false))
+
             scale
                 .padding()
             Button {
@@ -98,7 +117,6 @@ struct DocumentView: View {
             } label: {
                 Image(systemName: "rectangle.trailingthird.inset.filled")
             }
-            .padding(.trailing)
         }
     }
     

@@ -13,5 +13,7 @@ struct DiscovertTreeApp: App {
         DocumentGroup(newDocument: DocumentViewModel()) { file in
             DocumentView(vm: file.document)
         }
+        .windowStyle(.titleBar)
+        .windowToolbarStyle(.unifiedCompact)
     }
 }
