@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppKit
 
 struct DocumentView: View {
     
@@ -44,7 +45,7 @@ struct DocumentView: View {
                     maxWidth: vm.contentSize.width,
                     maxHeight: vm.contentSize.height
                 )
-                .background(Color.red.opacity(0.2))
+                .background(Color(NSColor.quaternarySystemFill))
                 Spacer()
             }
             Spacer()
@@ -68,7 +69,6 @@ struct DocumentView: View {
             height: vm.contentSize.height,
             alignment: .center
         )
-        .border(.pink)
     }
     
     var magnifyGesture : some Gesture {
