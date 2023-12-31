@@ -38,6 +38,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         let ticketSize: CGSize
         let radius: CGFloat
         let endNodeHasChildren: Bool
+        let endNodeIsSpacer: Bool
         
         init(dimensions: Dimensions, startNode: TicketTree, endNode: TicketTree) {
             let offset = OffsetInfo(
@@ -54,6 +55,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
                 height: dimensions.ticketHeight
             )
             self.endNodeHasChildren = !endNode.children.isEmpty
+            self.endNodeIsSpacer = endNode.content == nil
         }
     }
     

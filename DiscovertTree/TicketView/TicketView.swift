@@ -55,13 +55,12 @@ struct TicketView: View {
             vm.onTicketDidChangeFocus(hadFocus: oldValue, hasFocus: newValue)
         }
     }
-    
+
     var connectorOverlay: some View {
         ForEach(vm.childConnectionInfo) { info in
             ConnectorView(info: info)
         }
     }
-    
 }
 
 class Delegate: TicketViewModelDelegate {

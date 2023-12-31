@@ -15,7 +15,7 @@ struct ConnectorView: View {
         let radius = info.radius
         var path = Path()
         path.move(to: offset.start)
-        if offset.end.x == offset.start.x {
+        if offset.end.x == offset.start.x && !info.endNodeIsSpacer {
             path.addLine(to: offset.end)
         }
         if offset.end.x > offset.start.x {
@@ -40,13 +40,15 @@ struct ConnectorView: View {
                 x: offset.end.x - radius,
                 y: offset.end.y
             )
-            path.addArc(
-                center: center2,
-                radius: radius,
-                startAngle: Angle(degrees: 270),
-                endAngle: Angle(degrees: 00),
-                clockwise: false
-            )
+            if !info.endNodeIsSpacer {
+                path.addArc(
+                    center: center2,
+                    radius: radius,
+                    startAngle: Angle(degrees: 270),
+                    endAngle: Angle(degrees: 00),
+                    clockwise: false
+                )
+            }
         }
         if info.nodeType == .spacer && info.endNodeHasChildren {
             path.move(
