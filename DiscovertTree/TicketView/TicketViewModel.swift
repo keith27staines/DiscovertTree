@@ -17,6 +17,8 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     @Published public var dimensions: Dimensions
     @Published public var ticketState: TicketState
     @Published public var insertMode: NodeType
+    @Published public var canAcceptDrops = true
+    @Published public var backgroundColor: Color
     
     public var ticketWidth: CGFloat { dimensions.ticketWidth }
     public var ticketHeight: CGFloat { dimensions.ticketHeight }
@@ -28,8 +30,6 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var offsetFromRoot: Int { tree.offsetFromRoot() }
     public var depthFromRoot:  Int { tree.depthFromRoot() }
     public var nodeType: NodeType
-    
-    @Published public var backgroundColor: Color
     
     public struct ConnectionInfo: Identifiable {
         let nodeType: NodeType
@@ -59,7 +59,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     
     public var childConnectionInfo: [ConnectionInfo] {
         tree.children.compactMap { node in
-            if node.content == nil { return nil }
+            if nodeType == .spacer { return nil }
             return ConnectionInfo(
                 dimensions: dimensions,
                 startNode: tree,
@@ -136,6 +136,14 @@ final class TicketViewModel: ObservableObject, Identifiable  {
             new: title,
             old: ticket?.title ?? "",
             undoManager: undoManager
+        )
+    }
+    
+    public func onTicketDidChangeFocus(hadFocus: Bool, hasFocus: Bool) {
+        delegate?.onNodeDidChangeFocus(
+            treeId,
+            hadFocus: hadFocus,
+            hasFocus: hasFocus
         )
     }
 }

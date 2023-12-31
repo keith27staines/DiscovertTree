@@ -24,6 +24,7 @@ protocol TreeManaging: AnyObject {
     func insertNewNodeAfter(_ id: TreeId, undoManager: UndoManager?) throws
     func insertChild(_ id: TreeId, undoManager: UndoManager?) throws
     func delete(_ id: TreeId, undoManager: UndoManager?) throws
+    func recursivelySetNodeDropAcceptance(node: TicketTree, value: Bool)
 }
 
 final class TreeManager: TreeManaging {
@@ -37,6 +38,14 @@ final class TreeManager: TreeManaging {
         self.tree = tree
         activeNodesDictionary = tree.writeToDictionary([:])
         allNodesDictionary = tree.writeToDictionary([:])
+    }
+    
+    func recursivelySetNodeDropAcceptance(node: TicketTree, value: Bool) {
+        guard let delegate = delegate else { return }
+        delegate.viewModelForNode(node).canAcceptDrops = value
+        for child in node.children {
+            recursivelySetNodeDropAcceptance(node: child, value: value)
+        }
     }
     
     func node(with id: TreeId) throws -> TicketTree {

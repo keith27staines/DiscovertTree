@@ -27,6 +27,15 @@ extension DocumentViewModel: TicketViewModelDelegate {
         setOffsets()
     }
     
+    func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool) {
+        guard let node = try? treeManager.node(with: id) else { return }
+        let canSubTreeReceiveDrops = !hasFocus
+        treeManager.recursivelySetNodeDropAcceptance(
+            node: node,
+            value: canSubTreeReceiveDrops
+        )
+    }
+
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {
         do {
             try treeManager.insertNewNodeAbove(id, undoManager: undoManager)

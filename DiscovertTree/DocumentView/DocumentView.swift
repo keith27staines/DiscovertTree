@@ -16,6 +16,7 @@ struct DocumentView: View {
     @State var inspectorIsShown = false
     
     var body: some View {
+        legend
         scrollingTicketTree
             .toolbar {
                 toolBar
@@ -129,12 +130,9 @@ struct DocumentView: View {
     }
     
     var legend: some View {
-        HStack {
-            LegendView(legend: vm.legend)
+        LegendView(legend: vm.legend)
                 .padding()
                 .frame(width: 800, height: 100)
-            Spacer()
-        }.background(.secondary)
     }
     
     func scrollViewOffset() -> CGSize {

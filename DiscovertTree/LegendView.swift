@@ -10,13 +10,12 @@ import SwiftUI
 struct LegendView: View {
     @State var legend: Legend
     var body: some View {
-        VStack(alignment: .leading) {
+        HStack {
             Text(legend.name)
-            HStack {
-                ForEach(legend.states) { state in
-                    StateView(state: state)
-                }
+            ForEach(legend.states) { state in
+                StateView(state: state)
             }
+            .foregroundColor(legend.textColor)
         }
     }
     
@@ -34,6 +33,7 @@ struct LegendView: View {
 class Legend {
     let name: String
     var states = [LegendStateAdapter]()
+    let textColor: Color = .black
     
     init(name: String, states: [LegendStateAdapter] = [LegendStateAdapter]()) {
         self.name = name

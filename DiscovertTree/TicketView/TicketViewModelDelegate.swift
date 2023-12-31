@@ -18,4 +18,5 @@ protocol TicketViewModelDelegate: AnyObject {
     func ticketViewModelDidChange(_ vm: TicketViewModel)
     func backgroundColorFor(_ state: TicketState) -> Color
     func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?)
+    func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool)
 }

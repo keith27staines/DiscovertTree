@@ -14,14 +14,12 @@ struct TicketView: View {
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
+    @State private var isDropTargeted = false
         
     var body: some View {
         switch vm.nodeType {
-            
-        case .ticket:
-            ticket
-        case .spacer:
-            EmptyView()
+        case .ticket: ticket
+        case .spacer: EmptyView()
         }
     }
     
@@ -29,31 +27,44 @@ struct TicketView: View {
         ZStack {
             background
             content
-            ForEach(vm.childConnectionInfo) { info in
-                ConnectorView(info: info)
-            }
+
         }
         .opacity(vm.nodeType == .ticket ? 1 : 0)
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
+        .glow(
+            isGlowing: vm.canAcceptDrops && isDropTargeted,
+            color: .white,
+            radius: vm.ticketCornerRadius
+        )
+        .overlay { connectorOverlay }
         .draggable(vm.treeId)
         .dropDestination(for: TreeId.self) { items, location in
-            guard let id = items.first
+            guard let id = items.first, vm.canAcceptDrops == true
             else {
-                print("drop rejected")
                 return false
             }
             withAnimation {
                 vm.onDrop(id, undoManager: undoManager)
             }
             return true
+        } isTargeted: {
+            isDropTargeted = $0
         }
         .offset(vm.offset)
+        .onChange(of: isTicketFocused) { oldValue, newValue in
+            vm.onTicketDidChangeFocus(hadFocus: oldValue, hasFocus: newValue)
+        }
+    }
+    
+    var connectorOverlay: some View {
+        ForEach(vm.childConnectionInfo) { info in
+            ConnectorView(info: info)
+        }
     }
     
 }
 
 class Delegate: TicketViewModelDelegate {
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) {}
     func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
     func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {}
@@ -63,6 +74,9 @@ class Delegate: TicketViewModelDelegate {
     func delete(_ id: TreeId, undoManager: UndoManager?) {}
     func ticketViewModelDidChange(_ vm: TicketViewModel) {}
     func backgroundColorFor(_ state: TicketState) -> Color { .yellow }
+    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) {}
+    func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool) {}
+
 }
 
 #Preview {

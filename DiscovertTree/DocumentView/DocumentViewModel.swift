@@ -51,6 +51,7 @@ final class DocumentViewModel: ObservableObject {
                 delegate: self
             )
         }
+        allTicketViewModels = ticketViewModels.toDictionary { $0.treeId }
     
         $scale.sink { [weak self] scale in
             guard let self = self else { return }
