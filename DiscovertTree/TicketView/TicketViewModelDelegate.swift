@@ -8,6 +8,7 @@
 import SwiftUI
 
 protocol TicketViewModelDelegate: AnyObject {
+    var maxExtents: CGPoint { get }
     func childrenOf(_ id: TreeId) throws -> [TreeId]
     func ticketFor(_ id: TreeId) throws -> Ticket?
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?)
@@ -19,4 +20,5 @@ protocol TicketViewModelDelegate: AnyObject {
     func backgroundColorFor(_ state: TicketState) -> Color
     func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?)
     func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool)
+    func viewModelsForSubtree(node: TicketTree) throws -> [TicketViewModel]
 }

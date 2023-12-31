@@ -37,7 +37,17 @@ struct TicketView: View {
             radius: vm.ticketCornerRadius
         )
         .overlay { connectorOverlay }
-        .draggable(vm.treeId)
+        .draggable(vm.treeId) {
+            let models = vm.subTreeViewModels()
+            let offsets = vm.calculateDragViewOffset()
+            TreeView(viewModels: models)
+                .frame(width: 2000, height: 2000)
+                .opacity(0.6)
+                .offset(
+                    x: -offsets.x,
+                    y: -offsets.y
+                )
+        }
         .dropDestination(for: TreeId.self) { items, location in
             guard let id = items.first, vm.canAcceptDrops == true
             else {
@@ -64,6 +74,7 @@ struct TicketView: View {
 }
 
 class Delegate: TicketViewModelDelegate {
+    var maxExtents: CGPoint = .zero
     func childrenOf(_ id: TreeId) throws -> [TreeId] { [] }
     func ticketFor(_ id: TreeId) throws -> Ticket? { Ticket() }
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {}
@@ -75,7 +86,7 @@ class Delegate: TicketViewModelDelegate {
     func backgroundColorFor(_ state: TicketState) -> Color { .yellow }
     func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) {}
     func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool) {}
-
+    func viewModelsForSubtree(node: TicketTree) throws -> [TicketViewModel] {[]}
 }
 
 #Preview {

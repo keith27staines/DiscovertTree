@@ -10,6 +10,18 @@ import DiscoveryTreeCore
 
 extension DocumentViewModel: TicketViewModelDelegate {
     
+    var maxExtents: CGPoint {
+        CGPoint(
+            x: CGFloat(maxX),
+            y: CGFloat(maxY)
+        )
+    }
+    
+    func viewModelsForSubtree(node: TicketTree) throws -> [TicketViewModel] {
+        let nodes = treeManager.nodesFrom(node)
+        return nodes.map { viewModelForNode($0) }
+    }
+    
     func ticketFor(_ id: TreeId) throws -> Ticket? {
         try treeManager.node(with: id).content
     }

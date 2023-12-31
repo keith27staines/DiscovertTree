@@ -60,11 +60,7 @@ struct DocumentView: View {
     }
     
     var ticketTree: some View {
-        ZStack {
-            ForEach(vm.ticketViewModels) { vm in
-                TicketView(vm: vm)
-            }
-        }
+        TreeView(viewModels: vm.ticketViewModels)
         .frame(
             width: vm.contentSize.width,
             height: vm.contentSize.height,
@@ -132,7 +128,7 @@ struct DocumentView: View {
     var legend: some View {
         LegendView(legend: vm.legend)
                 .padding()
-                .frame(width: 800, height: 100)
+                .frame(width: 800, height: 64)
     }
     
     func scrollViewOffset() -> CGSize {

@@ -31,6 +31,31 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var depthFromRoot:  Int { tree.depthFromRoot() }
     public var nodeType: NodeType
     
+    public func subTreeViewModels() -> [TicketViewModel] {
+        guard let delegate = delegate else { return []}
+        return (try? delegate.viewModelsForSubtree(node: tree)) ?? []
+    }
+    
+    public func calculateDragViewOffset() -> CGPoint {
+        guard let delegate = delegate else { return .zero }
+        let midpoint = CGPoint(
+            x: delegate.maxExtents.x / 2.0,
+            y: delegate.maxExtents.y / 2.0
+        )
+        let dragPoint = CGPoint(
+            x: CGFloat(offsetFromRoot),
+            y: CGFloat(depthFromRoot)
+        )
+        let delta = CGPoint(
+            x: dragPoint.x - midpoint.x,
+            y: dragPoint.y - midpoint.y)
+
+        return CGPoint(
+            x: delta.x * dimensions.horizontalStride,
+            y: delta.y * dimensions.verticalStride
+        )
+    }
+    
     public struct ConnectionInfo: Identifiable {
         let nodeType: NodeType
         let offset: OffsetInfo
