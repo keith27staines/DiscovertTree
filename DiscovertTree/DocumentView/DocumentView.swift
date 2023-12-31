@@ -99,7 +99,9 @@ struct DocumentView: View {
                 Image(systemName: "arrow.uturn.forward")
                     
             }
+            .help("Undo \(undoManager?.redoActionName ?? "")")
             .disabled(!(undoManager?.canRedo ?? false))
+            .keyboardShortcut(KeyEquivalent("Z"), modifiers: [.shift, .command])
             
             Button {
                 withAnimation {
@@ -108,15 +110,21 @@ struct DocumentView: View {
             } label: {
                 Image(systemName: "arrow.uturn.backward")
             }
+            .help("Undo \(undoManager?.undoActionName ?? "")")
             .disabled(!(undoManager?.canUndo ?? false))
-
+            .keyboardShortcut(KeyEquivalent("Z"), modifiers: .command)
+            
             scale
-                .padding()
+            .help("Adjust magnification")
+            .padding(.leading)
+            
             Button {
                 inspectorIsShown.toggle()
             } label: {
                 Image(systemName: "rectangle.trailingthird.inset.filled")
             }
+            .help("Show or hide inspectors")
+            .padding(.leading)
         }
     }
     
@@ -148,3 +156,5 @@ struct DocumentView: View {
 
 import DiscoveryTreeCore
 extension Tree: Identifiable {}
+
+
