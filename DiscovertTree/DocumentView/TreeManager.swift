@@ -94,7 +94,11 @@ final class TreeManager: TreeManaging {
         try insertNewNodeBefore(id, undoManager: undoManager, type: .ticket)
     }
     
-    func insertNewNodeBefore(_ id: TreeId, undoManager: UndoManager?, type: NodeType) throws {
+    func insertNewNodeBefore(
+        _ id: TreeId,
+        undoManager: UndoManager?,
+        type: NodeType
+    ) throws {
         let node = try node(with: id)
         guard let parent = node.parent, let index = node.childIndex()
         else { throw AppError.parentNodeIsRequired }
@@ -217,7 +221,11 @@ extension TreeManager {
             return
         }
         guard let parent = node.parent else { return }
-        try? insertNewNodeBefore(parent.id, undoManager: undoManager, type: .spacer)
+        try? insertNewNodeBefore(
+            parent.id,
+            undoManager: undoManager,
+            type: .spacer
+        )
         map = makeOccupancyMap()
         if map.hasCollisions() {
             resolveCollisions(undoManager: undoManager)
@@ -228,6 +236,7 @@ extension TreeManager {
     }
     
     private func pruneSpacers(undoManager: UndoManager?) {
+        var deletionsWerePerformed = false
         for node in activeNodesDictionary.values {
             guard
                 node.content == nil,
@@ -241,12 +250,14 @@ extension TreeManager {
                 try addChild(node, to: parent, at: index, undoManager: nil)
                 if !hasCollisions {
                     try deleteChild(node, at: index, from: parent, undoManager: undoManager)
+                    deletionsWerePerformed = true
                 }
             } catch {
                 continue
             }
             
         }
+        if deletionsWerePerformed { pruneSpacers(undoManager: undoManager) }
     }
 }
 

@@ -63,7 +63,11 @@ extension DocumentViewModel: TicketViewModelDelegate {
     
     func insertNewNodeBefore(_ id: TreeId, undoManager: UndoManager?, type: NodeType) {
         do {
-            try treeManager.insertNewNodeBefore(id, undoManager: undoManager, type: type)
+            try treeManager.insertNewNodeBefore(
+                id,
+                undoManager: undoManager,
+                type: type
+            )
         } catch {
             print("uh oh")
         }
