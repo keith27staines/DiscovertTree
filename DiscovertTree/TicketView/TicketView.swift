@@ -33,10 +33,11 @@ struct TicketView: View {
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
         .glow(
             isGlowing: vm.canAcceptDrops && isDropTargeted,
-            color: .white,
+            color: .blue,
             radius: vm.ticketCornerRadius
         )
         .overlay { connectorOverlay }
+        .overlay { vm.canAcceptDrops ? dotsOverlay : nil }
         .draggable(vm.treeId) {
             let models = vm.subTreeViewModels()
             let offsets = vm.calculateDragViewOffset()
@@ -69,6 +70,49 @@ struct TicketView: View {
     var connectorOverlay: some View {
         ForEach(vm.childConnectionInfo) { info in
             ConnectorView(info: info)
+        }
+    }
+    
+    var dotsOverlay: some View {
+        ZStack {
+            Dot(vm: vm)
+                .offset(
+                    CGSize(
+                        width: -vm.dimensions.horizontalStride/2.0,
+                        height: 0
+                    )
+                )
+            
+            Dot(vm: vm)
+                .offset(
+                    CGSize(
+                        width: vm.dimensions.horizontalStride/2.0,
+                        height: 0
+                    )
+                )
+        }
+    }
+    
+    struct Dot: View {
+        @Environment(\.undoManager) var undoManager
+        @ObservedObject var vm: TicketViewModel
+        @State private var isDropTargeted = false
+        var body: some View {
+            Image(systemName: "plus.circle.fill")
+                .font(.headline)
+                .dropDestination(for: TreeId.self) { items, location in
+                    guard let id = items.first, vm.canAcceptDrops == true
+                    else {
+                        return false
+                    }
+                    withAnimation {
+                        vm.onDrop(id, undoManager: undoManager)
+                    }
+                    return true
+                } isTargeted: {
+                    isDropTargeted = $0
+                }
+                .glow(isGlowing: isDropTargeted, color: .blue)
         }
     }
 }
