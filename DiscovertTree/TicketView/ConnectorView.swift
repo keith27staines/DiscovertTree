@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ConnectorView: View {
+    
     let info: TicketViewModel.ConnectionInfo
     
     var body: some View {

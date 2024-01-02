@@ -24,7 +24,10 @@ extension TicketView {
             .onTapGesture {
                 isTicketFocused = true
             }
-            .shadow(radius: isTicketFocused || isTitleFieldFocused ? 5: 0)
+            .shadow(
+                color: vm.backgroundColor,
+                radius: isTicketFocused || isTitleFieldFocused ? 10: 0
+            )
             .onChange(of: vm.ticketState) {
                 oldState,
                 newState in

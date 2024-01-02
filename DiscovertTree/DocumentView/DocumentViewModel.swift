@@ -22,8 +22,8 @@ final class DocumentViewModel: ObservableObject {
     var allTicketViewModels = [TreeId: TicketViewModel]()
     var contentSize: CGSize {
         CGSize(
-            width: CGFloat(maxX + 1) * dimensions.horizontalStride,
-            height: CGFloat(maxY + 1) * dimensions.verticalStride
+            width: CGFloat(maxX + 1) * dimensions.horizontalStride + dimensions.gutter,
+            height: CGFloat(maxY + 1) * dimensions.verticalStride + dimensions.gutter
         )
     }
 

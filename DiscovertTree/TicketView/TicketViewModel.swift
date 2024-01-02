@@ -101,19 +101,12 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     private var ticket: Ticket? { tree.content }
     private var eventMonitor: Any?
     
-    public enum AddButtonPosition {
-        case top
-        case leading
-        case trailing
-        case bottom
-    }
-    
-    public func hasAddButtonAtPosition(_ position: AddButtonPosition) -> Bool {
+    public func hasAddButtonAtPosition(_ position: NodeRelativePosition) -> Bool {
         switch position {
         case .top: return !tree.isRoot
         case .leading: return !tree.isRoot
         case .trailing: return !tree.isRoot
-        case .bottom: return tree.isLeaf
+        case .bottom: return true
         }
     }
     
@@ -122,7 +115,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     }
     
     public func onAddButtonTapped(
-        position: AddButtonPosition,
+        position: NodeRelativePosition,
         undoManager: UndoManager?
     ) {
         switch position {

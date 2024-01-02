@@ -11,17 +11,17 @@ extension TicketView {
     
     var content: some View {
         VStack {
-            makeAddButton(position: .top)
+            makeAddButton(.top)
             Spacer()
             HStack(alignment: .center) {
-                makeAddButton(position: .leading)
+                makeAddButton(.leading)
                 Spacer()
                 titleField
                 Spacer()
-                makeAddButton(position: .trailing)
+                makeAddButton(.trailing)
             }
             Spacer()
-            makeAddButton(position: .bottom)
+            makeAddButton(.bottom)
         }
     }
 }

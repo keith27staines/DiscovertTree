@@ -11,6 +11,7 @@
 		530223682B41385D0071D4BB /* Array+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530223672B41385D0071D4BB /* Array+extensions.swift */; };
 		5302236B2B4148220071D4BB /* View+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302236A2B4148220071D4BB /* View+extensions.swift */; };
 		5302236D2B416DDC0071D4BB /* TreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302236C2B416DDC0071D4BB /* TreeView.swift */; };
+		5302236F2B43E6390071D4BB /* NodeRelativePosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302236E2B43E6390071D4BB /* NodeRelativePosition.swift */; };
 		53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */; };
 		53052F612B127C570030D9DE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53052F602B127C570030D9DE /* Preview Assets.xcassets */; };
 		53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */; };
@@ -60,6 +61,7 @@
 		530223672B41385D0071D4BB /* Array+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extensions.swift"; sourceTree = "<group>"; };
 		5302236A2B4148220071D4BB /* View+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extensions.swift"; sourceTree = "<group>"; };
 		5302236C2B416DDC0071D4BB /* TreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeView.swift; sourceTree = "<group>"; };
+		5302236E2B43E6390071D4BB /* NodeRelativePosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeRelativePosition.swift; sourceTree = "<group>"; };
 		53052F552B127C560030D9DE /* DiscoveryTree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoveryTree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryTreeApp.swift; sourceTree = "<group>"; };
 		53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscovertTree.entitlements; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				53BD581C2B25D5110076E6C0 /* LegendView.swift */,
 				53BD581E2B284B650076E6C0 /* Dimensions.swift */,
 				5345D2742B34012B0012C457 /* NodeType.swift */,
+				5302236E2B43E6390071D4BB /* NodeRelativePosition.swift */,
 				53346D592B1DB7EF00661A07 /* DocumentView */,
 				539A26F02B1E7C3600BEDA4A /* TicketView */,
 				536EF4032B1AF4B400DDBB8D /* Tree+Extensions.swift */,
@@ -371,6 +374,7 @@
 				5373156F2B131D2F00CD6932 /* DocumentView.swift in Sources */,
 				537315732B13220100CD6932 /* DocumentViewModel.swift in Sources */,
 				530223682B41385D0071D4BB /* Array+extensions.swift in Sources */,
+				5302236F2B43E6390071D4BB /* NodeRelativePosition.swift in Sources */,
 				539A26F42B1E7CB000BEDA4A /* TicketView+content.swift in Sources */,
 				53BD58132B2451670076E6C0 /* TicketViewModelDelegate.swift in Sources */,
 				53FF68652B1C8ACA00C20D7F /* Constants.swift in Sources */,
