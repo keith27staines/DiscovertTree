@@ -12,6 +12,7 @@
 		5302236B2B4148220071D4BB /* View+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302236A2B4148220071D4BB /* View+extensions.swift */; };
 		5302236D2B416DDC0071D4BB /* TreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302236C2B416DDC0071D4BB /* TreeView.swift */; };
 		5302236F2B43E6390071D4BB /* NodeRelativePosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302236E2B43E6390071D4BB /* NodeRelativePosition.swift */; };
+		5302238C2B494F350071D4BB /* MoveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302238B2B494F350071D4BB /* MoveInfo.swift */; };
 		53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */; };
 		53052F612B127C570030D9DE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53052F602B127C570030D9DE /* Preview Assets.xcassets */; };
 		53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */; };
@@ -62,6 +63,7 @@
 		5302236A2B4148220071D4BB /* View+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extensions.swift"; sourceTree = "<group>"; };
 		5302236C2B416DDC0071D4BB /* TreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeView.swift; sourceTree = "<group>"; };
 		5302236E2B43E6390071D4BB /* NodeRelativePosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeRelativePosition.swift; sourceTree = "<group>"; };
+		5302238B2B494F350071D4BB /* MoveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveInfo.swift; sourceTree = "<group>"; };
 		53052F552B127C560030D9DE /* DiscoveryTree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoveryTree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryTreeApp.swift; sourceTree = "<group>"; };
 		53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscovertTree.entitlements; sourceTree = "<group>"; };
@@ -129,6 +131,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		5302238A2B4949870071D4BB /* TreeManager */ = {
+			isa = PBXGroup;
+			children = (
+				530223652B3F4CC60071D4BB /* TreeManager.swift */,
+				5302238B2B494F350071D4BB /* MoveInfo.swift */,
+			);
+			path = TreeManager;
+			sourceTree = "<group>";
+		};
 		53052F4C2B127C560030D9DE = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +172,7 @@
 				53BD581E2B284B650076E6C0 /* Dimensions.swift */,
 				5345D2742B34012B0012C457 /* NodeType.swift */,
 				5302236E2B43E6390071D4BB /* NodeRelativePosition.swift */,
+				5302238A2B4949870071D4BB /* TreeManager */,
 				53346D592B1DB7EF00661A07 /* DocumentView */,
 				539A26F02B1E7C3600BEDA4A /* TicketView */,
 				536EF4032B1AF4B400DDBB8D /* Tree+Extensions.swift */,
@@ -186,7 +198,6 @@
 			children = (
 				5373156E2B131D2F00CD6932 /* DocumentView.swift */,
 				537315722B13220100CD6932 /* DocumentViewModel.swift */,
-				530223652B3F4CC60071D4BB /* TreeManager.swift */,
 				53FD44AF2B2AD7C1007C0A62 /* DocumentViewModel+FileDocument.swift */,
 				53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */,
 				5345D2762B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift */,
@@ -364,6 +375,7 @@
 				5381A62D2B13812F007C56FD /* TicketView.swift in Sources */,
 				536EF4042B1AF4B400DDBB8D /* Tree+Extensions.swift in Sources */,
 				53BD58152B245EC00076E6C0 /* TicketView+makeAddButton.swift in Sources */,
+				5302238C2B494F350071D4BB /* MoveInfo.swift in Sources */,
 				53BD581B2B248D390076E6C0 /* TicketView+contextMenu.swift in Sources */,
 				53FD44AE2B2AD750007C0A62 /* UTType+extension.swift in Sources */,
 				5381A6352B145E03007C56FD /* TicketViewModel.swift in Sources */,

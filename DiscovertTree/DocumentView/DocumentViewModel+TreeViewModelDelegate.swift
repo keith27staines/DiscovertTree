@@ -30,9 +30,19 @@ extension DocumentViewModel: TicketViewModelDelegate {
         try treeManager.node(with: id).children.compactMap { $0.id }
     }
     
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) {
+    func move(
+        _ id: TreeId,
+        to newParentId: TreeId,
+        position: NodeRelativePosition,
+        undoManager: UndoManager?
+    ) {
         do {
-            try treeManager.move(id, to: newParentId, undoManager: undoManager)
+            try treeManager.move(
+                id,
+                to: newParentId,
+                position: position,
+                undoManager: undoManager
+            )
         } catch {
             print("uh oh")
         }

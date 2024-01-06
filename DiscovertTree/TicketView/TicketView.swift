@@ -65,9 +65,14 @@ class Delegate: TicketViewModelDelegate {
     func delete(_ id: TreeId, undoManager: UndoManager?) {}
     func ticketViewModelDidChange(_ vm: TicketViewModel) {}
     func backgroundColorFor(_ state: TicketState) -> Color { .yellow }
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) {}
     func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool) {}
     func viewModelsForSubtree(node: TicketTree) throws -> [TicketViewModel] {[]}
+    func move(
+        _ id: TreeId,
+        to target: TreeId,
+        position: NodeRelativePosition,
+        undoManager: UndoManager?
+    ) {}
 }
 
 #Preview {

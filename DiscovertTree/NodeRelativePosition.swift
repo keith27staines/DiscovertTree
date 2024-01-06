@@ -11,3 +11,11 @@ enum NodeRelativePosition {
     case trailing
     case bottom
 }
+
+struct NodeDropAcceptance {
+    let id: TreeId
+    
+    func canAcceptDrops(_ position: NodeRelativePosition) -> Bool {
+        return true
+    }
+}

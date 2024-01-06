@@ -40,3 +40,19 @@ extension Tree: Hashable  {
         hasher.combine(id)
     }
 }
+
+extension Tree {
+    func hasMultipleLeaves() -> Bool {
+        if children.count > 1 { return true }
+        for child in children {
+            if child.hasMultipleLeaves() { return true }
+        }        
+        return false
+    }
+    
+    func ultimateLeaf() -> Tree<Content>? {
+        guard children.count > 1 else { return nil }
+        guard children.count > 0 else { return self }
+        return children[0].ultimateLeaf()
+    }
+}

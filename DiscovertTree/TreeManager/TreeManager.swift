@@ -17,8 +17,7 @@ protocol TreeManagerDelegate: AnyObject {
 protocol TreeManaging: AnyObject {
     var tree: TicketTree { get }
     var activeNodesDictionary: [TreeId: TicketTree] { get }
-    func node(with id: TreeId) throws -> TicketTree 
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) throws
+    func node(with id: TreeId) throws -> TicketTree
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) throws
     func insertNewNodeBefore(_ id: TreeId, undoManager: UndoManager?, type: NodeType) throws
     func insertNewNodeAfter(_ id: TreeId, undoManager: UndoManager?) throws
@@ -26,6 +25,12 @@ protocol TreeManaging: AnyObject {
     func delete(_ id: TreeId, undoManager: UndoManager?) throws
     func recursivelySetNodeDropAcceptance(node: TicketTree, value: Bool)
     func nodesFrom(_ node: TicketTree) -> [TicketTree]
+    func move(
+        _ id: TreeId,
+        to target: TreeId,
+        position: NodeRelativePosition,
+        undoManager: UndoManager?
+    ) throws
 }
 
 final class TreeManager: TreeManaging {
@@ -63,17 +68,31 @@ final class TreeManager: TreeManaging {
         return node
     }
     
-    func move(_ id: TreeId, to newParentId: TreeId, undoManager: UndoManager?) throws {
-        let mover = try node(with: id)
-        guard mover.id != newParentId else { return }
-        guard mover.parent?.id != newParentId else { return }
-        let newParent = try node(with: newParentId)
-        guard !mover.contains(newParent) else { return }
-        guard let oldParent = mover.parent, let oldChildIndex = mover.childIndex()
-        else { throw AppError.parentNodeIsRequired}
+    func move(
+        _ movingId: TreeId,
+        to targetId: TreeId,
+        position: NodeRelativePosition,
+        undoManager: UndoManager?
+    ) throws {
+        let mover = try node(with: movingId)
+        let targetNode = try node(with: targetId)
+        let info = try MoveInfo(movingNode: mover, targetNode: targetNode, at: position)
+
         undoManager?.beginUndoGrouping()
-        try cutChild(mover, at: oldChildIndex, from: oldParent, undoManager: undoManager)
-        try pasteChild(mover, at: 0, under: newParent, undoManager: undoManager)
+        if let currentParentChildIndex = info.currentParentChildIndex {
+            try cutChild(
+                info.movingNode,
+                at: currentParentChildIndex.childIndex,
+                from: currentParentChildIndex.parent,
+                undoManager: undoManager
+            )
+        }
+        try pasteChild(
+            info.movingNode,
+            at: info.proposedParentChildIndex.childIndex,
+            under: info.proposedParentChildIndex.parent,
+            undoManager: undoManager
+        )
         resolveCollisions(undoManager: undoManager)
         undoManager?.endUndoGrouping()
         delegate?.onTreeDidChange()

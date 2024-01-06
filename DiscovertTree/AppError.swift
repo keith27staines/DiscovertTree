@@ -9,4 +9,7 @@ enum AppError: Error {
     case parentNodeIsRequired
     case nodeDoesNotExist
     case operationNotAllowedOnRoot
+    case moveIsAmbiguous
+    case moveIsTooComplex
+    case nodeWouldContainSelf
 }

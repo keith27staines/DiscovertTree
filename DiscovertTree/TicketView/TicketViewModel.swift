@@ -110,8 +110,17 @@ final class TicketViewModel: ObservableObject, Identifiable  {
         }
     }
     
-    public func onDrop(_ id: TreeId, undoManager: UndoManager?) {
-        delegate?.move(id, to: self.treeId, undoManager: undoManager)
+    public func onDrop(
+        _ id: TreeId,
+        position: NodeRelativePosition,
+        undoManager: UndoManager?
+    ) {
+        delegate?.move(
+            id,
+            to: self.treeId,
+            position: position,
+            undoManager: undoManager
+        )
     }
     
     public func onAddButtonTapped(

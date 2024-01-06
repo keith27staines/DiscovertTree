@@ -8,8 +8,11 @@
 import SwiftUI
 
 extension TicketView {
+    @ViewBuilder
     func makeAddButton(_ position: NodeRelativePosition) -> some View {
-        AddButton(vm: vm, position: position)
+        if vm.canAcceptDrops {
+            AddButton(vm: vm, position: position)
+        }
     }
 }
 
@@ -40,7 +43,7 @@ extension TicketView {
                     return false
                 }
                 withAnimation {
-                    vm.onDrop(id, undoManager: undoManager)
+                    vm.onDrop(id, position: position, undoManager: undoManager)
                 }
                 return true
             } isTargeted: {
