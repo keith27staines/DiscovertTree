@@ -95,6 +95,15 @@ extension DocumentViewModel: TreeManagerDelegate {
 
 extension DocumentViewModel {
     
+    func documentViewGainedFocus() {
+        treeManager.recursivelySetNodeDropAcceptance(
+            node: treeManager.tree.root(),
+            value: { node in
+                return true
+            }
+        )
+    }
+    
     func setOffsets() {
         setMaxOffsets()
         for vm in ticketViewModels {

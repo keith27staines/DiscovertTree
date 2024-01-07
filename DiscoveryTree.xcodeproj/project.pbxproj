@@ -127,6 +127,7 @@
 				53FD44AD2B2AD750007C0A62 /* UTType+extension.swift */,
 				530223672B41385D0071D4BB /* Array+extensions.swift */,
 				5302236A2B4148220071D4BB /* View+extensions.swift */,
+				536EF4032B1AF4B400DDBB8D /* Tree+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -175,7 +176,6 @@
 				5302238A2B4949870071D4BB /* TreeManager */,
 				53346D592B1DB7EF00661A07 /* DocumentView */,
 				539A26F02B1E7C3600BEDA4A /* TicketView */,
-				536EF4032B1AF4B400DDBB8D /* Tree+Extensions.swift */,
 				53834F332B3AE3BA00C2F80D /* OccupancyMap.swift */,
 				5381A62E2B13B448007C56FD /* Assets.xcassets */,
 				53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */,

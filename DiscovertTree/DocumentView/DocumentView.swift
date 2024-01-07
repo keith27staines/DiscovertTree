@@ -53,9 +53,16 @@ struct DocumentView: View {
         }
         .focusable()
         .focused($isDocumentFocused)
+        .onChange(of: isDocumentFocused) { oldValue, newValue in
+            guard newValue else { return }
+            vm.documentViewGainedFocus()
+        }
         .focusEffectDisabled()
         .onAppear() { isDocumentFocused = true }
-        .onTapGesture { isDocumentFocused = true }
+        .onTapGesture {
+            isDocumentFocused = true
+            vm.documentViewGainedFocus()
+        }
         .gesture( magnifyGesture )
     }
     

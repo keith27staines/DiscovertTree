@@ -42,7 +42,8 @@ struct MoveInfo {
         switch dropPosition {
         case .top:
             guard !movingNode.hasMultipleLeaves() else {throw AppError.moveIsAmbiguous}
-            throw AppError.moveIsTooComplex
+            parent = targetNode.parent
+            proposedChildIndex = targetNode.childIndex() ?? 0
         case .leading:
             parent = targetNode.parent
             proposedChildIndex = targetNode.childIndex() ?? 0

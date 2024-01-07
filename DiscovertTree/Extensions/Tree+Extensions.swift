@@ -51,8 +51,16 @@ extension Tree {
     }
     
     func ultimateLeaf() -> Tree<Content>? {
-        guard children.count > 1 else { return nil }
+        guard children.count < 2 else { return nil }
         guard children.count > 0 else { return self }
         return children[0].ultimateLeaf()
+    }
+    
+    func isOrHasAncestor(node: Tree<Content>) -> Bool {
+        if self == node { return true}
+        if let parent = self.parent {
+            return parent.isOrHasAncestor(node: node)
+        }
+        return false
     }
 }

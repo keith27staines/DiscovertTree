@@ -50,14 +50,23 @@ extension DocumentViewModel: TicketViewModelDelegate {
     }
     
     func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool) {
-        guard let node = try? treeManager.node(with: id) else { return }
+        guard hasFocus else { return }
+        guard let subtree = try? treeManager.node(with: id) else { return }
         let canSubTreeReceiveDrops = !hasFocus
+        let treeManager = self.treeManager
+        print("id \(id.uuid) has focus: \(hasFocus)")
         treeManager.recursivelySetNodeDropAcceptance(
-            node: node,
-            value: canSubTreeReceiveDrops
+            node: subtree.root(),
+            value: { node in
+                if node.isOrHasAncestor(node: subtree) {
+                    return canSubTreeReceiveDrops
+                } else {
+                    return true
+                }
+            }
         )
     }
-
+    
     func insertNewNodeAbove(_ id: TreeId, undoManager: UndoManager?) {
         do {
             try treeManager.insertNewNodeAbove(id, undoManager: undoManager)

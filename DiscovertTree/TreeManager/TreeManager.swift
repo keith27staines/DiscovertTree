@@ -23,7 +23,7 @@ protocol TreeManaging: AnyObject {
     func insertNewNodeAfter(_ id: TreeId, undoManager: UndoManager?) throws
     func insertChild(_ id: TreeId, undoManager: UndoManager?) throws
     func delete(_ id: TreeId, undoManager: UndoManager?) throws
-    func recursivelySetNodeDropAcceptance(node: TicketTree, value: Bool)
+    func recursivelySetNodeDropAcceptance(node: TicketTree, value: (TicketTree) -> Bool)
     func nodesFrom(_ node: TicketTree) -> [TicketTree]
     func move(
         _ id: TreeId,
@@ -54,9 +54,9 @@ final class TreeManager: TreeManaging {
         return nodes
     }
     
-    func recursivelySetNodeDropAcceptance(node: TicketTree, value: Bool) {
+    func recursivelySetNodeDropAcceptance(node: TicketTree, value: (TicketTree) -> Bool) {
         guard let delegate = delegate else { return }
-        delegate.viewModelForNode(node).canAcceptDrops = value
+        delegate.viewModelForNode(node).canAcceptDrops = value(node)
         for child in node.children {
             recursivelySetNodeDropAcceptance(node: child, value: value)
         }
@@ -87,12 +87,30 @@ final class TreeManager: TreeManaging {
                 undoManager: undoManager
             )
         }
+        if position == .top {
+            let parent = info.proposedParentChildIndex.parent
+            try cutChild(
+                targetNode,
+                at: targetNode.childIndex() ?? 0,
+                from: parent,
+                undoManager: undoManager
+            )
+        }
         try pasteChild(
             info.movingNode,
             at: info.proposedParentChildIndex.childIndex,
             under: info.proposedParentChildIndex.parent,
             undoManager: undoManager
         )
+        
+        if position == .top, let ultimateLeaf = mover.ultimateLeaf() {
+            try pasteChild(
+                targetNode,
+                at: 0,
+                under: ultimateLeaf,
+                undoManager: undoManager
+            )
+        }
         resolveCollisions(undoManager: undoManager)
         undoManager?.endUndoGrouping()
         delegate?.onTreeDidChange()
