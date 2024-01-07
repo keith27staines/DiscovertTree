@@ -96,6 +96,7 @@ final class TreeManager: TreeManaging {
                 undoManager: undoManager
             )
         }
+        
         try pasteChild(
             info.movingNode,
             at: info.proposedParentChildIndex.childIndex,
@@ -110,6 +111,14 @@ final class TreeManager: TreeManaging {
                 under: ultimateLeaf,
                 undoManager: undoManager
             )
+        }
+        
+        if position == .bottom {
+            for child in targetNode.children.reversed() {
+                if child == mover { continue }
+                try cutChild(child, at: 0, from: targetNode, undoManager: undoManager)
+                try pasteChild(child, at: 0, under: mover, undoManager: undoManager)
+            }
         }
         resolveCollisions(undoManager: undoManager)
         undoManager?.endUndoGrouping()

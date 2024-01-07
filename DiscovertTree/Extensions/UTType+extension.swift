@@ -7,7 +7,6 @@
 
 import SwiftUI
 import DiscoveryTreeCore
-
 import UniformTypeIdentifiers
 
 extension UTType {
