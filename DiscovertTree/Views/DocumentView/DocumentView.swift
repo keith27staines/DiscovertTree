@@ -15,9 +15,6 @@ struct DocumentView: View {
     @ObservedObject var vm: DocumentViewModel
     @State var inspectorIsShown = false
     
-    @State var canUndo = false
-    @State var canRedo = false
-    
     var body: some View {
         legend
         scrollingTicketTree
