@@ -28,7 +28,9 @@ struct DocumentView: View {
             vm.stopKeyboardMonitor()
         }
         .inspector(isPresented: $inspectorIsShown) {
-            Text("Inspector")
+            InspectorView(
+                selectedObject: vm.selectedObject
+            )
         }
     }
     

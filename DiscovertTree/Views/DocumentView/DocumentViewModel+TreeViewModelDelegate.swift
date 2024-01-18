@@ -49,12 +49,19 @@ extension DocumentViewModel: TicketViewModelDelegate {
         setOffsets()
     }
     
+    enum SelectedObject {
+        case none
+        case ticket(TicketViewModel)
+        case document
+    }
+    
     func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool) {
         guard hasFocus else { return }
         guard let subtree = try? treeManager.node(with: id) else { return }
+        let vm = viewModelForNode(subtree)
         let canSubTreeReceiveDrops = !hasFocus
         let treeManager = self.treeManager
-        print("id \(id.uuid) has focus: \(hasFocus)")
+        selectedObject = .ticket(vm)
         treeManager.recursivelySetNodeDropAcceptance(
             node: subtree.root(),
             value: { node in

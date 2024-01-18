@@ -16,6 +16,7 @@ final class DocumentViewModel: ObservableObject {
     @Published var legend: Legend = Legend.pastel
     @Published var scale: CGFloat = 1.0
     @Published var dimensions = Dimensions(scale: 1)
+    @Published var selectedObject: SelectedObject = .none
     
     let treeManager: TreeManaging
     var ticketViewModels = [TicketViewModel]()
@@ -96,6 +97,7 @@ extension DocumentViewModel: TreeManagerDelegate {
 extension DocumentViewModel {
     
     func documentViewGainedFocus() {
+        selectedObject = .document
         treeManager.recursivelySetNodeDropAcceptance(
             node: treeManager.tree.root(),
             value: { node in
