@@ -15,6 +15,8 @@
 		5302238C2B494F350071D4BB /* MoveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302238B2B494F350071D4BB /* MoveInfo.swift */; };
 		53052F592B127C560030D9DE /* DiscoveryTreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */; };
 		53052F612B127C570030D9DE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53052F602B127C570030D9DE /* Preview Assets.xcassets */; };
+		531B93452B59BC9B00E4F8D2 /* TicketViewModel+OffsetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531B93442B59BC9B00E4F8D2 /* TicketViewModel+OffsetInfo.swift */; };
+		531B93472B59BD4D00E4F8D2 /* TicketViewModel+ConnectionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531B93462B59BD4D00E4F8D2 /* TicketViewModel+ConnectionInfo.swift */; };
 		53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */; };
 		5345D2752B34012B0012C457 /* NodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5345D2742B34012B0012C457 /* NodeType.swift */; };
 		5345D2772B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5345D2762B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift */; };
@@ -69,6 +71,8 @@
 		53052F582B127C560030D9DE /* DiscoveryTreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryTreeApp.swift; sourceTree = "<group>"; };
 		53052F5E2B127C570030D9DE /* DiscovertTree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscovertTree.entitlements; sourceTree = "<group>"; };
 		53052F602B127C570030D9DE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		531B93442B59BC9B00E4F8D2 /* TicketViewModel+OffsetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketViewModel+OffsetInfo.swift"; sourceTree = "<group>"; };
+		531B93462B59BD4D00E4F8D2 /* TicketViewModel+ConnectionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketViewModel+ConnectionInfo.swift"; sourceTree = "<group>"; };
 		53346D572B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+TreeViewModelDelegate.swift"; sourceTree = "<group>"; };
 		5345D2742B34012B0012C457 /* NodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeType.swift; sourceTree = "<group>"; };
 		5345D2762B3402FB0012C457 /* DocumentViewModel+KeyboardMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentViewModel+KeyboardMonitor.swift"; sourceTree = "<group>"; };
@@ -187,6 +191,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		531B93432B59BC5000E4F8D2 /* TicketViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5381A6342B145E03007C56FD /* TicketViewModel.swift */,
+				531B93462B59BD4D00E4F8D2 /* TicketViewModel+ConnectionInfo.swift */,
+				531B93442B59BC9B00E4F8D2 /* TicketViewModel+OffsetInfo.swift */,
+			);
+			path = TicketViewModel;
+			sourceTree = "<group>";
+		};
 		53346D592B1DB7EF00661A07 /* DocumentView */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,7 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				5381A6322B1456C9007C56FD /* Ticket.swift */,
-				5381A6342B145E03007C56FD /* TicketViewModel.swift */,
+				531B93432B59BC5000E4F8D2 /* TicketViewModel */,
 				53BD58122B2451670076E6C0 /* TicketViewModelDelegate.swift */,
 				5381A62C2B13812F007C56FD /* TicketView.swift */,
 				536DE68E2B2EC5DC0029FC02 /* ConnectorView.swift */,
@@ -398,6 +412,7 @@
 				53BD581D2B25D5110076E6C0 /* LegendView.swift in Sources */,
 				530223662B3F4CC60071D4BB /* TreeManager.swift in Sources */,
 				53BD58172B245EF20076E6C0 /* TicketView+title.swift in Sources */,
+				531B93472B59BD4D00E4F8D2 /* TicketViewModel+ConnectionInfo.swift in Sources */,
 				5381A6332B1456C9007C56FD /* Ticket.swift in Sources */,
 				5381A62D2B13812F007C56FD /* TicketView.swift in Sources */,
 				536EF4042B1AF4B400DDBB8D /* Tree+Extensions.swift in Sources */,
@@ -420,6 +435,7 @@
 				53FD44B02B2AD7C1007C0A62 /* DocumentViewModel+FileDocument.swift in Sources */,
 				53AED3E42B4E009C00BF76B6 /* EmailAddress.swift in Sources */,
 				539A26F22B1E7C7600BEDA4A /* TicketView+background.swift in Sources */,
+				531B93452B59BC9B00E4F8D2 /* TicketViewModel+OffsetInfo.swift in Sources */,
 				53BD581F2B284B650076E6C0 /* Dimensions.swift in Sources */,
 				53346D582B1DB6A900661A07 /* DocumentViewModel+TreeViewModelDelegate.swift in Sources */,
 				5345D2752B34012B0012C457 /* NodeType.swift in Sources */,
