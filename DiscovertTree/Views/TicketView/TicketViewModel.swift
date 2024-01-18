@@ -31,6 +31,12 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     public var depthFromRoot:  Int { tree.depthFromRoot() }
     public var nodeType: NodeType
     
+    private let tree: TicketTree
+    private weak var delegate: TicketViewModelDelegate?
+    private var cancellables = Set<AnyCancellable>()
+    private var ticket: Ticket? { tree.content }
+    private var eventMonitor: Any?
+    
     public func subTreeViewModels() -> [TicketViewModel] {
         guard let delegate = delegate else { return []}
         return (try? delegate.viewModelsForSubtree(node: tree)) ?? []
@@ -94,12 +100,6 @@ final class TicketViewModel: ObservableObject, Identifiable  {
             )
         }
     }
-    
-    private let tree: TicketTree
-    private weak var delegate: TicketViewModelDelegate?
-    private var cancellables = Set<AnyCancellable>()
-    private var ticket: Ticket? { tree.content }
-    private var eventMonitor: Any?
     
     public func hasAddButtonAtPosition(_ position: NodeRelativePosition) -> Bool {
         switch position {
@@ -317,3 +317,53 @@ extension TicketViewModel {
         )
     }
 }
+
+//class TitlePropertyManager {
+//    
+//    weak var vm: TicketViewModel?
+//    weak var tree: TicketTree?
+//    
+//    init(vm: TicketViewModel? = nil, tree: TicketTree? = nil) {
+//        self.vm = vm
+//        self.tree = tree
+//    }
+//    
+//    func setTitle(
+//        new: String,
+//        old: String,
+//        undoManager: UndoManager?
+//    ) {
+//        guard new != old else { return }
+//        ticket.title = new
+//        tree.content = ticket
+//        title = new
+//        undoManager?.registerUndo(withTarget: self) { vm in
+//            vm.undoSetTitle(
+//                new: new,
+//                old: old,
+//                undoManager: undoManager
+//            )
+//        }
+//    }
+//    
+//    func undoSetTitle(
+//        new: String,
+//        old: String,
+//        undoManager: UndoManager?
+//    ) {
+//        guard var ticket = ticket else { return }
+//        ticket.title = old
+//        tree.content = ticket
+//        title = old
+//        undoManager?.registerUndo(withTarget: self) { vm in
+//            vm.setTitle(
+//                new: new,
+//                old: old,
+//                undoManager: undoManager
+//            )
+//        }
+//    }
+//
+//    
+//    
+//}
