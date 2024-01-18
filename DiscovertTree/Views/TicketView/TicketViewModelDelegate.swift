@@ -26,4 +26,5 @@ protocol TicketViewModelDelegate: AnyObject {
         position: NodeRelativePosition,
         undoManager: UndoManager?
     )
+    func undoActionWasRegistered()
 }

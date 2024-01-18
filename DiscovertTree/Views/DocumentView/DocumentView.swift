@@ -15,6 +15,9 @@ struct DocumentView: View {
     @ObservedObject var vm: DocumentViewModel
     @State var inspectorIsShown = false
     
+    @State var canUndo = false
+    @State var canRedo = false
+    
     var body: some View {
         legend
         scrollingTicketTree
@@ -97,6 +100,14 @@ struct DocumentView: View {
     var toolBar: some View {
         HStack {
             Spacer()
+            Button {
+                print("undo Manager \(undoManager)")
+                print("can undo \(undoManager?.canUndo)")
+                print("can redo \(undoManager?.canRedo)")
+            } label: {
+                Text("Report undo")
+            }
+            
             Button {
                 withAnimation {
                     undoManager?.redo()

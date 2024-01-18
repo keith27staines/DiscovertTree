@@ -10,6 +10,10 @@ import DiscoveryTreeCore
 
 extension DocumentViewModel: TicketViewModelDelegate {
     
+    func ticketDidRegisterUndo() {
+        objectWillChange.send()
+    }
+    
     var maxExtents: CGPoint {
         CGPoint(
             x: CGFloat(maxX),
@@ -135,5 +139,9 @@ extension DocumentViewModel: TicketViewModelDelegate {
         legend.states.first { adapter in
             adapter.ticketState == state
         }?.backgroundColor ?? .clear
+    }
+    
+    func undoActionWasRegistered() {
+        objectWillChange.send()
     }
 }

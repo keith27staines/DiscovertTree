@@ -73,6 +73,7 @@ class Delegate: TicketViewModelDelegate {
         position: NodeRelativePosition,
         undoManager: UndoManager?
     ) {}
+    func undoActionWasRegistered() {}
 }
 
 #Preview {

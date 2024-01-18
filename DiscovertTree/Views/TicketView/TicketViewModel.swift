@@ -223,6 +223,7 @@ extension TicketViewModel {
                 undoManager: undoManager
             )
         }
+        delegate?.undoActionWasRegistered()
     }
     
     private func undoSetTitle(
@@ -241,6 +242,7 @@ extension TicketViewModel {
                 undoManager: undoManager
             )
         }
+        delegate?.undoActionWasRegistered()
     }
     
     func setState(
@@ -259,6 +261,7 @@ extension TicketViewModel {
         undoManager?.registerUndo(withTarget: self) { vm in
             vm.undoSetState(new: new, old: old, undoManager: undoManager)
         }
+        delegate?.undoActionWasRegistered()
     }
     
     private func undoSetState(
@@ -280,6 +283,7 @@ extension TicketViewModel {
                 undoManager: undoManager
             )
         }
+        delegate?.undoActionWasRegistered()
     }
     
     private func insertLeading(undoManager: UndoManager?) {
