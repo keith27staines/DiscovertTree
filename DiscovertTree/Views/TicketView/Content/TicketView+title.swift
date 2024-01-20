@@ -28,6 +28,7 @@ extension TicketView {
                 .focused($isTitleFieldFocused)
                 .onTapGesture {
                     if !(isTitleFieldFocused) {
+                        isFocusable = true
                         isTicketFocused = true
                     }
                 }

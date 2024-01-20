@@ -7,6 +7,7 @@
 
 import SwiftUI
 import DiscoveryTreeCore
+import OSLog
 
 struct TicketView: View {
    
@@ -14,6 +15,7 @@ struct TicketView: View {
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
+    @State var isFocusable: Bool = false
         
     var body: some View {
         switch vm.nodeType {

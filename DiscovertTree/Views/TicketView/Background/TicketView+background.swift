@@ -18,16 +18,20 @@ extension TicketView {
                 ContextMenu(vm: vm)
             }
             .contentShape(.rect(cornerRadius: vm.ticketCornerRadius))
-            .focusable()
+            .focusable(isFocusable)
             .focusEffectDisabled()
             .focused($isTicketFocused)
             .onTapGesture {
+                isFocusable = true
                 isTicketFocused = true
             }
             .shadow(
                 color: vm.backgroundColor,
                 radius: isTicketFocused || isTitleFieldFocused ? 10: 0
             )
+            .onChange(of: isTicketFocused, { oldValue, newValue in
+                isFocusable = newValue == false ? false : true
+            })
             .onChange(of: vm.ticketState) {
                 oldState,
                 newState in

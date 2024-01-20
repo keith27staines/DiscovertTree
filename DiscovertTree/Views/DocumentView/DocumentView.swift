@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import OSLog
 
 struct DocumentView: View {
     
@@ -14,6 +15,9 @@ struct DocumentView: View {
     @FocusState var isDocumentFocused
     @ObservedObject var vm: DocumentViewModel
     @State var inspectorIsShown = false
+    @State var magnificationGestureState: CGFloat = 1
+    
+    var logger = Logger(subsystem: "DictionaryTree", category: "Document View")
     
     var body: some View {
         legend
@@ -35,37 +39,32 @@ struct DocumentView: View {
     }
     
     var scrollingTicketTree: some View {
-        VStack {
-            Spacer()
-            HStack {
+        
+        ScrollView([.horizontal, .vertical]) {
+            VStack {
                 Spacer()
-                ScrollView([.horizontal, .vertical]) {
+                HStack {
+                    Spacer()
                     ticketTree
-                        .gesture( magnifyGesture )
+                    .frame(
+                        maxWidth: vm.contentSize.width,
+                        maxHeight: vm.contentSize.height
+                    )
+                    .background(Color(NSColor.quaternarySystemFill))
+                    Spacer()
                 }
-                .scrollIndicators(.visible)
-                .frame(
-                    maxWidth: vm.contentSize.width,
-                    maxHeight: vm.contentSize.height
-                )
-                .background(Color(NSColor.quaternarySystemFill))
                 Spacer()
             }
-            Spacer()
         }
+        .scrollIndicators(.visible)
+        .gesture( magnifyGesture )
         .focusable()
         .focused($isDocumentFocused)
-        .onChange(of: isDocumentFocused) { oldValue, newValue in
-            guard newValue else { return }
-            vm.documentViewGainedFocus()
-        }
         .focusEffectDisabled()
-        .onAppear() { isDocumentFocused = true }
         .onTapGesture {
             isDocumentFocused = true
             vm.documentViewGainedFocus()
         }
-        .gesture( magnifyGesture )
     }
     
     var ticketTree: some View {
@@ -79,8 +78,13 @@ struct DocumentView: View {
     
     var magnifyGesture : some Gesture {
         MagnificationGesture()
-            .onChanged { value in
-                vm.scale += value/10.0
+            .onChanged { scale in
+                let gestureRatio = scale / magnificationGestureState
+                vm.scale *= gestureRatio
+                magnificationGestureState = scale
+            }
+            .onEnded { scale in
+                magnificationGestureState = 1.0
             }
     }
     
@@ -98,9 +102,14 @@ struct DocumentView: View {
         HStack {
             Spacer()
             Button {
-                print("undo Manager \(undoManager)")
-                print("can undo \(undoManager?.canUndo)")
-                print("can redo \(undoManager?.canRedo)")
+                logger.log(level: .info, 
+                    """
+                    undo Manager \(undoManager)")
+                    can undo \(undoManager?.canUndo ?? false)
+                    can redo \(undoManager?.canRedo ?? false)
+                    """
+                )
+
             } label: {
                 Text("Report undo")
             }
