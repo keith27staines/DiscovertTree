@@ -31,7 +31,7 @@ final class TicketViewModel: ObservableObject, Identifiable  {
     var depthFromRoot:  Int { tree.depthFromRoot() }
     var nodeType: NodeType
     
-    private let tree: TicketTree
+    let tree: TicketTree
     private weak var delegate: TicketViewModelDelegate?
     private var cancellables = Set<AnyCancellable>()
     private var ticket: Ticket? { tree.content }

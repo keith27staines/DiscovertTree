@@ -21,6 +21,10 @@ extension DocumentViewModel: TicketViewModelDelegate {
         )
     }
     
+    func importTree(_ node: TicketTree) {
+
+    }
+    
     func viewModelsForSubtree(node: TicketTree) throws -> [TicketViewModel] {
         let nodes = treeManager.nodesFrom(node)
         return nodes.map { viewModelForNode($0) }

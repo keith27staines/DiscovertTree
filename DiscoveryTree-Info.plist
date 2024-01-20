@@ -50,6 +50,20 @@
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>TicketTree</string>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>com.keith27staines.ticket-tree</string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
 	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array>

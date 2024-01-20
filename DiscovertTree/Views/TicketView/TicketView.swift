@@ -8,6 +8,7 @@
 import SwiftUI
 import DiscoveryTreeCore
 import OSLog
+import UniformTypeIdentifiers
 
 struct TicketView: View {
    
@@ -32,7 +33,7 @@ struct TicketView: View {
         .opacity(vm.nodeType == .ticket ? 1 : 0)
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
         .overlay { connectorOverlay }
-        .draggable(vm.treeId) {
+        .draggable(vm.tree) {
             let models = vm.subTreeViewModels()
             let offsets = vm.calculateDragViewOffset()
             TreeView(viewModels: models)
@@ -76,6 +77,7 @@ class Delegate: TicketViewModelDelegate {
         undoManager: UndoManager?
     ) {}
     func undoActionWasRegistered() {}
+    func importTree(_ node: TicketTree) {}
 }
 
 #Preview {
@@ -87,5 +89,3 @@ class Delegate: TicketViewModelDelegate {
     )
     return TicketView(vm: vm)
 }
-
-

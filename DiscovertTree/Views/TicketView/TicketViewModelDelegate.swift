@@ -27,4 +27,5 @@ protocol TicketViewModelDelegate: AnyObject {
         undoManager: UndoManager?
     )
     func undoActionWasRegistered()
+    func importTree(_ node: TicketTree)
 }

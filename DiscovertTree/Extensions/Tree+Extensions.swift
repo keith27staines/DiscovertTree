@@ -29,6 +29,14 @@ extension TicketTree {
     }
 }
 
+extension TicketTree: Transferable {
+    
+    static public var transferRepresentation: some TransferRepresentation {
+        CodableRepresentation(contentType: .ticketTree)
+    }
+    
+}
+
 extension Tree: Equatable {
     public static func == (lhs: DiscoveryTreeCore.Tree<Content>, rhs: DiscoveryTreeCore.Tree<Content>) -> Bool {
         lhs.id == rhs.id

@@ -37,8 +37,8 @@ extension TicketView {
             .buttonStyle(.plain)
             .disabled(!vm.hasAddButtonAtPosition(position))
             .opacity(vm.hasAddButtonAtPosition(position) ? 1 : 0)
-            .dropDestination(for: TreeId.self) { items, location in
-                guard let id = items.first, vm.canAcceptDrops == true
+            .dropDestination(for: TicketTree.self) { items, location in
+                guard let id = items.first?.id, vm.canAcceptDrops == true
                 else {
                     return false
                 }

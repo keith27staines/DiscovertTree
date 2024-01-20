@@ -10,12 +10,6 @@ import DiscoveryTreeCore
 import UniformTypeIdentifiers
 
 extension UTType {
-    static let pdt: UTType = UTType(importedAs: "com.keith27staines.discovery-tree")
-    static let treeId: UTType = UTType(exportedAs: "com.keith27staines.treeId")
-}
-
-extension TreeId: Transferable {
-    static public var transferRepresentation: some TransferRepresentation {
-        CodableRepresentation(contentType: .treeId)
-    }
+    static let pdt: UTType = UTType(exportedAs: "com.keith27staines.discovery-tree")
+    static let ticketTree: UTType = UTType(exportedAs: "com.keith27staines.ticket-tree")
 }
