@@ -17,14 +17,7 @@ extension TicketView {
             .contextMenu {
                 ContextMenu(vm: vm)
             }
-            .contentShape(.rect(cornerRadius: vm.ticketCornerRadius))
-            .onTapGesture {
-                isFocusable = true
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-                    isTicketFocused = true
-                }
-            }
-            .focusable(isFocusable)
+            .focusable()
             .focused($isTicketFocused)
             .shadow(
                 color: vm.backgroundColor,
@@ -39,6 +32,13 @@ extension TicketView {
                     undoManager: undoManager
                 )
             }
+            .gesture(
+                TapGesture(count: 2).onEnded {
+                    print("DOUBLE TAP")
+                }.exclusively(before: TapGesture(count: 1).onEnded {
+                    print("SINGLE TAP")
+                })
+            )
     }
 }
 

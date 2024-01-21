@@ -16,7 +16,6 @@ struct TicketView: View {
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
-    @State var isFocusable: Bool = true
     @State var showButtons = false
         
     var body: some View {
@@ -56,7 +55,9 @@ struct TicketView: View {
         .offset(vm.offset)
         .onChange(of: isTicketFocused) { oldValue, newValue in
             print("Ticket focus: \(isTicketFocused)")
-            vm.onTicketDidChangeFocus(hadFocus: oldValue, hasFocus: newValue)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                vm.onTicketDidChangeFocus(hadFocus: oldValue, hasFocus: newValue)
+            }
         }
     }
 

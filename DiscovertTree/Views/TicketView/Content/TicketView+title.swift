@@ -12,7 +12,7 @@ extension TicketView {
     var titleField: some View {
         if vm.nodeType == .ticket {
             TextField("Title", text: $vm.title, axis: .vertical)
-                .lineLimit(1)
+                .lineLimit(3)
                 .textFieldStyle(.plain)
                 .multilineTextAlignment(.leading)
                 .font(.system(size: 16 * vm.dimensions.scale))
