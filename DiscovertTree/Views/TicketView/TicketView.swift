@@ -55,6 +55,7 @@ struct TicketView: View {
         }
         .offset(vm.offset)
         .onChange(of: isTicketFocused) { oldValue, newValue in
+            print("Ticket focus: \(isTicketFocused)")
             vm.onTicketDidChangeFocus(hadFocus: oldValue, hasFocus: newValue)
         }
     }

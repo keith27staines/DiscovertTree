@@ -182,8 +182,6 @@ extension TicketViewModel {
         tree.content = ticket
         backgroundColor = delegate?.backgroundColorFor(new) ?? .white
         ticketState = new
-        print("set state \(new) with undoManager \(undoManager?.debugDescription ?? "")")
-        print(undoManager != nil)
         undoManager?.registerUndo(withTarget: self) { vm in
             vm.setState(new: old, old: new, undoManager: undoManager)
         }
