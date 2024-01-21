@@ -23,7 +23,9 @@ extension TicketView {
             .focused($isTicketFocused)
             .onTapGesture {
                 isFocusable = true
-                isTicketFocused = true
+                DispatchQueue.main.async {
+                    isTicketFocused = true
+                }
             }
             .shadow(
                 color: vm.backgroundColor,

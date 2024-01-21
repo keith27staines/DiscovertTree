@@ -29,7 +29,9 @@ extension TicketView {
                 .onTapGesture {
                     if !(isTitleFieldFocused) {
                         isFocusable = true
-                        isTicketFocused = true
+                        DispatchQueue.main.async {
+                            isTicketFocused = true
+                        }
                     }
                 }
         }
