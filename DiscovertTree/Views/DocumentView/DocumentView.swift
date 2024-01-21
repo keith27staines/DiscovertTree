@@ -62,7 +62,6 @@ struct DocumentView: View {
         .focused($isDocumentFocused)
         .focusEffectDisabled()
         .onTapGesture {
-            isDocumentFocused = true
             vm.documentViewGainedFocus()
         }
     }

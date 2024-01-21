@@ -16,7 +16,7 @@ struct TicketView: View {
     @FocusState var isTicketFocused: Bool
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
-    @State var isFocusable: Bool = false
+    @State var isFocusable: Bool = true
     @State var showButtons = false
         
     var body: some View {

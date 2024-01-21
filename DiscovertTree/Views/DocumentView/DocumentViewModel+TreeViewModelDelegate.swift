@@ -64,7 +64,7 @@ extension DocumentViewModel: TicketViewModelDelegate {
     }
     
     func onNodeDidChangeFocus(_ id: TreeId, hadFocus: Bool, hasFocus: Bool) {
-        guard hasFocus else { return }
+        guard hasFocus && !hadFocus else { return }
         guard let subtree = try? treeManager.node(with: id) else { return }
         let vm = viewModelForNode(subtree)
         let canSubTreeReceiveDrops = !hasFocus
