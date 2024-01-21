@@ -17,6 +17,7 @@ struct TicketView: View {
     @FocusState var isTitleFieldFocused: Bool
     @ObservedObject var vm: TicketViewModel
     @State var isFocusable: Bool = false
+    @State var showButtons = false
         
     var body: some View {
         switch vm.nodeType {
@@ -32,6 +33,14 @@ struct TicketView: View {
         }
         .opacity(vm.nodeType == .ticket ? 1 : 0)
         .frame(width: vm.ticketWidth, height: vm.ticketHeight)
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                showButtons = true
+            }
+        }
+        .overlay {
+            addButtons
+        }
         .overlay { connectorOverlay }
         .draggable(vm.tree) {
             let models = vm.subTreeViewModels()
@@ -53,6 +62,24 @@ struct TicketView: View {
     var connectorOverlay: some View {
         ForEach(vm.childConnectionInfo) { info in
             ConnectorView(info: info)
+        }
+    }
+    
+    @ViewBuilder
+    var addButtons: some View {
+        if showButtons {
+            ZStack {
+                VStack {
+                    makeAddButton(.top)
+                    Spacer()
+                    makeAddButton(.bottom)
+                }
+                HStack(alignment: .center) {
+                    makeAddButton(.leading)
+                    Spacer()
+                    makeAddButton(.trailing)
+                }
+            }
         }
     }
 }

@@ -10,19 +10,7 @@ import SwiftUI
 extension TicketView {
     
     var content: some View {
-        VStack {
-            makeAddButton(.top)
-            Spacer()
-            HStack(alignment: .center) {
-                makeAddButton(.leading)
-                Spacer()
-                titleField
-                Spacer()
-                makeAddButton(.trailing)
-            }
-            Spacer()
-            makeAddButton(.bottom)
-        }
+        titleField.padding()
     }
 }
 

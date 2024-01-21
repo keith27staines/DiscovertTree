@@ -32,8 +32,6 @@ extension TicketView {
                         isTicketFocused = true
                     }
                 }
-        } else {
-            EmptyView()
         }
     }
 }

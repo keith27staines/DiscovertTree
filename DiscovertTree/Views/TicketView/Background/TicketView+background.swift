@@ -30,7 +30,7 @@ extension TicketView {
                 radius: isTicketFocused || isTitleFieldFocused ? 10: 0
             )
             .onChange(of: isTicketFocused, { oldValue, newValue in
-                isFocusable = newValue == false ? false : true
+                isFocusable = newValue ? true : false
             })
             .onChange(of: vm.ticketState) {
                 oldState,
