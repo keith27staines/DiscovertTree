@@ -26,14 +26,6 @@ extension TicketView {
                     if !isFocusedNow { vm.commitTitle(undoManager: undoManager) }
                 }
                 .focused($isTitleFieldFocused)
-                .onTapGesture {
-                    if !(isTitleFieldFocused) {
-                        isFocusable = true
-                        DispatchQueue.main.async {
-                            isTicketFocused = true
-                        }
-                    }
-                }
         }
     }
 }
