@@ -28,6 +28,6 @@ final class Dimensions {
     var cancellables =  Set<AnyCancellable>()
     
     init(scale: CGFloat) {
-        self.scale = 1 + scale
+        self.scale = scale
     }
 }
